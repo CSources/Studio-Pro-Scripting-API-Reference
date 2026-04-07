@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Skin>
+    <Forms>
+        <Form name="FlamToolDialog" title="Flam Tool">
+        <Vertical margin="0">
+        <Horizontal margin="0" spacing="9">
+        <!-- Left container -->
+                <DialogGroup>
+                    <Vertical margin="10" spacing="5">
+                        <Label title="Time"/>
+                        <Horizontal margin="0">
+                            <Slider name="TimeSlider" width="100" height="20" options="horizontal"/>
+                            <EditBox name="TimeSlider" width="45" height="20"/>
+                        </Horizontal>
+                            <CheckBox name="Absolute" value="0" title="Absolute (ms)"/>
+                            <CheckBox name="Before" value="0" title="Before"/>
+                    </Vertical>
+                </DialogGroup>
+        <!-- Right container -->        
+                <DialogGroup width="80">
+                    <Vertical margin="10" spacing="5">
+                        <Label title="Velocity"/>
+                        <Knob name="VelocityPercent"/>
+                        <Horizontal margin="0" spacing="0">
+                            <EditBox name="VelocityPercent" width="40" height="20"/>
+                            <Label title="%"/>
+                        </Horizontal>
+                    </Vertical>
+                </DialogGroup>
+        </Horizontal>
+        </Vertical>
+        </Form>
+    </Forms>
+</Skin>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassFactory>
+  <ScriptClass
+    classID="{A1000070-0001-0001-0001-000000000070}"
+    category="EditTask"
+    subCategory="MusicEdit"
+    name="Flam Tool"
+    sourceFile="main.js"
+    functionName="createInstance"
+    metaClassID="{5BF1B237-DE56-41EB-A48D-E54F61756A68}">
+    <Attribute id="menuPriority" value="0"/>
+    <Attribute id="commandCategory" value="Musical Functions"/>
+  </ScriptClass>
+</ClassFactory>

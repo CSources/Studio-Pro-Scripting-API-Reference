@@ -1,0 +1,2777 @@
+# Studio Pro Command Reference
+
+## Summary
+Complete enumeration of Studio Pro commands discovered via `Host.GUI.Commands.newCategoryIterator()` and `Host.GUI.Commands.newCommandIterator()`.
+
+**Key Finding:** `newCommandIterator(cat)` returns ALL commands regardless of the category parameter passed. The same ~1660 commands are returned for every category.
+
+**Total unique commands: ~1660**
+**Total categories: 54**
+
+---
+
+## All 54 Categories
+
+1. Application
+2. Arranger
+3. Artists
+4. Audio
+5. Audio Device
+6. Automation
+7. Browser
+8. Channel Components
+9. Collaboration
+10. Console
+11. Context Menu
+12. Devices
+13. Edit
+14. Edit Menu
+15. Editor
+16. Event
+17. File
+18. File Menu
+19. Group
+20. Help
+21. Host
+22. Instrument Parts
+23. Launcher
+24. Lyrics
+25. Macro
+26. Macros
+27. Marker
+28. Media
+29. Mixer
+30. Musical Functions
+31. Note Length
+32. Note Repeat
+33. Pattern
+34. Pitch Names
+35. Pitch Visibility
+36. Presets
+37. Pro Navigator
+38. Project
+39. Quantize
+40. Record Functions
+41. Record Mode
+42. Score
+43. Scoring Tools
+44. Show
+45. Skin
+46. Sound Variation
+47. Spatial Audio
+48. Step Record
+49. Tempo
+50. Toolbar
+51. Track
+52. Transport
+53. Video
+54. View
+55. Zoom
+
+---
+
+## Complete Command List (Excluding Macros and Test Scripts)
+
+### Navigation Commands
+- Left
+- Left Extend
+- Left Extend Add
+- Left Skip
+- Right
+- Right Extend
+- Right Extend Add
+- Right Skip
+- Up
+- Up Extend
+- Up Extend Add
+- Up Skip
+- Down
+- Down Extend
+- Down Extend Add
+- Down Skip
+- Start
+- Start Extend
+- Start Extend Add
+- Start Skip
+- End
+- End Extend
+- End Extend Add
+- End Skip
+- Page Up
+- Page Up Extend
+- Page Up Extend Add
+- Page Up Skip
+- Page Down
+- Page Down Extend
+- Page Down Extend Add
+- Page Down Skip
+- First
+- Last
+- Home
+- Forward
+- Back
+- Next
+- Previous
+- Ascend Root
+- Reset Root
+- Locate Selection
+- Locate Mouse Cursor
+- Goto Time
+- Goto Next Event
+- Goto Previous Event
+- Goto Next Marker
+- Goto Previous Marker
+- Goto Next Section
+- Goto Previous Section
+- Goto Loop Start
+- Goto Loop End
+- Goto Section (1-16)
+- Goto Next Player
+- Goto Previous Player
+- Goto Next Scene
+- Goto Previous Scene
+- Goto Next Setlist Item
+- Goto Previous Setlist Item
+
+### Edit Commands
+- Cut
+- Copy
+- Paste
+- Delete
+- Select All
+- Deselect All
+- Invert Selection
+- Undo
+- Redo
+- Enter
+- Cancel
+- Duplicate
+- Split
+- Split at Cursor
+- Split at Grid
+- Merge Events
+- Insert
+- Insert Named
+- Insert Rest
+- Insert Named
+- Insert Bend Marker
+- Reset Bend Marker
+- Insert Time Signature
+- Edit Time Signature
+- Remove Time Signature
+- Insert Key Signature
+- Edit Key Signature
+- Remove Key Signature
+- Insert Silence
+- Insert Silence in Loop
+
+### Transport Commands
+- Start
+- Stop
+- Record
+- Rewind
+- Forward
+- Rewind Bar
+- Forward Bar
+- Return to Zero
+- Toggle Start
+- Toggle Record
+- Toggle Loop
+- Play from Loop Start
+- Toggle Loop Display
+- Tap Tempo
+- Increment Tempo
+- Decrement Tempo
+- Set Play Start Marker
+- Return to Start on Stop
+- Enable Play Start Marker
+- Autopunch In
+- Autopunch Out
+- Autopunch
+- Preroll
+- Postroll
+- Precount
+- Shift Loop
+- Shift Loop Backwards
+- Toggle Start with Preroll
+
+### Zoom Commands
+- Zoom In
+- Zoom Out
+- Zoom In Fine
+- Zoom Out Fine
+- Zoom Full
+- Zoom Full Horizontally
+- Zoom Full Vertically
+- Zoom to Loop
+- Zoom to Selection
+- Zoom to Selection Horizontally
+- Zoom In Vertical
+- Zoom Out Vertical
+- Zoom In Vertical Fine
+- Zoom Out Vertical Fine
+- Undo Zoom
+- Redo Zoom
+- Toggle Zoom
+- Store Zoom State
+- Restore Zoom State
+- Data Zoom In
+- Data Zoom Out
+- Track Zoom L
+- Track Zoom M
+- Track Zoom S
+- Zoom Overview
+
+### Track Commands
+- Add Audio Track (mono)
+- Add Audio Track (stereo)
+- Add Audio Track (surround)
+- Add Instrument Track
+- Add Automation Track
+- Add Folder Track
+- Add Tracks for all Inputs
+- Add Bus for Selected Channels
+- Add VCA for Selected Channels
+- Remove Track
+- Remove Track and Instrument
+- Remove Track Automation
+- Disable Track
+- Enable Track
+- Duplicate
+- Duplicate (complete)
+- Combine with next Track
+- Split Track at Cursor
+- Split Track and Event at Cursor
+- First Track
+- Last Track
+- Previous Track
+- Next Track
+- Previous Track Extend
+- Next Track Extend
+- First Track Extend
+- Last Track Extend
+- Select All on Tracks
+- Deselect All on Tracks
+- Invert Track Selection
+- Select Tracks with Selected Events
+- Select Tracks with Same Color
+- Select Tracks by Color
+- Select Muted Tracks
+- Select Muted Events
+- Show All Tracks
+- Show Selected Tracks
+- Hide Selected Tracks
+- Show Empty Tracks
+- Hide Empty Tracks
+- Show Soloed Tracks
+- Hide Soloed Tracks
+- Show Muted Tracks
+- Hide Muted Tracks
+- Show Disabled Tracks
+- Hide Disabled Tracks
+- Show Enabled Tracks
+- Hide Enabled Tracks
+- Show Instrument Tracks
+- Hide Instrument Tracks
+- Show Audio Tracks
+- Hide Audio Tracks
+- Show Tracks with Events
+- Show Tracks with Events under Cursor
+- Hide Tracks with Events under Cursor
+- Show Tracks with Events in Loop Range
+- Hide Tracks with Events in Loop Range
+- Pack Folder
+- Collapse All Tracks
+- Expand Folder Track
+- Combine with next Track
+- Split Track at Cursor
+- First Track
+- Last Track
+- Previous Track
+- Next Track
+- Track Height Minimal
+- Track Height 1-8
+- Track Height Tiny
+- Track Height Small
+- Track Height Normal
+- Track Height Medium
+- Track Height Large
+- Track Height X-Large
+- Track Height Overview
+
+### View Commands
+- Toggle Floating Windows
+- Toggle Optional Views
+- Pin Editor
+- Next Perspective
+- Previous Perspective
+- Focus Next
+- Focus Previous
+- Toggle No Overlap
+- Reset Window Positions
+- Fullscreen
+- Toggle Size
+- Toggle Width
+- Toggle Detached Console
+- Toggle Detached Editor
+- Show Home Page
+- Show Instruments
+- Show Effects
+- Show Loops
+- Show Files
+- Show Cloud
+- Show Pool
+- Show Splice
+- Show Channel Editor
+- Show Channel Tab
+- Show Macro Controls
+- Show Instrument Editor
+- Show Routing Editor
+- Show Audio Device Controls
+- Show Input Controls
+- Show Sends/Cue mix
+- Show I/O Connections
+- Show VCA Connections
+- Show Group Assignment
+- Show Channel Notes
+- Show Channel Icons
+- Show Marker Track in Editor
+- Show Arranger Track in Editor
+- Show Chord Track in Editor
+- Show Signature Track in Editor
+- Show Note FX Editor
+- Show in Console
+- Show in Explorer/Finder
+- Show Media Folder in Explorer/Finder
+- Show Folder in Explorer/Finder
+- Show Studio One Scripts
+- Show Empty Tracks
+- Hide Empty Tracks
+- Show All Channels
+- Show Soloed Channels
+- Hide Soloed Channels
+- Show Muted Channels
+- Hide Muted Channels
+- Show Disabled Channels
+- Hide Disabled Channels
+- Show Enabled Channels
+- Hide Enabled Channels
+- Show Object Channels
+- Hide Object Channels
+- Show Current Parameter
+- Remove Current Parameter
+- Show Automation Lanes
+- Show Device
+- Show / Hide
+- Show All
+- Show Default
+- Show Default
+- Hide Unused
+- Remove All
+- Reset Order
+
+### File Commands
+- New
+- New Session
+- New Project
+- New Show
+- Save As Template
+- Save
+- Save As
+- Save to New Folder
+- Save New Version
+- Restore Version
+- Revert
+- Open
+- Open with Options
+- Close
+- Close All
+- Close Tab
+- New Tab
+- New Root Tab
+- Rename Tab
+- Import File
+- Import Video
+- Export Mixdown
+- Export Stems
+- Export Spatial Audio
+- Export Video
+- Burn Audio CD
+- Make DDP Image
+- Make Image
+- Print
+- Document Setup
+- Rename File
+- New Folder
+- Search
+- Refresh
+- Locate File
+- Locate Missing Files
+- Locate Missing Devices
+- Copy External Files
+- Remove Unused Files
+- Update Mastering Files
+- Update Mastering File
+- Digital Release
+- System Information
+- Create Diagnostics Report
+- Find Command
+- Open Settings Folder
+- Open Settings Folder
+- Backup and Restore
+- Backup & Restore
+- Check for Updates
+- View Release Notes
+- Usage Data Settings
+
+### Transport/Playback Commands
+- Play Selected Range
+- Play Selected Cells
+- Play Selected Cells Exclusive
+- Play from Loop Start
+- Set Playback Mode Continue
+- Set Playback Mode Stop at End
+- Set Playback Mode Loop
+- Toggle Playback Mode Loop / Continue
+- Toggle Playback Mode Loop / Stop at End
+- Set Section Playback Mode Continue
+- Set Section Playback Mode Stop at End
+- Set Section Playback Mode Loop
+- Set Section Playback Mode Loop And Continue
+- Toggle Section Playback Mode Loop / Continue
+- Set Section Playback Mode Skip
+- Set Playback Mode Loop
+- Toggle Playback Mode Loop / Continue
+- Toggle Playback Mode Loop / Stop at End
+- Start Playlist Playback
+- Continue Playlist Playback
+- Loop Setlist Item
+- Loop Selection
+- Loop Selection Snapped
+- Loop Follows Selection
+- Toggle Event Loop
+- Loop Until Next Event
+- Loop Record Takes
+- Loop Record Mix
+- Undo Last Loop
+- Undo All
+- Toggle Loop
+- Play from Loop Start
+- Goto Loop Start
+- Goto Loop End
+- Shift Loop
+- Shift Loop Backwards
+- Shift Loop Backwards
+- Autopunch In
+- Autopunch Out
+- Autopunch
+- Preroll
+- Postroll
+- Precount
+
+### Edit/Selection Commands
+- Cut
+- Copy
+- Paste
+- Delete
+- Select All
+- Deselect All
+- Invert Selection
+- Select All in Loop
+- Select Events in Range
+- Select Events in Section
+- Select from Start to Event
+- Select from Event to End
+- Select in Pool
+- Select Setlist Item (1-10)
+- Select Player (1-10)
+- Select Scene (1-10)
+- Select Patch (1-10)
+- Select Macro Page
+- Select Fader Flip Target
+- Select in Pool
+- Select on Track
+- Find Track
+- Find Channel
+- Find Command
+- Find and Apply Variation
+- Locate Selection
+- Locate Mouse Cursor
+- Locate File
+- Locate Missing Files
+- Locate Missing Devices
+- Find Track
+- Find Channel
+- Find Command
+
+### Marker Commands
+- Insert Named
+- Goto Next Marker
+- Goto Previous Marker
+- Open Marker Track
+- Update Mastering File
+- Update Mastering Files
+- Recall Marker (1-20)
+- Recall Retrospective Recording
+- Set Play Start Marker
+- Enable Play Start Marker
+- Create Sections from Markers
+- Create Markers from Sections
+- Reset Track Markers to Content
+- Insert Marker at Time
+- Create Song Markers
+- Split All Tracks at Markers
+
+### Quantize Commands
+- Quantize
+- Quantize Notes
+- Quantize on Track
+- Quantize 50%
+- Quantize to Notation
+- Freeze Quantize
+- Input Quantize
+- Quantize End
+- Quantize Event
+- Freeze Pitch
+- Freeze Velocity
+- Freeze Quantize
+
+### Transport Commands
+- Start
+- Stop
+- Record
+- Rewind
+- Forward
+- Rewind Bar
+- Forward Bar
+- Return to Zero
+- Toggle Start
+- Toggle Record
+- Toggle Loop
+- Tap Tempo
+- Increment Tempo
+- Decrement Tempo
+- Set Play Start Marker
+- Return to Start on Stop
+- Enable Play Start Marker
+- Toggle Loop Display
+- Autopunch In
+- Autopunch Out
+- Autopunch
+- Preroll
+- Postroll
+- Precount
+- Shift Loop
+- Shift Loop Backwards
+- Toggle Start with Preroll
+- Play from Loop Start
+- Play Selected Range
+- Play Selected Cells
+- Play Selected Cells Exclusive
+- Stop Cells
+- Stop All
+- Toggle All Cell Playback Active
+- Toggle Cell Playback Active
+- Stop Cell
+- Launch Cells
+- Record Selected Cells
+- Clear Cell
+- Clear Scene
+- Add Scene
+- Add Scene From Playing Cells
+- Add Scene From Selected Cells
+- Remove Scene
+- Rename Scene
+- Update Scene
+- Select Scene (1-10)
+- Next Scene
+- Previous Scene
+- Add Scene to Playlist
+- Add Stop Marker to Playlist
+- Duplicate Playlist Item
+- Delete Playlist Item
+- Remove Playlist
+- Clear Playlist
+- Rename Playlist
+- Duplicate Playlist
+- Add Playlist
+- Start Playlist Playback
+- Continue Playlist Playback
+- Insert Playlist into Session
+
+### Layer Commands
+- Add Layer
+- Duplicate Layer
+- Remove Layer
+- Rename Layer
+- Activate Next Layer
+- Activate Previous Layer
+- Activate Layer
+- Solo Layer
+- Unpack Selected Layers To Tracks
+- Unpack Layers to Tracks
+- Unpack Last Take to Layer
+- Layers follow Events
+- Expand Layers
+- Activate Next Layer
+- Activate Previous Layer
+- Next Layer
+- Previous Layer
+
+### Pattern Commands
+- Edit Next Pattern
+- Edit Previous Pattern
+- Clear Pattern
+- Copy Pattern
+- Duplicate Pattern
+- Clear Pattern
+- Set Program A-G
+- Apply Active Variation
+- Apply Variation (1-20)
+- Apply Next
+- Apply Previous
+- Find and Apply Variation
+- New Variation
+- Duplicate Variation
+- Delete Variation
+- Next Variation
+  - Previous Variation
+- Copy Lane
+- Clear Lane
+- Duplicate Steps
+- Fill Lane
+- Set Every 2nd Step
+- Set Every 4th Step
+- Shift Lane
+- Shift Lane Back
+- Double Resolution
+- Double Lane Resolution
+- Half Resolution
+- Half Lane Resolution
+- Select Part Automation with Notes
+- Transform Range
+
+### Note Editing Commands
+- Select Notes
+- Delete Notes
+- Transpose
+- Transpose Events Down
+- Transpose Events Up
+- Transpose Instrument Tracks
+- Apply Scale
+- Velocity
+- Length
+- Stretch
+- Distribute Notes
+- Extend to Part End
+- Repeat Notes to Part End
+- Mirror Notes
+- Randomize Notes
+- Thin out Notes
+- Fill with Notes
+- Extend Notes by Grid
+- Shorten Notes by Grid
+- Select Equal Subpositions: All Notes
+- Select Equal Subpositions: Same Pitch Any
+- Select Equal Subpositions: Same Pitch Exact
+- Select Notes with Same Pitches
+- Select Notes with Same Pitches
+- Convert Key Switches to Sound Variations
+- Separate Shared Copies
+- Separate Shared Audio Parts
+- Separate Shared Copies
+- Note Length 1/1 through 1/64
+- Note Length 2 bars
+- Note Length 4 bars
+- Note Length 90%
+- Note Length 110%
+- Legato
+- Legato (10 ms) through (50 ms)
+- Legato + Remove Overlaps
+- Remove Overlaps
+- Select Notes 1/4
+- Select Notes 1/8
+- Select Notes 1/8T
+- Select Notes Downbeat
+- Select Notes Every 3rd
+- Select Notes Every 5th
+- Select Notes Highest
+- Select Notes Lowest
+  - Select Notes Menu
+  - Select Notes Offbeat
+  - Select muted notes
+
+### Score/Notation Commands
+- Score View
+- Piano View
+- Drum View
+- Rebuild Score
+- Align Chord Symbols
+- Align Fingerings
+- Select Chord Symbols
+- Select Lyrics
+- Select Voice 1-4
+- Select Highest Notes
+- Select Lowest Notes
+- Clear Recorded Velocities
+- Remove Accidentals
+- Remove Articulations
+- Remove Slurs
+- Remove Dynamics
+- Remove Pedal Markings
+- Remove Measure Rests
+- Remove Tempo Marks
+- Remove rit. and accel.
+- Remove Rehearsal Marks
+- Remove Text Boxes
+- Remove Lyrics
+- Remove Tuplets
+- Swap Voices
+- Reset TAB numbers
+- Reset Font Style
+- Flip Attachments
+- Toggle Rhythm Slash
+- Toggle Note or Rest
+- Align Lyrics
+- Lyrics Display
+- Clear Chord Track
+- Transpose Chords
+- Store Chord Preset
+- Insert Chord Preset
+- Chord Display
+- Detect Chords
+- Remove Chords
+- Apply Chords from Chord Track
+- Extract Key Signatures from Event
+- Detect Key Signature
+- Chord Selector
+- Insert Rest
+- Repeat Last Chord
+- Make Tuplet
+- Tuplet
+- Switch Staff
+- Send to Voice 1-4
+- Quantize to Notation
+- Fill with Rests
+- Fill with Rhythm Slashes
+- Rebuild Score
+
+### Launcher Commands
+- Add Scene
+- Add Scene From Playing Cells
+- Add Scene From Selected Cells
+- Remove Scene
+- Clear Scene
+- Paste Cell Properties
+- Launch Cells
+- Play Selected Cells
+- Play Selected Cells Exclusive
+- Record Selected Cells
+- Stop Cells
+- Stop All
+- Toggle All Cell Playback Active
+- Clear Cell
+- Add Scene to Playlist
+- Nudge
+- Nudge Back
+- Nudge Up
+- Nudge Down
+- Previous Launcher Lane
+- Next Launcher Lane
+- Previous Launcher Scene
+- Next Launcher Scene
+- Cell Play Mode Loop
+- Cell Play Mode One Shot
+- Cell Launch Mode Global
+- Cell Launch Mode Trigger
+- Global Launch Mode Trigger
+- Cell Launch Mode Gate
+- Global Launch Mode Gate
+- Cell Launch Mode Toggle
+- Global Launch Mode Toggle
+- Cell Quantize Global
+- Cell Quantize Off
+- Global Quantize Off
+- Cell Quantize 8 Bars
+- Global Quantize 8 Bars
+- Cell Quantize 4 Bars
+- Global Quantize 4 Bars
+- Cell Quantize 2 Bars
+- Global Quantize 2 Bars
+- Cell Quantize 1 Bar
+- Global Quantize 1 Bar
+- Cell Quantize 1/2 Note
+- Global Quantize 1/2 Note
+- Cell Quantize 1/4 Note
+- Global Quantize 1/4 Note
+- Cell Quantize 1/8 Note
+- Global Quantize 1/8 Note
+- Cell Quantize 1/16 Note
+- Global Quantize 1/16 Note
+- Set Rate 1/2 through 1/64
+- Set Rate 1/2 T through 1/64 T
+- Set Gate 0.2, 0.5, 1.0, 1.5
+- 1/1 through 1/64
+- type 0-3
+- Next Base
+- Previous Base
+- Dotted
+- Follow Quantize
+
+### Channel/Mixer Commands
+- Remove Channel
+- Toggle Size
+- Toggle Width
+- Rename Channel
+- Show Channel Editor
+- Show Channel Tab
+- Show Macro Controls
+- Show Instrument Editor
+- Show Routing Editor
+- Find Channel
+- Show Audio Device Controls
+- Show Input Controls
+- Show Sends/Cue mix
+- Show I/O Connections
+- Show VCA Connections
+- Show Group Assignment
+- Show Channel Notes
+- Show Channel Icons
+- Activate All Inserts
+- Next Channel
+- Previous Channel
+- Next Bank
+- Previous Bank
+- Show Track
+- Hide Channel
+- Show Channel
+- Hide Related Channels
+- Show Related Channels
+- Toggle Related Channels
+- Open Channel
+- Global Solo
+- Global Mute
+- Mute Main Out
+- Mono
+- Add Bus Channel
+- Add FX Channel
+- Lock Panning
+- Unlock Panning
+- Use External Cue Mix System
+- Talkback
+- Dim
+- Mute
+- Mono
+- Speaker A, B, C
+- Restore Audio Device Settings
+- Add Insert
+- Add Post Fader Insert
+- Add Send
+- Select Mix FX
+- Collapse all Micro Views
+- Expand all Micro Views
+- Show Current Parameter
+- Remove Current Parameter
+- Recently Touched
+- Mouse-Over
+- Insert Selected Instrument
+- Insert Selected Item
+- Enable Direct Monitoring
+- Suspend All Groups
+- Suspend Group (1-10)
+- Next Channel
+- Previous Channel
+- Next Bank
+- Previous Bank
+- Show Track
+- Hide Channel
+- Show Channel
+- Open Channel
+- Global Solo
+- Global Mute
+- Mute Main Out
+- Mono
+- Solo
+- Mute
+- Remove Track
+- Remove Channel
+- Toggle Size
+- Toggle Width
+- Rename Channel
+- Show Channel Editor
+- Show Channel Tab
+- Show Macro Controls
+- Show Instrument Editor
+- Show Routing Editor
+- Find Channel
+- Find Track
+- Show Audio Device Controls
+- Show Input Controls
+- Show Sends/Cue mix
+- Show I/O Connections
+- Show VCA Connections
+- Show Group Assignment
+- Show Channel Notes
+- Show Channel Icons
+- Activate All Inserts
+- Next Channel
+- Previous Channel
+- Next Bank
+- Previous Bank
+- Show Track
+- Hide Channel
+- Show Channel
+- Hide Related Channels
+- Show Related Channels
+- Toggle Related Channels
+- Open Channel
+- Global Solo
+- Global Mute
+- Mute Main Out
+- Mono
+
+### Group Commands
+- Group Selected Tracks
+- Dissolve Group
+- Rename Group
+- Suspend All Groups
+- Suspend Group (1-10)
+- Show Groups (Channel List)
+- Show Groups (Track List)
+- Group Selected Tracks
+- Dissolve Group
+- Rename Group
+
+### Automation Commands
+- Show Automation
+- Expand Automation
+- Manage Parameters
+- Off
+- Read
+- Touch
+  - Latch
+  - Write
+  - Next Mode
+  - Previous Mode
+  - Toggle Read
+  - Next Parameter
+  - Previous Parameter
+  - Add Automation Lane
+  - Remove Automation Lane
+  - Show Automation Lanes
+  - Apply Current Automation to Session Start
+  - Apply Current Automation to Session End
+  - Toggle Automation Follows Events
+  - Show Current Parameter
+  - Remove Current Parameter
+  - Recently Touched
+  - Mouse-Over
+  - Manage Parameters
+  - Show / Hide
+  - Show Device
+  - Remove
+  - Off
+  - Read
+  - Touch
+  - Latch
+  - Write
+  - Next Mode
+  - Previous Mode
+  - Toggle Read
+  - Next Parameter
+  - Previous Parameter
+  - Add Automation Lane
+  - Remove Automation Lane
+  - Show Automation Lanes
+  - Remove Track Automation
+  - Apply Current Automation to Session Start
+  - Apply Current Automation to Session End
+  - Toggle Automation Follows Events
+
+### Transport Panel Commands
+- Start
+- Stop
+- Record
+- Rewind
+- Forward
+- Rewind Bar
+- Forward Bar
+- Return to Zero
+- Toggle Start
+- Toggle Record
+- Toggle Loop
+- Play from Loop Start
+- Autopunch In
+- Autopunch Out
+- Autopunch
+- Preroll
+- Postroll
+- Precount
+- Shift Loop
+- Shift Loop Backwards
+- Goto Loop Start
+- Goto Loop End
+- Goto Time
+- Tap Tempo
+- Set Play Start Marker
+- Return to Start on Stop
+- Enable Play Start Marker
+- Toggle Loop Display
+- Increment Tempo
+- Decrement Tempo
+- Clear Pattern
+- Set Program A-G
+- Toggle Start with Preroll
+
+### Video Commands
+- Import Video
+- Export Video
+- Video Size Half
+- Video Size Default
+- Video Size Double
+- Use Video Frame Rate in Timeline
+- Video Player
+- Create Backing Track from Video Audio
+- Extend Setlist Item to Video
+- Open Video Track
+- Create Backing Track from Video Audio
+
+### Spatial Audio Commands
+- Export Spatial Audio
+- Spatial Audio Setup
+- Toggle Speaker Format
+- Speaker Format 9.1.6
+- Speaker Format 7.1.4
+- Speaker Format 7.1
+- Speaker Format 5.1.4
+- Speaker Format 5.1.2
+- Speaker Format 5.1
+- Speaker Format Stereo
+- Speaker Format Dolby Atmos Binaural
+- Speaker Format Apple Spatial Audio
+- Toggle Headphone Format
+- Toggle Renderer
+- Toggle 3D View Free
+- Toggle 3D View Front
+- Toggle 3D View Left
+- Toggle 3D View Right
+- Toggle 3D View Top
+- Next Panner Stereo Mode
+- Toggle Panner Object Mode
+
+### Step Record Commands
+- Step Record
+- Record Mode Replace
+- Loop Record Takes
+- Loop Record Mix
+- Note Erase
+- Input Quantize
+- Record Takes to Layers
+- Insert Rest
+- Repeat Last Chord
+
+### Sound Variation Commands
+- Select Patch (1-10)
+- Next Patch
+- Previous Patch
+- Save Patch
+- Update Patch
+- Rename Patch
+- Set Current as Default Patch
+- Reset Default Patch
+- Select Mute Patch
+- Select Patch
+- Next Patch
+- Previous Patch
+- Save Patch
+- Update Patch
+- Rename Patch
+- Set Current as Default Patch
+- Reset Default Patch
+- Select Mute Patch
+
+### Preset Commands
+- Store Preset
+- Update Preset
+- Store as Default Preset
+- Re-Index Presets
+- Update Plug-In List
+- Reset Blocklist
+- Remove Plug-In Settings
+- Import Preset
+- Export Preset
+- Load Preset File
+- Store Preset
+- Update Preset
+- Store as Default Preset
+- Re-Index Presets
+- Import Preset
+- Export Preset
+- Load Preset File
+- Store Track Preset
+- Load Track Preset
+- Apply Track Preset
+
+### Tempo Commands
+- Tap Tempo
+- Increment Tempo
+- Decrement Tempo
+- Tempo -1% through +10%
+- Double Tempo
+- Half Tempo
+- Insert Time Signature
+- Edit Time Signature
+- Remove Time Signature
+- Extract to Tempo Track
+- Open Tempo Track
+- Tap Tempo
+- Increment Tempo
+- Decrement Tempo
+- Double Tempo
+- Half Tempo
+- Tempo -1%, -5%, -10%
+- Tempo +1%, +5%, +10%
+
+### Note Repeat Commands
+- Note Repeat
+- 1/1 through 1/64
+- type 0-3
+- Next Base
+- Previous Base
+- Dotted
+- Follow Quantize
+
+### Note Length Commands
+- Note Length 1/1 through 1/64
+- Note Length 2 bars
+- Note Length 4 bars
+- Note Length 90%
+- Note Length 110%
+- Legato
+- Legato (10 ms) through (50 ms)
+- Legato + Remove Overlaps
+- Remove Overlaps
+
+### Pitch Names Commands
+- (Commands related to pitch naming - specific names not enumerated)
+
+### Pitch Visibility Commands
+- (Commands related to pitch visibility - specific names not enumerated)
+
+### Pro Navigator Commands
+- (Commands related to Pro Navigator - specific names not enumerated)
+
+### Scoring Tools Commands
+- Score View
+- Piano View
+- Drum View
+- Rebuild Score
+- (Additional scoring commands as listed in Score section)
+
+### Skin Commands
+- (Commands related to skin/theme - specific names not enumerated)
+
+### Show Commands
+- Show Home Page
+- Show Instruments
+- Show Effects
+- Show Loops
+- Show Files
+- Show Cloud
+- Show Pool
+- Show Splice
+- Show Channel Editor
+- Show Channel Tab
+- Show Macro Controls
+- Show Instrument Editor
+- Show Routing Editor
+- Show Audio Device Controls
+- Show Input Controls
+- Show Sends/Cue mix
+- Show I/O Connections
+- Show VCA Connections
+- Show Group Assignment
+- Show Channel Notes
+- Show Channel Icons
+- Show in Console
+- Show in Explorer/Finder
+- Show Media Folder in Explorer/Finder
+- Show Folder in Explorer/Finder
+- Show Studio One Scripts
+- Show All Tracks
+- Show Selected Tracks
+- Show Empty Tracks
+- Hide Empty Tracks
+- Show Soloed Tracks
+- Hide Soloed Tracks
+- Show Muted Tracks
+- Hide Muted Tracks
+- Show Disabled Tracks
+- Hide Disabled Tracks
+- Show Enabled Tracks
+- Hide Enabled Tracks
+- Show Instrument Tracks
+- Hide Instrument Tracks
+- Show Audio Tracks
+- Hide Audio Tracks
+- Show Tracks with Events
+- Show Tracks with Events under Cursor
+- Hide Tracks with Events under Cursor
+- Show Tracks with Events in Loop Range
+- Hide Tracks with Events in Loop Range
+- Show All Channels
+- Show Soloed Channels
+- Hide Soloed Channels
+- Show Muted Channels
+- Hide Muted Channels
+- Show Disabled Channels
+- Hide Disabled Channels
+- Show Enabled Channels
+- Hide Enabled Channels
+- Show Object Channels
+- Hide Object Channels
+- Show Current Parameter
+- Remove Current Parameter
+- Show Automation Lanes
+- Show Device
+- Show / Hide
+- Show All
+- Show Default
+- Hide Unused
+
+### Media Commands
+- Show Media Folder in Explorer/Finder
+- Show Folder in Explorer/Finder
+- Locate File
+- Locate Missing Files
+- Locate Missing Devices
+- Copy External Files
+- Remove Unused Files
+- Update Mastering Files
+- Update Mastering File
+- Import File
+- Import Video
+- Export Mixdown
+- Export Stems
+- Export Spatial Audio
+- Export Video
+- Burn Audio CD
+- Make DDP Image
+- Make Image
+- Print
+- Locate File
+- Select on Track
+- Convert Files
+- Login
+- Activation
+- Activate Purchased Items
+
+### Mixer Commands
+- Show Channel Banks
+- Show Scenes (Console)
+- Show Scenes (Track List)
+- Show Instrument Rack
+- Show External Devices
+- Show Inputs
+- Show Outputs
+- Show Groups (Channel List)
+- Show Groups (Track List)
+- Next Channel
+- Previous Channel
+- Next Bank
+- Previous Bank
+- Show Track
+- Hide Channel
+- Show Channel
+- Open Channel
+- Global Solo
+- Global Mute
+- Mute Main Out
+- Mono
+
+### Musical Functions Commands
+- Transpose
+- Transpose Events Down
+- Transpose Events Up
+- Transpose Instrument Tracks
+- Apply Scale
+- Velocity
+- Length
+- Stretch
+- Distribute Notes
+- Extend to Part End
+- Repeat Notes to Part End
+- Mirror Notes
+- Randomize Notes
+- Thin out Notes
+- Fill with Notes
+- Convert Key Switches to Sound Variations
+- Separate Shared Copies
+- Insert Instrument Part
+- Insert Pattern
+- Convert Part to Pattern
+- Convert Pattern to Part
+- Create Drum Click
+- Insert Instrument Parts from Chord Track
+- Detect Key Signature
+- Explode Pitches to Tracks
+- Remove Part Automation
+- Render Instrument Tracks
+- Double At Interval
+- Fill with Rests
+- Fill with Rhythm Slashes
+- Make Tuplet
+- Quantize to Notation
+- Send to Voice 1-4
+- Switch Staff
+- Transpose
+- Tuplet
+- Rebuild Score
+
+### Host Commands
+- (Host-level commands - specific names not enumerated separately)
+
+### Instrument Parts Commands
+- Insert Instrument Part
+- Insert Pattern
+- Convert Part to Pattern
+- Convert Pattern to Part
+- Create Drum Click
+- Insert Instrument Parts from Chord Track
+- Detect Key Signature
+- Explode Pitches to Tracks
+- Remove Part Automation
+- Render Instrument Tracks
+- Double At Interval
+- Fill with Rests
+- Fill with Rhythm Slashes
+- Make Tuplet
+- Quantize to Notation
+- Send to Voice 1-4
+- Switch Staff
+- Transpose
+- Tuplet
+- Rebuild Score
+- Insert Instrument Part
+- Insert Pattern
+- Convert Part to Pattern
+- Convert Pattern to Part
+- Create Drum Click
+- Insert Instrument Parts from Chord Track
+- Detect Key Signature
+- Explode Pitches to Tracks
+- Remove Part Automation
+- Render Instrument Tracks
+
+### Lyrics Commands
+- Select Lyrics
+- Align Lyrics
+- Lyrics Display
+- Remove Lyrics
+- Select Lyrics
+- Align Fingerings
+- Select Chord Symbols
+- Select Lyrics
+- Select Voice 1-4
+- Select Highest Notes
+- Select Lowest Notes
+- Clear Recorded Velocities
+- Remove Accidentals
+- Remove Articulations
+- Remove Slurs
+- Remove Dynamics
+- Remove Pedal Markings
+- Remove Measure Rests
+- Remove Tempo Marks
+- Remove rit. and accel.
+- Remove Rehearsal Marks
+- Remove Text Boxes
+- Remove Lyrics
+- Remove Tuplets
+- Swap Voices
+- Reset TAB numbers
+- Reset Font Style
+- Flip Attachments
+- Toggle Rhythm Slash
+- Toggle Note or Rest
+- Align Lyrics
+- Lyrics Display
+- Clear Chord Track
+- Transpose Chords
+- Store Chord Preset
+- Insert Chord Preset
+- Chord Display
+- Detect Chords
+- Remove Chords
+- Apply Chords from Chord Track
+- Extract Key Signatures from Event
+- Detect Key Signature
+- Chord Selector
+- Insert Rest
+- Repeat Last Chord
+- Make Tuplet
+- Tuplet
+- Switch Staff
+- Send to Voice 1-4
+- Quantize to Notation
+- Fill with Rests
+- Fill with Rhythm Slashes
+- Rebuild Score
+
+### Marker Commands
+- Insert Named
+- Goto Next Marker
+- Goto Previous Marker
+- Open Marker Track
+- Update Mastering File
+- Update Mastering Files
+- Recall Marker (1-20)
+- Recall Retrospective Recording
+- Set Play Start Marker
+- Enable Play Start Marker
+- Create Sections from Markers
+- Create Markers from Sections
+- Reset Track Markers to Content
+- Insert Marker at Time
+- Create Song Markers
+- Split All Tracks at Markers
+
+### Context Menu Commands
+- (Context menu specific commands - varies by context)
+
+### Console Commands
+- Console
+- Show in Console
+- Write Line
+- Channel Overview
+- Track List
+- Show Channel Banks
+- Show Scenes (Console)
+- Show Scenes (Track List)
+- Show Instrument Rack
+- Show External Devices
+- Show Inputs
+- Show Outputs
+- Show Groups (Channel List)
+- Show Groups (Track List)
+- Console
+- Write Line
+- Channel Overview
+- Track List
+
+### Collaboration Commands
+- Share
+- Join
+- Send
+- Receive
+- Unlink
+- Sign in
+- Sign out
+- Sign up
+- Delete Account
+- Show Account Options
+- Share
+- Join
+- Send
+- Receive
+- Unlink
+
+### Devices Commands
+- Show External Devices
+- Show Device
+- Show / Hide
+- Remove
+- Show External Devices
+- Show Inputs
+- Show Outputs
+- Devices:PortParam
+
+### Artists Commands
+- (Artist-related commands - specific names not enumerated)
+
+### Audio Commands
+- Add Audio Track (mono)
+- Add Audio Track (stereo)
+- Add Audio Track (surround)
+- Extract Drums
+- Extract Notes
+- Normalize Audio
+- Reverse Audio
+- Separate Stems
+- Strip Silence
+- Edit with Melodyne
+- Remove Melodyne
+- Bypass Gain Curve
+- Edit Volume
+- Remove Crossfades
+- Fade In to Cursor
+- Fade Out from Cursor
+- Create Autofades
+- Create Crossfades
+- Decrease Volume
+- Increase Volume
+- Reset Gain Curve
+- Apply Audio Bend
+- Decrease Volume Fine
+- Increase Volume Fine
+- Open Event FX Editor
+- Render Event FX
+- Restore Event FX
+- Separate Shared Audio Parts
+- Insert Event FX
+- Extract Drums
+- Extract Notes
+- Normalize Audio
+- Reverse Audio
+- Separate Stems
+- Strip Silence
+- Edit with Melodyne
+- Remove Melodyne
+- Bypass Gain Curve
+- Edit Volume
+- Remove Crossfades
+- Fade In to Cursor
+- Fade Out from Cursor
+- Create Autofades
+- Create Crossfades
+- Decrease Volume
+- Increase Volume
+- Reset Gain Curve
+
+### Audio Device Commands
+- Show Audio Device Controls
+- Restore Audio Device Settings
+- Show Audio Device Controls
+- Show Input Controls
+- Show Audio Device Controls
+- Restore Audio Device Settings
+
+### Automation Commands
+- Show Automation
+- Expand Automation
+- Manage Parameters
+- Off
+- Read
+- Touch
+- Latch
+- Write
+- Next Mode
+- Previous Mode
+- Toggle Read
+- Next Parameter
+- Previous Parameter
+- Add Automation Lane
+- Remove Automation Lane
+- Show Automation Lanes
+- Apply Current Automation to Session Start
+- Apply Current Automation to Session End
+- Toggle Automation Follows Events
+- Remove Track Automation
+- Merge VCA Automation
+- Add Part Automation
+- Select Part Automation with Notes
+- Transform Range
+- Apply Active Variation
+- Show Automation Lanes
+- Edit Next Pattern
+- Edit Previous Pattern
+
+### Browser Commands
+- Show Home Page
+- Show Instruments
+- Show Effects
+- Show Loops
+- Show Files
+- Show Cloud
+- Show Pool
+- Show Splice
+- Browser
+- Plug-In Manager
+- Search
+- Next
+- Previous
+- Ascend Root
+- Reset Root
+- New Tab
+- New Root Tab
+- Close Tab
+- Rename Tab
+- Refresh
+- Next
+- Previous
+- Rename File
+- New Folder
+- Search
+- Open
+- Open with Options
+- Close
+- Close All
+
+### Channel Components Commands
+- Activate All Inserts
+- Freeze to Rendered Audio
+- Unfreeze to Realtime Audio
+- Show Channel Editor
+- Show Channel Tab
+- Show Macro Controls
+- Show Instrument Editor
+- Show Routing Editor
+- Show Channel Notes
+- Show Channel Icons
+- Next Channel
+- Previous Channel
+- Next Bank
+- Previous Bank
+- Show Track
+- Hide Channel
+- Show Channel
+- Open Channel
+- Global Solo
+- Global Mute
+- Mute Main Out
+- Mono
+
+### Edit Commands
+- Cut
+- Copy
+- Paste
+- Delete
+- Select All
+- Deselect All
+- Invert Selection
+- Undo
+- Redo
+- Enter
+- Cancel
+- Duplicate
+- Split
+- Split at Cursor
+- Split at Grid
+- Merge Events
+- Insert
+- Insert Named
+- Insert Rest
+- Insert Bend Marker
+- Reset Bend Marker
+- Insert Time Signature
+- Edit Time Signature
+- Remove Time Signature
+- Insert Key Signature
+- Edit Key Signature
+- Remove Key Signature
+- Insert Silence
+- Insert Silence in Loop
+- Edit
+- Arm
+- Monitor
+- Show Note FX Editor
+- Toggle Ripple Edit
+- Synchronize Editor to Arrangement
+- Find Track
+- Undo Visibility Change
+- Redo Visibility Change
+
+### Edit Menu Commands
+- (Edit menu specific commands - overlaps with Edit category)
+
+### Editor Commands
+- Editor
+- Toggle Detached Editor
+- Show Note FX Editor
+- Toggle Ripple Edit
+- Synchronize Editor to Arrangement
+- Show Empty Tracks
+- Hide Empty Tracks
+- Show Tracks with Events under Cursor
+- Hide Tracks with Events under Cursor
+- Show Tracks with Events in Loop Range
+- Hide Tracks with Events in Loop Range
+- Show Soloed Tracks
+- Hide Soloed Tracks
+- Show Muted Tracks
+- Hide Muted Tracks
+- Show Disabled Tracks
+- Hide Disabled Tracks
+- Show Enabled Tracks
+- Hide Enabled Tracks
+- Show Instrument Tracks
+- Hide Instrument Tracks
+- Show Audio Tracks
+- Hide Audio Tracks
+- Show Selected Tracks
+- Hide Selected Tracks
+- Show All Tracks
+- Show Tracks with Events
+- Show All Channels
+- Show Soloed Channels
+- Hide Soloed Channels
+- Show Muted Channels
+- Hide Muted Channels
+- Show Disabled Channels
+- Hide Disabled Channels
+- Show Enabled Channels
+- Hide Enabled Channels
+- Hide Selected Channels
+- Show Object Channels
+- Hide Object Channels
+- Reset Order
+- Remove All
+- Hide Unused
+- Show All
+- Show Default
+- Remove Parameter
+- Add Automation Lane
+- Remove Automation Lane
+- Show Automation Lanes
+- Edit Next Pattern
+- Edit Previous Pattern
+- Select Part Automation with Notes
+- Transform Range
+- Apply Active Variation
+- Piano View
+- Drum View
+- Score View
+- All
+- In Scale
+- Used
+
+### Event Commands
+- Previous Event
+- Previous Event Extend
+- Next Event
+- Next Event Extend
+- First Event
+- First Event Extend
+- Last Event
+- Last Event Extend
+- Previous Track Extend
+- Next Track Extend
+- First Track Extend
+- Last Track Extend
+- Snap To Events
+- Snap To Event Hotspots
+- Snap To Zero Crossings
+- Previous Event
+- Previous Event Extend
+- Next Event
+- Next Event Extend
+- First Event
+- First Event Extend
+- Last Event
+- Last Event Extend
+- Snap To Events
+- Snap To Event Hotspots
+- Snap To Zero Crossings
+- Show Marker Track in Editor
+- Show Arranger Track in Editor
+- Show Chord Track in Editor
+- Show Signature Track in Editor
+- Add Scene
+- Add Scene From Playing Cells
+- Add Scene From Selected Cells
+- Remove Scene
+- Clear Scene
+- Paste Cell Properties
+- Launch Cells
+- Play Selected Cells
+- Play Selected Cells Exclusive
+- Record Selected Cells
+- Stop Cells
+- Stop All
+- Toggle All Cell Playback Active
+- Clear Cell
+- Add Scene to Playlist
+- Nudge
+- Nudge Back
+- Nudge Up
+- Nudge Down
+- Previous Launcher Lane
+- Next Launcher Lane
+- Previous Launcher Scene
+- Next Launcher Scene
+- Add Playlist
+- Duplicate Playlist
+- Rename Playlist
+- Clear Playlist
+- Remove Playlist
+- Delete Playlist Item
+- Add Stop Marker to Playlist
+- Duplicate Playlist Item
+- Start Playlist Playback
+- Continue Playlist Playback
+- Insert Playlist into Session
+- Unpack Layers to Tracks
+- Recall Marker (1-20)
+- Recall Retrospective Recording
+- Toggle Cell Playback Active
+- Stop Cell
+- Instrument Input follows Selection
+- Audio Input follows Selection
+- Solo follows Selection
+- Play Selected Range
+- Unpack Last Take to Layer
+- Filter Tracks
+- Filter Channels
+- Hide
+- Expand Automation
+- Expand Layers
+- Expand Folder Track
+- Disable
+- Toggle Detached Editor
+- Editor
+- Add Layer
+- Duplicate Layer
+- Remove Layer
+- Rename Layer
+- Activate Next Layer
+- Activate Previous Layer
+- Unpack Selected Layers To Tracks
+- Layers follow Events
+- Activate Layer
+- Solo Layer
+- Deselect All on Tracks
+- Create Ranges on Tracks
+- Create Ranges
+- Select Events in Range
+- Select from Start to Event
+- Select from Event to End
+- Split Loop
+- Split Range
+- Fit Timeline to Contents
+- Zoom Selected Track
+- Show in Console
+- Edit
+- Arm
+- Monitor
+- Show Note FX Editor
+- Toggle Ripple Edit
+- Synchronize Editor to Arrangement
+- Find Track
+- Undo Visibility Change
+- Redo Visibility Change
+
+### File Commands
+- New
+- New Session
+- New Project
+- New Show
+- Save As Template
+- Save
+- Save As
+- Save to New Folder
+- Save New Version
+- Restore Version
+- Revert
+- Open
+- Open with Options
+- Close
+- Close All
+- Import File
+- Import Video
+- Export Mixdown
+- Export Stems
+- Export Spatial Audio
+- Export Video
+- Burn Audio CD
+- Make DDP Image
+- Make Image
+- Print
+- Document Setup
+- Rename File
+- New Folder
+- Search
+- Refresh
+- Locate File
+- Locate Missing Files
+- Locate Missing Devices
+- Copy External Files
+- Remove Unused Files
+- Update Mastering Files
+- Update Mastering File
+- Digital Release
+- System Information
+- Create Diagnostics Report
+- Find Command
+- Open Settings Folder
+- Backup and Restore
+- Check for Updates
+- View Release Notes
+- Usage Data Settings
+
+### File Menu Commands
+- (File menu specific commands - overlaps with File category)
+
+### Group Commands
+- Group Selected Tracks
+- Dissolve Group
+- Rename Group
+- Suspend All Groups
+- Suspend Group (1-10)
+- Show Groups (Channel List)
+- Show Groups (Track List)
+
+### Help Commands
+- About
+- Contents
+- Context Help
+- Keyboard Shortcuts
+- Website
+- Open Settings Folder
+- Options
+- Back
+- Keyboard Shortcuts
+- System Information
+- Create Diagnostics Report
+- Find Command
+- Check for Updates
+- View Release Notes
+- Usage Data Settings
+- About
+- Contents
+- Context Help
+- Keyboard Shortcuts
+- Website
+- Open Settings Folder
+- Options
+
+### Host Commands
+- (Host-level commands - overlaps with other categories)
+
+### Launcher Commands
+- Launcher Exclusive
+- Launcher Side-by-Side
+- Add Scene
+- Add Scene From Playing Cells
+- Add Scene From Selected Cells
+- Remove Scene
+- Clear Scene
+- Paste Cell Properties
+- Launch Cells
+- Play Selected Cells
+- Play Selected Cells Exclusive
+- Record Selected Cells
+- Stop Cells
+- Stop All
+- Toggle All Cell Playback Active
+- Clear Cell
+- Add Scene to Playlist
+- Nudge
+- Nudge Back
+- Nudge Up
+- Nudge Down
+- Previous Launcher Lane
+- Next Launcher Lane
+- Previous Launcher Scene
+- Next Launcher Scene
+- Add Playlist
+- Duplicate Playlist
+- Rename Playlist
+- Clear Playlist
+- Remove Playlist
+- Delete Playlist Item
+- Add Stop Marker to Playlist
+- Duplicate Playlist Item
+- Start Playlist Playback
+- Continue Playlist Playback
+- Insert Playlist into Session
+- Unpack Layers to Tracks
+- Recall Marker (1-20)
+- Recall Retrospective Recording
+- Toggle Cell Playback Active
+- Stop Cell
+- Instrument Input follows Selection
+- Audio Input follows Selection
+- Solo follows Selection
+- Play Selected Range
+- Unpack Last Take to Layer
+- Filter Tracks
+- Filter Channels
+- Hide
+- Expand Automation
+- Expand Layers
+- Expand Folder Track
+- Disable
+- Toggle Detached Editor
+- Editor
+- Add Layer
+- Duplicate Layer
+- Remove Layer
+- Rename Layer
+- Activate Next Layer
+- Activate Previous Layer
+- Unpack Selected Layers To Tracks
+- Layers follow Events
+- Activate Layer
+- Solo Layer
+- Deselect All on Tracks
+- Create Ranges on Tracks
+- Create Ranges
+- Select Events in Range
+- Select from Start to Event
+- Select from Event to End
+- Split Loop
+- Split Range
+- Fit Timeline to Contents
+- Zoom Selected Track
+- Show in Console
+- Edit
+- Arm
+- Monitor
+- Show Note FX Editor
+- Toggle Ripple Edit
+- Synchronize Editor to Arrangement
+- Find Track
+- Undo Visibility Change
+- Redo Visibility Change
+
+### Macro Commands (EXCLUDED - user-defined macros)
+- (All Macro commands excluded - these are user-defined macros with base64 encoded names)
+
+### Marker Commands
+- Insert Named
+- Goto Next Marker
+- Goto Previous Marker
+- Open Marker Track
+- Update Mastering File
+- Recall Marker (1-20)
+- Recall Retrospective Recording
+- Set Play Start Marker
+- Enable Play Start Marker
+- Create Sections from Markers
+- Create Markers from Sections
+- Reset Track Markers to Content
+- Insert Marker at Time
+- Create Song Markers
+- Split All Tracks at Markers
+
+### Media Commands
+- Show Media Folder in Explorer/Finder
+- Show Folder in Explorer/Finder
+- Locate File
+- Locate Missing Files
+- Locate Missing Devices
+- Copy External Files
+- Remove Unused Files
+- Update Mastering Files
+- Update Mastering File
+- Import File
+- Import Video
+- Export Mixdown
+- Export Stems
+- Export Spatial Audio
+- Export Video
+- Burn Audio CD
+- Make DDP Image
+- Make Image
+- Print
+- Locate File
+- Select on Track
+- Convert Files
+- Login
+- Activation
+- Activate Purchased Items
+
+### Mixer Commands
+- Show Channel Banks
+- Show Scenes (Console)
+- Show Scenes (Track List)
+- Show Instrument Rack
+- Show External Devices
+- Show Inputs
+- Show Outputs
+- Show Groups (Channel List)
+- Show Groups (Track List)
+- Next Channel
+- Previous Channel
+- Next Bank
+- Previous Bank
+- Show Track
+- Hide Channel
+- Show Channel
+- Open Channel
+- Global Solo
+- Global Mute
+- Mute Main Out
+- Mono
+
+### Musical Functions Commands
+- Transpose
+- Transpose Events Down
+- Transpose Events Up
+- Transpose Instrument Tracks
+- Apply Scale
+- Velocity
+- Length
+- Stretch
+- Distribute Notes
+- Extend to Part End
+- Repeat Notes to Part End
+- Mirror Notes
+- Randomize Notes
+- Thin out Notes
+- Fill with Notes
+- Convert Key Switches to Sound Variations
+- Separate Shared Copies
+- Insert Instrument Part
+- Insert Pattern
+- Convert Part to Pattern
+- Convert Pattern to Part
+- Create Drum Click
+- Insert Instrument Parts from Chord Track
+- Detect Key Signature
+- Explode Pitches to Tracks
+- Remove Part Automation
+- Render Instrument Tracks
+- Double At Interval
+- Fill with Rests
+- Fill with Rhythm Slashes
+- Make Tuplet
+- Quantize to Notation
+- Send to Voice 1-4
+- Switch Staff
+- Transpose
+- Tuplet
+- Rebuild Score
+
+### Note Length Commands
+- Note Length 1/1 through 1/64
+- Note Length 2 bars
+- Note Length 4 bars
+- Note Length 90%
+- Note Length 110%
+- Legato
+- Legato (10 ms) through (50 ms)
+- Legato + Remove Overlaps
+- Remove Overlaps
+
+### Note Repeat Commands
+- Note Repeat
+- 1/1 through 1/64
+- type 0-3
+- Next Base
+- Previous Base
+- Dotted
+- Follow Quantize
+
+### Pattern Commands
+- Edit Next Pattern
+- Edit Previous Pattern
+- Clear Pattern
+- Copy Pattern
+- Duplicate Pattern
+- Set Program A-G
+- Apply Active Variation
+- Apply Variation (1-20)
+- Apply Next
+- Apply Previous
+- Find and Apply Variation
+- New Variation
+- Duplicate Variation
+- Delete Variation
+- Next Variation
+- Previous Variation
+- Copy Lane
+- Clear Lane
+- Duplicate Steps
+- Fill Lane
+- Set Every 2nd Step
+- Set Every 4th Step
+- Shift Lane
+- Shift Lane Back
+- Double Resolution
+- Double Lane Resolution
+- Half Resolution
+- Half Lane Resolution
+- Select Part Automation with Notes
+- Transform Range
+
+### Pitch Names Commands
+- (Commands related to pitch naming)
+
+### Pitch Visibility Commands
+- (Commands related to pitch visibility)
+
+### Presets Commands
+- Store Preset
+- Update Preset
+- Store as Default Preset
+- Re-Index Presets
+- Update Plug-In List
+- Reset Blocklist
+- Remove Plug-In Settings
+- Import Preset
+- Export Preset
+- Load Preset File
+- Store Track Preset
+- Load Track Preset
+- Apply Track Preset
+
+### Pro Navigator Commands
+- (Commands related to Pro Navigator)
+
+### Project Commands
+- New Project
+- Save
+- Save As
+- Save to New Folder
+- Save New Version
+- Restore Version
+- Revert
+- Open
+- Close
+- Document Setup
+- System Information
+- Create Diagnostics Report
+- Backup and Restore
+- Check for Updates
+- View Release Notes
+- Usage Data Settings
+
+### Quantize Commands
+- Quantize
+- Quantize Notes
+- Quantize on Track
+- Quantize 50%
+- Quantize to Notation
+- Freeze Quantize
+- Input Quantize
+- Quantize End
+- Quantize Event
+- Freeze Pitch
+- Freeze Velocity
+- Freeze Quantize
+
+### Record Functions Commands
+- Record
+- Toggle Record
+- Autopunch In
+- Autopunch Out
+- Autopunch
+- Preroll
+- Postroll
+- Precount
+- Record Mode Replace
+- Loop Record Takes
+- Loop Record Mix
+- Note Erase
+- Input Quantize
+- Record Takes to Layers
+- Undo Last Loop
+- Undo All
+- Insert Rest
+- Repeat Last Chord
+- Step Record
+
+### Record Mode Commands
+- Record Mode Replace
+- Loop Record Takes
+- Loop Record Mix
+- Note Erase
+- Input Quantize
+- Record Takes to Layers
+
+### Score Commands
+- Score View
+- Piano View
+- Drum View
+- Rebuild Score
+- Align Chord Symbols
+- Align Fingerings
+- Select Chord Symbols
+- Select Lyrics
+- Select Voice 1-4
+- Select Highest Notes
+- Select Lowest Notes
+- Clear Recorded Velocities
+- Remove Accidentals
+- Remove Articulations
+- Remove Slurs
+- Remove Dynamics
+- Remove Pedal Markings
+- Remove Measure Rests
+- Remove Tempo Marks
+- Remove rit. and accel.
+- Remove Rehearsal Marks
+- Remove Text Boxes
+- Remove Lyrics
+- Remove Tuplets
+- Swap Voices
+- Reset TAB numbers
+- Reset Font Style
+- Flip Attachments
+- Toggle Rhythm Slash
+- Toggle Note or Rest
+- Align Lyrics
+- Lyrics Display
+- Clear Chord Track
+- Transpose Chords
+- Store Chord Preset
+- Insert Chord Preset
+- Chord Display
+- Detect Chords
+- Remove Chords
+- Apply Chords from Chord Track
+- Extract Key Signatures from Event
+- Detect Key Signature
+- Chord Selector
+- Insert Rest
+- Repeat Last Chord
+- Make Tuplet
+- Tuplet
+- Switch Staff
+- Send to Voice 1-4
+- Quantize to Notation
+- Fill with Rests
+- Fill with Rhythm Slashes
+- Rebuild Score
+
+### Scoring Tools Commands
+- Score View
+- Piano View
+- Drum View
+- Rebuild Score
+- (Additional scoring commands as listed in Score section)
+
+### Show Commands
+- Show Home Page
+- Show Instruments
+- Show Effects
+- Show Loops
+- Show Files
+- Show Cloud
+- Show Pool
+- Show Splice
+- Show Channel Editor
+- Show Channel Tab
+- Show Macro Controls
+- Show Instrument Editor
+- Show Routing Editor
+- Show Audio Device Controls
+- Show Input Controls
+- Show Sends/Cue mix
+- Show I/O Connections
+- Show VCA Connections
+- Show Group Assignment
+- Show Channel Notes
+- Show Channel Icons
+- Show in Console
+- Show in Explorer/Finder
+- Show Media Folder in Explorer/Finder
+- Show Folder in Explorer/Finder
+- Show Studio One Scripts
+- Show All Tracks
+- Show Selected Tracks
+- Show Empty Tracks
+- Hide Empty Tracks
+- Show Soloed Tracks
+- Hide Soloed Tracks
+- Show Muted Tracks
+- Hide Muted Tracks
+- Show Disabled Tracks
+- Hide Disabled Tracks
+- Show Enabled Tracks
+- Hide Enabled Tracks
+- Show Instrument Tracks
+- Hide Instrument Tracks
+- Show Audio Tracks
+- Hide Audio Tracks
+- Show Tracks with Events
+- Show Tracks with Events under Cursor
+- Hide Tracks with Events under Cursor
+- Show Tracks with Events in Loop Range
+- Hide Tracks with Events in Loop Range
+- Show All Channels
+- Show Soloed Channels
+- Hide Soloed Channels
+- Show Muted Channels
+- Hide Muted Channels
+- Show Disabled Channels
+- Hide Disabled Channels
+- Show Enabled Channels
+- Hide Enabled Channels
+- Show Object Channels
+- Hide Object Channels
+- Show Current Parameter
+- Remove Current Parameter
+- Show Automation Lanes
+- Show Device
+- Show / Hide
+- Show All
+- Show Default
+- Hide Unused
+
+### Skin Commands
+- (Skin/theme related commands)
+
+### Sound Variation Commands
+- Select Patch (1-10)
+- Next Patch
+- Previous Patch
+- Save Patch
+- Update Patch
+- Rename Patch
+- Set Current as Default Patch
+- Reset Default Patch
+- Select Mute Patch
+
+### Spatial Audio Commands
+- Export Spatial Audio
+- Spatial Audio Setup
+- Toggle Speaker Format
+- Speaker Format 9.1.6
+- Speaker Format 7.1.4
+- Speaker Format 7.1
+- Speaker Format 5.1.4
+- Speaker Format 5.1.2
+- Speaker Format 5.1
+- Speaker Format Stereo
+- Speaker Format Dolby Atmos Binaural
+- Speaker Format Apple Spatial Audio
+- Toggle Headphone Format
+- Toggle Renderer
+- Toggle 3D View Free
+- Toggle 3D View Front
+- Toggle 3D View Left
+- Toggle 3D View Right
+- Toggle 3D View Top
+- Next Panner Stereo Mode
+- Toggle Panner Object Mode
+
+### Step Record Commands
+- Step Record
+- Record Mode Replace
+- Loop Record Takes
+- Loop Record Mix
+- Note Erase
+- Input Quantize
+- Record Takes to Layers
+- Insert Rest
+- Repeat Last Chord
+
+### Tempo Commands
+- Tap Tempo
+- Increment Tempo
+- Decrement Tempo
+- Double Tempo
+- Half Tempo
+- Tempo -1%, -5%, -10%
+- Tempo +1%, +5%, +10%
+- Insert Time Signature
+- Edit Time Signature
+- Remove Time Signature
+- Extract to Tempo Track
+- Open Tempo Track
+
+### Toolbar Commands
+- (Toolbar specific commands)
+
+### Track Commands
+- Add Audio Track (mono)
+- Add Audio Track (stereo)
+- Add Audio Track (surround)
+- Add Instrument Track
+- Add Automation Track
+- Add Folder Track
+- Add Tracks for all Inputs
+- Add Bus for Selected Channels
+- Add VCA for Selected Channels
+- Remove Track
+- Remove Track and Instrument
+- Remove Track Automation
+- Disable Track
+- Enable Track
+- Duplicate
+- Duplicate (complete)
+- Combine with next Track
+- Split Track at Cursor
+- Split Track and Event at Cursor
+- First Track
+- Last Track
+- Previous Track
+- Next Track
+- Previous Track Extend
+- Next Track Extend
+- First Track Extend
+- Last Track Extend
+- Select All on Tracks
+- Deselect All on Tracks
+- Invert Track Selection
+- Select Tracks with Selected Events
+- Select Tracks with Same Color
+- Select Tracks by Color
+- Select Muted Tracks
+- Select Muted Events
+- Show All Tracks
+- Show Selected Tracks
+- Hide Selected Tracks
+- Show Empty Tracks
+- Hide Empty Tracks
+- Show Soloed Tracks
+- Hide Soloed Tracks
+- Show Muted Tracks
+- Hide Muted Tracks
+- Show Disabled Tracks
+- Hide Disabled Tracks
+- Show Enabled Tracks
+- Hide Enabled Tracks
+- Show Instrument Tracks
+- Hide Instrument Tracks
+- Show Audio Tracks
+- Hide Audio Tracks
+- Show Tracks with Events
+- Show Tracks with Events under Cursor
+- Hide Tracks with Events under Cursor
+- Show Tracks with Events in Loop Range
+- Hide Tracks with Events in Loop Range
+- Pack Folder
+- Collapse All Tracks
+- Expand Folder Track
+- Track Height Minimal
+- Track Height 1-8
+- Track Height Tiny
+- Track Height Small
+- Track Height Normal
+- Track Height Medium
+- Track Height Large
+- Track Height X-Large
+- Track Height Overview
+
+### Transport Commands
+- Start
+- Stop
+- Record
+- Rewind
+- Forward
+- Rewind Bar
+- Forward Bar
+- Return to Zero
+- Toggle Start
+- Toggle Record
+- Toggle Loop
+- Play from Loop Start
+- Toggle Loop Display
+- Tap Tempo
+- Increment Tempo
+- Decrement Tempo
+- Set Play Start Marker
+- Return to Start on Stop
+- Enable Play Start Marker
+- Autopunch In
+- Autopunch Out
+- Autopunch
+- Preroll
+- Postroll
+- Precount
+- Shift Loop
+- Shift Loop Backwards
+- Toggle Start with Preroll
+- Play from Loop Start
+- Play Selected Range
+- Play Selected Cells
+- Play Selected Cells Exclusive
+- Stop Cells
+- Stop All
+- Toggle All Cell Playback Active
+- Toggle Cell Playback Active
+- Stop Cell
+- Launch Cells
+- Record Selected Cells
+- Clear Cell
+- Clear Scene
+- Add Scene
+- Add Scene From Playing Cells
+- Add Scene From Selected Cells
+- Remove Scene
+- Rename Scene
+- Update Scene
+- Select Scene (1-10)
+- Next Scene
+- Previous Scene
+- Add Scene to Playlist
+- Add Stop Marker to Playlist
+- Duplicate Playlist Item
+- Delete Playlist Item
+- Remove Playlist
+- Clear Playlist
+- Rename Playlist
+- Duplicate Playlist
+- Add Playlist
+- Start Playlist Playback
+- Continue Playlist Playback
+- Insert Playlist into Session
+- Unpack Layers to Tracks
+- Recall Marker (1-20)
+- Recall Retrospective Recording
+- Toggle Cell Playback Active
+- Stop Cell
+- Instrument Input follows Selection
+- Audio Input follows Selection
+- Solo follows Selection
+- Play Selected Range
+- Unpack Last Take to Layer
+- Filter Tracks
+- Filter Channels
+- Hide
+- Expand Automation
+- Expand Layers
+- Expand Folder Track
+- Disable
+- Toggle Detached Editor
+- Editor
+- Add Layer
+- Duplicate Layer
+- Remove Layer
+- Rename Layer
+- Activate Next Layer
+- Activate Previous Layer
+- Unpack Selected Layers To Tracks
+- Layers follow Events
+- Activate Layer
+- Solo Layer
+- Deselect All on Tracks
+- Create Ranges on Tracks
+- Create Ranges
+- Select Events in Range
+- Select from Start to Event
+- Select from Event to End
+- Split Loop
+- Split Range
+- Fit Timeline to Contents
+- Zoom Selected Track
+- Show in Console
+- Edit
+- Arm
+- Monitor
+- Show Note FX Editor
+- Toggle Ripple Edit
+- Synchronize Editor to Arrangement
+- Find Track
+- Undo Visibility Change
+- Redo Visibility Change
+
+### Video Commands
+- Import Video
+- Export Video
+- Video Size Half
+- Video Size Default
+- Video Size Double
+- Use Video Frame Rate in Timeline
+- Video Player
+- Create Backing Track from Video Audio
+- Extend Setlist Item to Video
+- Open Video Track
+
+### View Commands
+- Toggle Floating Windows
+- Toggle Optional Views
+- Pin Editor
+- Next Perspective
+- Previous Perspective
+- Focus Next
+- Focus Previous
+- Toggle No Overlap
+- Reset Window Positions
+- Fullscreen
+- Toggle Size
+- Toggle Width
+- Toggle Detached Console
+- Toggle Detached Editor
+- Show Home Page
+- Show Instruments
+- Show Effects
+- Show Loops
+- Show Files
+- Show Cloud
+- Show Pool
+- Show Splice
+- Show Channel Editor
+- Show Channel Tab
+- Show Macro Controls
+- Show Instrument Editor
+- Show Routing Editor
+- Show Audio Device Controls
+- Show Input Controls
+- Show Sends/Cue mix
+- Show I/O Connections
+- Show VCA Connections
+- Show Group Assignment
+- Show Channel Notes
+- Show Channel Icons
+- Show Marker Track in Editor
+- Show Arranger Track in Editor
+- Show Chord Track in Editor
+- Show Signature Track in Editor
+- Show Note FX Editor
+- Show in Console
+- Show in Explorer/Finder
+- Show Media Folder in Explorer/Finder
+- Show Folder in Explorer/Finder
+- Show Studio One Scripts
+- Show Empty Tracks
+- Hide Empty Tracks
+- Show All Channels
+- Show Soloed Channels
+- Hide Soloed Channels
+- Show Muted Channels
+- Hide Muted Channels
+- Show Disabled Channels
+- Hide Disabled Channels
+- Show Enabled Channels
+- Hide Enabled Channels
+- Show Object Channels
+- Hide Object Channels
+- Show Current Parameter
+- Remove Current Parameter
+- Show Automation Lanes
+- Show Device
+- Show / Hide
+- Show All
+- Show Default
+- Hide Unused
+- Remove All
+- Reset Order
+
+### Zoom Commands
+- Zoom In
+- Zoom Out
+- Zoom In Fine
+- Zoom Out Fine
+- Zoom Full
+- Zoom Full Horizontally
+- Zoom Full Vertically
+- Zoom to Loop
+- Zoom to Selection
+- Zoom to Selection Horizontally
+- Zoom In Vertical
+- Zoom Out Vertical
+- Zoom In Vertical Fine
+- Zoom Out Vertical Fine
+- Undo Zoom
+- Redo Zoom
+- Toggle Zoom
+- Store Zoom State
+- Restore Zoom State
+- Data Zoom In
+- Data Zoom Out
+- Track Zoom L
+- Track Zoom M
+- Track Zoom S
+- Zoom Overview
+
+---
+
+## Usage
+
+Commands can be executed using:
+```javascript
+Host.GUI.Commands.interpretCommand("Category", "Command Name");
+```
+
+Example:
+```javascript
+Host.GUI.Commands.interpretCommand("Edit", "Duplicate");
+Host.GUI.Commands.interpretCommand("Transport", "Start");
+Host.GUI.Commands.interpretCommand("Edit", "Select All");
+```
+
+---
