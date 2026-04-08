@@ -1,8 +1,8 @@
 # Studio Pro Scripting API Reference
 
-**Platform:** PreSonus Studio One / Fender Studio Pro
+**Platform:** Fender Studio Pro / PreSonus Studio One
 
-> ⚠️ **Disclaimer:** PreSonus does not provide official public documentation for this API. This reference is entirely community-derived. The API is internal and undocumented. Scripts may break between versions. Use defensive coding practices throughout.
+> ⚠️ **Disclaimer:** Fender/PreSonus does not provide official public documentation for this API. This reference is entirely community-derived. The API is internal and undocumented. Scripts may break between versions. Use defensive coding practices throughout.
 
 ---
 
@@ -608,7 +608,7 @@ region.getTrack()            // Returns the containing track
 region.getRoot()             // Returns root object
 region.getStartTime()        // Start time of the part
 region.getEndTime()          // End time of the part
-region.createSequenceIterator()  // Iterator over ALL notes in region ✓
+region.createSequenceIterator()  // Iterator over ALL notes in region
 region.asEventList()         // Returns as event list
 ```
 
@@ -844,7 +844,7 @@ context.editor.getTimeSelectionOffset()          // Returns 0
 context.editor.getItemType(note)                 // Returns "NoteEvent" for notes
 context.editor.isSameItem(n1, n2)               // Returns 1 if same note
 context.editor.canSelect(note)                   // Returns 1
-context.editor.deleteItem(note)                  // DELETES note from editor ✓
+context.editor.deleteItem(note)                  // DELETES note from editor
 context.editor.editItem(note)                    // Returns 0 (success)
 context.editor.pixelToTime(pixel)               // Returns time-like object
 ```
@@ -865,8 +865,8 @@ context.editor.showSelection(true);
 // Reliable multi-select:
 var selector = context.editor.createSelectFunctions(context.functions);
 selector.executeImmediately = true;
-selector.selectMultiple(arrayOfNotes);   // Multi-select ✓
-selector.select(singleNote);             // Single select ✓
+selector.selectMultiple(arrayOfNotes);   // Multi-select
+selector.select(singleNote);             // Single select
 ```
 
 > ⚠️ `editor.selectMultiple()` does **not** exist. Use `editor.createSelectFunctions().selectMultiple()` instead.
@@ -941,8 +941,8 @@ Host.GUI.Desktop.getApplicationWindow()
 ### 9.5 Host.GUI.Clipboard
 
 ```javascript
-Host.GUI.Clipboard.setText(text)   // Set clipboard text ✓
-Host.GUI.Clipboard.getText()       // Get clipboard text ✓
+Host.GUI.Clipboard.setText(text)   // Set clipboard text
+Host.GUI.Clipboard.getText()       // Get clipboard text
 ```
 
 > ⚠️ Text-only. Binary DAW data (MIDI clips, etc.) is not accessible via the clipboard.
@@ -950,7 +950,7 @@ Host.GUI.Clipboard.getText()       // Get clipboard text ✓
 ### 9.6 Host.Objects (URL-Based Object Access)
 
 ```javascript
-Host.Objects.getObjectByUrl(url)    // Get internal host object by URL ✓
+Host.Objects.getObjectByUrl(url)    // Get internal host object by URL
 Host.Objects.getObjectByName(name)  // Get by name
 Host.Objects.getObjectByID(id)      // Get by ID
 Host.Objects.registerObject(name, object)
@@ -980,8 +980,8 @@ All URL objects share: `obj.findParameter(name)`, `obj.interpretCommand(...)`, `
 ### 9.7 Host.Classes (Factory Instantiation)
 
 ```javascript
-Host.Classes.createInstance(classID)        // Create instance ✓
-Host.Classes.getClassDescription(classID)   // Get class description ✓
+Host.Classes.createInstance(classID)        // Create instance
+Host.Classes.getClassDescription(classID)   // Get class description
 Host.Classes.newIterator()                  // Returns empty iterator
 ```
 
@@ -1513,18 +1513,14 @@ Attributes that have no effect: text alignment (`align`, `halign`, `justify`), C
 ```javascript
 var path = Host.Url("local://$USERCONTENT/folder/file.txt");
 // $USERCONTENT:
-//   Windows: %AppData%\PreSonus\Studio One\UserContent\
-//   macOS:   ~/Library/PreSonus/Studio One/UserContent/
+//   Windows: C:\Users\[YourUsername]\Documents\Studio One
+//   macOS:   ~/Documents/Studio One
+//   Windows: C:\Users\[YourUsername]\Documents\Studio Pro
+//   macOS:   ~/Documents/Studio Pro
 
 path.ascend();               // Navigate up one directory
 path.descend("subfolder");   // Navigate into subdirectory
 
-// Package resource path:
-var pkgPath = Host.Url("package://" + PackageID + "/resources/file.xml");
-
-// Folder path (trailing slash, second arg = true):
-var folder = Host.Url("local://$USERCONTENT/StudioOneX/", true);
-```
 
 ### 13.2 Host.IO
 
@@ -1546,9 +1542,9 @@ if (file) {
 }
 
 // File operations:
-Host.IO.File(path).exists()          // Boolean ✓
-Host.IO.File(path).copyTo(destPath)  // Copy ✓
-Host.IO.File(path).remove()          // Delete ✓
+Host.IO.File(path).exists()          // Boolean
+Host.IO.File(path).copyTo(destPath)  // Copy
+Host.IO.File(path).remove()          // Delete
 
 // Find files matching a pattern:
 var it = Host.IO.findFiles(folderPath, "*.xml");
@@ -1558,12 +1554,12 @@ while (!it.done()) {
 }
 
 // Base64:
-Host.IO.toBase64(data)     // ✓
-Host.IO.fromBase64(data)   // ✓
+Host.IO.toBase64(data)
+Host.IO.fromBase64(data)
 
 // Package:
 Host.IO.openPackage(path)    // Returns null for non-package files
-Host.IO.createPackage(path)  // Returns package object ✓
+Host.IO.createPackage(path)  // Returns package object
 ```
 
 ### 13.3 Platform Detection
@@ -1575,9 +1571,9 @@ Host.getPlatform()   // Returns "win" or "mac"
 ### 13.4 Date / Time
 
 ```javascript
-var end = Host.DateTime("2026/01/01");     // Parse date string ✓
-var now = Host.SystemInfo.getLocalTime();  // Current local time ✓
-end.toSeconds() < now.toSeconds()         // Compare times ✓
+var end = Host.DateTime("2026/01/01");     // Parse date string
+var now = Host.SystemInfo.getLocalTime();  // Current local time
+end.toSeconds() < now.toSeconds()         // Compare times
 ```
 
 ### 13.5 Document Path Access
@@ -1715,11 +1711,11 @@ toMusicalTime() → undefined
 getItemType(note)           → "NoteEvent"
 canSelect(note)             → 1
 isSameItem(n1, n2)          → 1 if same
-deleteItem(note)            → deletes note ✓
+deleteItem(note)            → deletes note
 editItem(note)              → 0 (success)
 pixelToTime(pixel)          → time-like object
 pixelToVertical(pixel)      → coordinate number
-createSelectFunctions(fn)   → selectFunctions object ✓
+createSelectFunctions(fn)   → selectFunctions object
 showSelection(bool)
 split(event, time)
 sizeLeft(event, size)
