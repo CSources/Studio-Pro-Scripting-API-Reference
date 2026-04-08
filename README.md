@@ -130,6 +130,7 @@ your-script.package (ZIP)
 | `TrackContextMenu` | `"1"` adds to track right-click menu |
 | `formName` | skin.xml Form name (for `EditAddIn` panels) |
 | `groupName` | Panel group location (e.g., `"Song.AddInPanel"`) |
+| `metaClassID` | Optional unique GUID for internal metadata binding; (**purpose unclear**)|
 
 **Adding an icon (`ScriptMetaClass`):**
 
@@ -288,7 +289,7 @@ The `context` object is passed to both `prepareEdit()` and `performEdit()`. Not 
 
 | Property / Method | prepareEdit | performEdit |
 |---|---|---|
-| `context.mainTrackList` | ✓ | ✓ |
+| `context.mainTrackList` | — | ✓ |
 | `context.getArguments()` | ✓ | ✓ |
 | `context.parameters` | ✓ | — |
 | `context.iterator` | — | ✓ |
@@ -309,6 +310,8 @@ tl.getSelectedTrack(i)    // Get selected track by index
 tl.selectTrack(track, select, exclusive)
 tl.unselectAll()
 ```
+
+⚠️ __IMPORTANT LIMITATION__: `context.mainTrackList` is __always NULL in prepareEdit()__ regardless of context. It only becomes available in performEdit() when NO Instrument Part is actively open in the editor (i.e., `context.editor.activeRegion` is null). To check track availability, perform your validation in performEdit() or use alternative approaches in prepareEdit().
 
 ### 3.3 context.iterator
 
@@ -447,6 +450,35 @@ channel.findParameter("color")          // value: int, string: "#RRGGBBAA"
 channel.findParameter("automationMode") // value: 0, string: "Auto: Off"
 channel.findParameter("velocity")       // MIDI velocity scaling
 channel.findParameter("transpose")      // Transposition in semitones
+channel.findParameter("tempo")          // Tempo (BPM) as float
+```
+
+**Channel routing:**
+
+```javascript
+// Find a bus (sub-out) by name
+var subList = console.getChannelList(2); // Sub-outs
+var dimSoloBus = null;
+for (var i = 0; i < subList.numChannels; i++) {
+  var bus = subList.getChannel(i);
+  if (bus.label === "Dim Solo") {
+    dimSoloBus = bus;
+    break;
+  }
+}
+
+// Route the channel to the dim solo bus
+if (dimSoloBus) {
+  channel.connectTo(dimSoloBus);
+}
+
+// Route back to master
+channel.connectTo(masterBus);
+
+// Check current routing
+if (channel.getDestinationChannel() === dimSoloBus) {
+  // Channel is routed to dim solo bus
+}
 ```
 
 > ⚠️ `volume` and `pan` are **not** accessible via `findParameter()`. Use direct property assignment (`channel.volume`, `channel.pan`) instead. FX chain, inserts, and plugin objects are **not accessible** via scripting.
@@ -875,13 +907,19 @@ Host.GUI.Commands.interpretCommand(  "File", "Save New Version", false,  Host.At
 
 ### 9.3 Host.studioapp (Alternative Command Interpreter)
 
+> An alternative to `Host.GUI.Commands.interpretCommand()`:
+
 ```javascript
 Host.studioapp.interpretCommand("Edit", "Create Range from Cursor");
-Host.studioapp.interpretCommand("Zoom", "Zoom Full", false,
-  Host.Attributes(["State", "1"]));
-Host.studioapp.findParameter(name)
-Host.studioapp.find(name)
+Host.studioapp.interpretCommand("Edit", "Move Range Back");
+Host.studioapp.interpretCommand("Transport", "Locate Selection");
+Host.studioapp.interpretCommand("Track", "Select Scene 1");
+Host.studioapp.interpretCommand("Zoom", "Zoom Full", false, Host.Attributes(["State", "1"]));
 ```
+
+- Direct application-level command interpreter
+- Some commands only work through this interface (not GUI.Commands)
+- Same signature: `interpretCommand(category, name, [clearSelection], [attrs])`
 
 `Host.studioapp` is the same object as `Host.Objects.getObjectByUrl("://hostapp")`.
 
@@ -1250,19 +1288,19 @@ Required when using custom dialogs. Must declare `Package:SkinFile` in metainfo.
 |---|---|---|---|---|
 | `<Slider>` | Horizontal or vertical slider | `name`, `width`, `height`, `options` | `addInteger`, `addFloat` | `"horizontal"`, `"vertical"` |
 | `<EditBox>` | Text / number input | `name`, `width`, `height`, `options`, `multiline`, `style`, `tooltip` | `addString`, `addInteger`, `addFloat` | `"password"`, `"focus"`, `"return"`, `"readonly"` |
-| `<ColorBox>` | Color picker (requires nested SelectBox) | `name`, `width`, `height` | `addColor` | — |
-| `<Label>` | Static text label | `title`, `name`, `style` | - | — |
-| `<CheckBox>` | Independent on/off toggle | `name`, `value`, `title` | `addInteger(0, 1, "name")` | — |
-| `<Button>` | Push button (custom actions) | `name`, `title`, `width`, `height`, `tooltip` | `addInteger(0, 1, "name")` | — |
-| `<Knob>` | Rotary control | `name`, `width`, `height` | `addInteger`, `addFloat` | — |
-| `<ComboBox>` | Dropdown selector | `name`, `style` | `addList` (populate via JS) | — |
+| `<ColorBox>` | Color picker (requires nested SelectBox) | `name`, `width`, `height` | `addColor` | - |
+| `<Label>` | Static text label | `title`, `name`, `style` | - | - |
+| `<CheckBox>` | Independent on/off toggle | `name`, `value`, `title` | `addInteger(0, 1, "name")` | - |
+| `<Button>` | Push button (custom actions) | `name`, `title`, `width`, `height`, `tooltip` | `addInteger(0, 1, "name")` | - |
+| `<Knob>` | Rotary control | `name`, `width`, `height` | `addInteger`, `addFloat` | - |
+| `<ComboBox>` | Dropdown selector | `name`, `style` | `addList` (populate via JS) | - |
 | `<SelectBox>` | Dropdown selector (taller than ComboBox) | `name`, `options` | `addList` | `"border"`, `"transparent"`, `"hidetext"`, `"hidefocus"` |
-| `<RadioButton>` | Mutually exclusive selector (grouped by `name`) | `name`, `value`, `title` | `addInteger` | — |
+| `<RadioButton>` | Mutually exclusive selector (grouped by `name`) | `name`, `value`, `title` | `addInteger` | - |
 | `<ToggleGroup>` | Groups toggle buttons | `name`, `attach` | Multiple `addInteger(0,1,"name")` | - |
-| `<Toggle>` | Toggle button (only inside ToggleGroup) | `name`, `title` | `addInteger(0, 1, "name")` | — |
-| `<ButtonGroup>` | Groups momentary buttons | `name` | Multiple `addInteger` | — |
-| `<Vertical>` | Vertical layout container | `spacing`, `margin`, `attach` | - | — |
-| `<Horizontal>` | Horizontal layout container | `spacing`, `margin`, `attach` | - | — |
+| `<Toggle>` | Toggle button (only inside ToggleGroup) | `name`, `title` | `addInteger(0, 1, "name")` | - |
+| `<ButtonGroup>` | Groups momentary buttons | `name` | Multiple `addInteger` | - |
+| `<Vertical>` | Vertical layout container | `spacing`, `margin`, `attach` | - | - |
+| `<Horizontal>` | Horizontal layout container | `spacing`, `margin`, `attach` | - | - |
 | `<DialogGroup>` | Creates rounded background panel | `options` | - | `"primary"`, `"secondary"` |
 
 > **Button behavior:** Click detected via `IParamObserver.paramChanged()`. When clicked, parameter value changes to 1. Must reset to 0 in `paramChanged` to allow re-triggering.
