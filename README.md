@@ -1250,19 +1250,19 @@ Required when using custom dialogs. Must declare `Package:SkinFile` in metainfo.
 |---|---|---|---|---|
 | `<Slider>` | Horizontal or vertical slider | `name`, `width`, `height`, `options` | `addInteger`, `addFloat` | `"horizontal"`, `"vertical"` |
 | `<EditBox>` | Text / number input | `name`, `width`, `height`, `options`, `multiline`, `style`, `tooltip` | `addString`, `addInteger`, `addFloat` | `"password"`, `"focus"`, `"return"`, `"readonly"` |
-| `<ColorBox>` | Color picker (requires nested SelectBox) | `name`, `width`, `height` | `addColor` | - |
-| `<Label>` | Static text label | `title`, `name`, `style` | - | - |
-| `<CheckBox>` | Independent on/off toggle | `name`, `value`, `title` | `addInteger(0, 1, "name")` | - |
-| `<Button>` | Push button (custom actions) | `name`, `title`, `width`, `height`, `tooltip` | `addInteger(0, 1, "name")` | - |
-| `<Knob>` | Rotary control | `name`, `width`, `height` | `addInteger`, `addFloat` | - |
-| `<ComboBox>` | Dropdown selector | `name`, `style` | `addList` (populate via JS) | - |
+| `<ColorBox>` | Color picker (requires nested SelectBox) | `name`, `width`, `height` | `addColor` | — |
+| `<Label>` | Static text label | `title`, `name`, `style` | - | — |
+| `<CheckBox>` | Independent on/off toggle | `name`, `value`, `title` | `addInteger(0, 1, "name")` | — |
+| `<Button>` | Push button (custom actions) | `name`, `title`, `width`, `height`, `tooltip` | `addInteger(0, 1, "name")` | — |
+| `<Knob>` | Rotary control | `name`, `width`, `height` | `addInteger`, `addFloat` | — |
+| `<ComboBox>` | Dropdown selector | `name`, `style` | `addList` (populate via JS) | — |
 | `<SelectBox>` | Dropdown selector (taller than ComboBox) | `name`, `options` | `addList` | `"border"`, `"transparent"`, `"hidetext"`, `"hidefocus"` |
-| `<RadioButton>` | Mutually exclusive selector (grouped by `name`) | `name`, `value`, `title` | `addInteger` | - |
+| `<RadioButton>` | Mutually exclusive selector (grouped by `name`) | `name`, `value`, `title` | `addInteger` | — |
 | `<ToggleGroup>` | Groups toggle buttons | `name`, `attach` | Multiple `addInteger(0,1,"name")` | - |
-| `<Toggle>` | Toggle button (only inside ToggleGroup) | `name`, `title` | `addInteger(0, 1, "name")` | - |
-| `<ButtonGroup>` | Groups momentary buttons | `name` | Multiple `addInteger` | - |
-| `<Vertical>` | Vertical layout container | `spacing`, `margin`, `attach` | - | - |
-| `<Horizontal>` | Horizontal layout container | `spacing`, `margin`, `attach` | - | - |
+| `<Toggle>` | Toggle button (only inside ToggleGroup) | `name`, `title` | `addInteger(0, 1, "name")` | — |
+| `<ButtonGroup>` | Groups momentary buttons | `name` | Multiple `addInteger` | — |
+| `<Vertical>` | Vertical layout container | `spacing`, `margin`, `attach` | - | — |
+| `<Horizontal>` | Horizontal layout container | `spacing`, `margin`, `attach` | - | — |
 | `<DialogGroup>` | Creates rounded background panel | `options` | - | `"primary"`, `"secondary"` |
 
 > **Button behavior:** Click detected via `IParamObserver.paramChanged()`. When clicked, parameter value changes to 1. Must reset to 0 in `paramChanged` to allow re-triggering.
