@@ -673,46 +673,167 @@ var subposition  = note.startTime.musical - barStart;
 
 ### 6.1 Time Object Structure
 
+Time objects represent positions in musical time and can be created via `functions.newMediaTime()` or `functions.newMusicalTime()`. They are used throughout the API for event timing, cursor positions, and time-based operations.
+
 ```javascript
-var t = event.startTime;
+var t = event.startTime;  // or fn.newMediaTime()
 
-t.musical           // Musical time sub-object
-t.musical.bar       // Bar number
-t.musical.beat      // Beat position (0.0 to beat_count, fractional)
-
+// Core properties:
+t.musical           // Musical time sub-object (see below)
 t.seconds           // Absolute seconds (writable on note.startTime)
 t.samples           // Absolute samples at session sample rate
-t.time              // Internal time units
+t.time              // Internal time units (read-only)
 t.string            // Formatted string: "00:00:00.000" or "1.1.1.000"
 
+// Methods:
 t.as()              // Returns seconds as plain number
 t.clone()           // Returns valid time object copy
+t.convert()         // Returns undefined (non-functional)
+t.toMusicalTime()   // Returns undefined (non-functional)
+
+// Musical sub-object structure:
+t.musical.bar       // Bar number (1-based)
+t.musical.beat      // Beat position (0.0 to beat_count, fractional)
+t.musical.value     // Total beats from project start
 ```
 
-### 6.2 Writing to Time
+### 6.2 Property Details
 
-`note.startTime.seconds` is the **only confirmed writable** note property:
+**Writable Properties:**
+- `t.seconds` - Can be set to any numeric value (seconds)
+- `t.musical.beat` - Can be set to adjust beat position
+- `t.musical.bar` - Can be set to adjust bar number
+- `t.musical.value` - Can be set to total beats from project start
 
-```javascript
-note.startTime.seconds = newTimeInSeconds;
-fn.moveEvent(note, note.startTime);
-```
+**Read-only Properties:**
+- `t.samples` - Derived from seconds and project sample rate
+- `t.time` - Internal representation (purpose unclear)
+- `t.string` - Formatted display string
+
+**musical sub-object:**
+The `musical` property contains bar/beat musical time representation. When writing to `t.musical.beat` or `t.musical.bar`, other time representations (seconds, samples) are automatically updated to maintain consistency.
 
 ### 6.3 Creating New Time Objects
 
 ```javascript
-// Via context.functions:
-var t = fn.newMusicalTime(beats);
-var t = fn.newMusicalTime(beats, bar, beat);
+// Create empty time object (all properties initialized to 0)
+// ✅ fn.newMediaTime() works in AudioEdit, EventEdit, TrackEdit, and MusicEdit contexts
+var t1 = fn.newMediaTime();  // Returns {seconds: 0, string: "00:00:00.000"}
 
-// Via root.createFunctions() (for time creation only — not for edit operations):
-var t = note.region.getTrack().getRoot().createFunctions().newMediaTime();
-t.seconds = targetSeconds;
+// Create musical time with beat position
+var t2 = fn.newMusicalTime(beats);  // beats from project start
+
+// Create musical time with bar and beat
+var t3 = fn.newMusicalTime(totalBeats, bar, beat);
+
+// Alternative creation (not recommended for edit operations):
+var t4 = note.region.getTrack().getRoot().createFunctions().newMediaTime();
+t4.seconds = targetSeconds;
 // or:
-t.musical = targetBeatPosition;
+t4.musical = {bar: 1, beat: 1.0, value: 4.0};  // Set musical time
 ```
 
-### 6.4 Transport / Cursor Time Access
+**✅ Definitive Context Availability (Based on Comprehensive Testing):**
+
+| Function | Available Contexts | Returns | Notes |
+|---|---|---|---|
+| `fn.newMediaTime()` | **AudioEdit, EventEdit, TrackEdit, MusicEdit** | `{seconds: 0, string: "00:00:00.000"}` | **Universal time creation method** - works in 4 out of 5 contexts |
+| `fn.newMusicalTime()` | **Only MusicEdit** (Piano roll/MIDI editor) | Musical time objects | Specialized for MIDI editor only |
+| `createFunctions().newMediaTime()` | All contexts (when note/region available) | Media time objects | Alternative method requiring selected note |
+
+**Test Results Summary:**
+- **AudioEdit** (Audio editor): `fn.newMediaTime()` ✓ Works, `fn.newMusicalTime()` ✗ Not available
+- **EventEdit** (Arrangement editor): `fn.newMediaTime()` ✓ Works, `fn.newMusicalTime()` ✗ Not available  
+- **TrackEdit** (Track list): `fn.newMediaTime()` ✓ Works, `fn.newMusicalTime()` ✗ Not available
+- **MusicEdit** (MIDI editor): Both functions ✓ Work
+- **ProjectEdit** (Project level): `fn.newMusicalTime()` ✓ (returns broken objects), `fn.newMediaTime()` ✗ Not available
+
+**Universal Time Creation Pattern:**
+
+```javascript
+// Works in AudioEdit, EventEdit, TrackEdit, and MusicEdit contexts
+function createTime(fn) {
+    if (typeof fn.newMediaTime === 'function') {
+        var time = fn.newMediaTime();
+        // Returns: {seconds: 0, string: "00:00:00.000"}
+        if (time && time.seconds !== undefined) {
+            return time;  // Valid time object
+        }
+    }
+    return null;  // No time creation available (ProjectEdit context)
+}
+
+// Set time in seconds (seconds property is writable)
+var time = createTime(fn);
+if (time) {
+    time.seconds = 5.0;  // Set to 5 seconds
+    // time.string updates automatically: "00:00:05.000"
+}
+```
+
+**Context-Specific Optimization:**
+
+```javascript
+// For MIDI editor scripts (MusicEdit context only)
+function createMusicalTime(fn, beats) {
+    if (typeof fn.newMusicalTime === 'function') {
+        return fn.newMusicalTime(beats);  // MusicEdit only
+    }
+    // Fallback for other contexts
+    return createTime(fn);
+}
+```
+
+### 6.4 Time Object Usage Patterns
+
+**Writing to note timing:**
+```javascript
+note.startTime.seconds = newTimeInSeconds;
+fn.moveEvent(note, note.startTime);  // Required to apply the change
+```
+
+**Time arithmetic:**
+```javascript
+var start = fn.newMediaTime();
+var end = fn.newMediaTime();
+start.seconds = 5.0;
+end.seconds = 10.0;
+var duration = end.seconds - start.seconds;  // 5.0 seconds
+```
+
+**Musical time manipulation:**
+```javascript
+var time = fn.newMusicalTime(8.0);  // 8 beats from start
+time.musical.bar = 3;               // Move to bar 3
+time.musical.beat = 2.5;            // Bar 3, beat 2.5
+```
+
+**Formatting for display:**
+```javascript
+var display = time.string;  // "00:00:05.000" or "3.2.2.500"
+```
+
+### 6.5 Time Conversion Utilities
+
+```javascript
+// Convert seconds to beats (requires tempo context)
+function secondsToBeats(seconds, bpm) {
+    return seconds * (bpm / 60.0);
+}
+
+// Convert beats to seconds
+function beatsToSeconds(beats, bpm) {
+    return beats * (60.0 / bpm);
+}
+
+// Get current tempo for conversion
+var tp = Host.Objects.getObjectByUrl(
+  "://hostapp/DocumentManager/ActiveDocument/Environment/TransportPanel"
+);
+var bpm = Number(tp.findParameter("tempo").string);
+```
+
+### 6.6 Transport / Cursor Time Access
 
 ```javascript
 var tp = Host.Objects.getObjectByUrl(
@@ -720,8 +841,16 @@ var tp = Host.Objects.getObjectByUrl(
 );
 
 var bpm     = tp.findParameter("tempo").string;      // e.g., "120.0"
-var cursor  = tp.findParameter("primaryTime");       // cursor position
+var cursor  = tp.findParameter("primaryTime");       // cursor position (time object)
 var isPlay  = tp.findParameter("start").value;       // playback state
+
+// Get cursor position in seconds
+var cursorSeconds = cursor.value.seconds;
+
+// Set cursor position
+var newTime = fn.newMediaTime();
+newTime.seconds = 30.5;
+// Note: Direct cursor manipulation may require command execution
 ```
 
 ---
@@ -1659,7 +1788,6 @@ Channel names are arbitrary strings — define your own. Signals without IObserv
 - Full command list for `interpretCommand()` (~1660 commands across 54 categories — names only partially documented)
 - MIDI CC / controller event handling
 - Complete `skin.xml` element and attribute reference (Centered labels, dual handle range sliders, etc.)
-- `functions.newMediaTime()` full property set
 - Arranger API: full `addArrangerEvent()` signature
 - `Host.GUI.openUrl()` — seen in source, not yet confirmed
 - Multiple scripts per package
