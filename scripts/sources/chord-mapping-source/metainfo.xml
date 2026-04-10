@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetaInformation>
+  <Attribute id="Package:ID" value="com.chord-mapping"/>
+  <Attribute id="Package:Name" value="Chord Mapping"/>
+  <Attribute id="Package:Version" value="1.0.0"/>
+  <Attribute id="Package:Vendor" value="Chris R"/>
+</MetaInformation>

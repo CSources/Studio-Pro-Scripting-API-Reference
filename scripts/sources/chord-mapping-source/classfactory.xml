@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassFactory>
+  <ScriptClass
+    classID="{C1D2E3F4-5A6B-7C8D-9E0F-123456789ABC}"
+    metaClassID="{D2E3F4G5-6B7C-8D9E-0F1A-23456789BCDE}"
+    category="EditTask"
+    subCategory="EventEdit"
+    name="Chord Mapping"
+    sourceFile="main.js"
+    functionName="createInstance">
+    <Attribute id="menuPriority" value="0"/>
+    <Attribute id="commandCategory" value="API Tests"/>
+  </ScriptClass>
+</ClassFactory>

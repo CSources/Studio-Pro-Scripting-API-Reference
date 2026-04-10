@@ -22,10 +22,10 @@
 12. [skin.xml Reference](#12-skinxml-reference)
 13. [File I/O](#13-file-io)
 14. [Cross-Script Communication](#14-cross-script-communication)
-15. [Known Limitations & Dead Ends](#15-known-limitations--dead-ends)
+15. [Known Limitations, Dead Ends & Debugging](#15-known-limitations--dead-ends)
 16. [Complete API Index](#16-complete-api-index)
 17. [Examples](#17-examples)
-18. [Community Resources](#18-community-resources)
+18. [Community Resources & References](#18-community-resources)
 
 ---
 
@@ -148,7 +148,9 @@ your-script.package (ZIP)
 | **Windows** | `C:\Program Files\Fender\Studio Pro 8\Scripts\` |
 | **macOS** | `/Applications/Studio Pro 8.app/Contents/Scripts/` |
 
-Restart Studio Pro after installing or replacing packages. Replacing a `.package` file alone is **not** always sufficient — Studio Pro aggressively caches package metadata. To force re-recognition, change the `Package:ID` in `metainfo.xml`, change the `classID` in `classfactory.xml`, or rename the `.package` file entirely.
+**Hot-reloading behavior:**
+- **Initial recognition**: Restart Studio Pro or change Package:ID/classID to cache new metadata.
+- **Development iteration**: Once recognized, replace .package file to hot-reload main.js, skin.xml changes without restart (metainfo.xml/classfactory.xml changes may still require restart/GUID update).
 
 ### 1.5 Creating a .package File
 
@@ -278,6 +280,19 @@ include_file('constants.js');
 | `Host.Results.kResultOutOfMemory` | — | Out of memory |
 | `Host.Results.kResultInvalidArgument` | — | Invalid argument |
 | `Host.Results.kResultWrongThread` | — | Wrong thread |
+
+### 2.7 Version Detection (Fallback Pattern)
+
+Because the API is undocumented and changes between versions, use feature-detection rather than version checks when calling methods that may not exist:
+
+```javascript
+var iterator = editor.createSequenceIterator
+  ? editor.createSequenceIterator()           // newer API (does NOT exist in Studio Pro)
+  : (editor.model && editor.model.activeRegion
+     ? editor.model.activeRegion.createIterator()
+     : null);
+// Correct approach: use event.region.createSequenceIterator()
+```
 
 ---
 
@@ -453,6 +468,30 @@ channel.findParameter("transpose")      // Transposition in semitones
 channel.findParameter("tempo")          // Tempo (BPM) as float
 ```
 
+**Additional channel properties:**
+
+```javascript
+channel.input                // Input routing object
+channel.editGroup            // Edit group (undefined if unassigned)
+channel.editor               // ChannelEditor object
+channel.editor.windowClass   // e.g., "F11E8B6D6A4D46E79FC5CE67F540E592"
+channel.editor.name          // "ChannelEditor"
+channel.editor.title         // "ChannelEditor"
+channel.overview             // ChannelOverview object
+channel.overview.windowClass // e.g., "F11E8B6D6A4D46E79FC5CE67F540E592.o"
+channel.overview.name        // "ChannelOverview"
+channel.overview.title       // "ChannelOverview"
+```
+
+**Channel parent chain (MusicTrack example):**
+
+```javascript
+// channel.parent             → MusicTrack       (title = "MusicTrack")
+// channel.parent.parent      → Channels         (title = "Channels")
+// channel.parent.parent.parent           → MusicTrackDevice  (title = "Instrument Channels")
+// channel.parent.parent.parent.parent    → SongEnvironment   (title = "SongEnvironment")
+```
+
 **Channel routing:**
 
 ```javascript
@@ -524,6 +563,31 @@ channelList.getSelectedChannel(i)   // Get selected channel by index
 // Master bus shortcut:
 var masterBus = console.getChannelList(3).getChannel(0);
 ```
+
+**URL-based MixerConsole access:**
+
+```javascript
+var mixerConsole = Host.Objects.getObjectByUrl(
+  "://hostapp/DocumentManager/ActiveDocument/Environment/MixerConsole"
+);
+mixerConsole.name    // "MixerConsole"
+mixerConsole.title   // "Console"
+```
+
+**audioMixer object (via MixerConsole):**
+
+```javascript
+var audioMixer = mixerConsole.audioMixer;
+audioMixer.name    // "AudioMixer"
+audioMixer.title   // "Audio Channels"
+
+audioMixer.getOutputPortList()       // Returns output port list
+audioMixer.getMaxSendSlotCount()     // Maximum send slot count
+audioMixer.getMaxSlotCount()         // Maximum insert slot count
+audioMixer.getMasterSpeakerType()    // Master speaker type identifier
+```
+
+> ⚠️ `mixerConsole.parent` is a circular reference — do not enumerate it.
 
 ### 4.4 Track Layer Operations
 
@@ -665,6 +729,73 @@ note.timeContext.getBarStart(musicalBeat)     // get bar start for a beat positi
 // Get subposition within bar:
 var barStart     = note.timeContext.getBarStart(note.startTime.musical);
 var subposition  = note.startTime.musical - barStart;
+```
+
+### 5.6 Chord Events (Chord Track)
+
+Chord events are special runtime objects on the Chord Track. They are **not stored as XML nodes** in the `.song` file — they only appear as event objects iterated in an **EventEdit** or **TrackEdit** context when the Chord Track is targeted.
+
+**Identification:**
+
+```javascript
+// Chord events have mediaType === undefined
+// Filter them from context.iterator:
+while (!it.done()) {
+  var event = it.next();
+  if (event.chord) {
+    // This is a chord event
+  }
+}
+```
+
+**event.chord properties:**
+
+```javascript
+event.chord.name       // Full chord name string, e.g., "B♭7 #11", "B5/D".
+event.chord.type       // Chord type ID (integer) 0-6 (0 maj, 1 min, 2 dim, 3 aug, 4 sus2, 5 sus4, 6 power)
+event.chord.root       // Root note offset as absolute directional coordinate on circle of fifths spiral
+event.chord.bass       // Bass note offset as absolute directional coordinate on circle of fifths spiral
+event.chord.rootPitch  // Root pitch as absolute MIDI value (0 = C, 1 = C#, …, 7 = G, etc.)
+event.chord.bassPitch  // Bass pitch as absolute MIDI value (0 = C, 1 = C#, …, 7 = G, etc.)
+event.chord.hasInterval(interval)  // Boolean — checks if chord contains a given interval
+                                   // e.g., hasInterval(11) to test for #11/Lydian
+```
+> ⚠️ `rootPitch` / `bassPitch` are **absolute MIDI values** anchored to the engine's fixed C=0 reference — independent of the project Key Signature. No transposition math is needed: if rootPitch is 7, the root is G.
+
+> ⚠️ `root` / `bass` are **absolute directional coordinate values** on the Circle of Fifths Spiral, where C = 0. They allow the script to distinguish between enharmonic notes (like G♯ vs A♭) and identify chord inversions by calculating the spiral distance between the chord's foundation and its lowest note. 
+
+| Spiral ID (`root`) | MIDI Pitch (`rootPitch`) | Note Name | Harmonic Context |
+| :--- | :--- | :--- | :--- |
+| **-6** | 6 | **G♭** | Max Flat Pole |
+| **-5** | 1 | **D♭** | |
+| **-4** | 8 | **A♭** | |
+| **-3** | 3 | **E♭** | |
+| **-2** | 10 | **B♭** | |
+| **-1** | 5 | **F** | |
+| **0** | 0 | **C** | **Center (Home)** |
+| **1** | 7 | **G** | |
+| **2** | 2 | **D** | |
+| **3** | 9 | **A** | |
+| **4** | 4 | **E** | |
+| **5** | 11 | **B** | |
+| **6** | 6 | **F♯** | Max Sharp Pole |
+| **7** | 1 | **C♯** | |
+| **8** | 8 | **G♯** | |
+| **9** | 3 | **D♯** | |
+| **10** | 10 | **A♯** | |
+| **11** | 5 | **E♯** | Theoretical Sharp |
+
+**Chord-scrape workflow:**
+
+For a ready-to-use chord scraping script, see the [Chord Mapping package](scripts/packages/chord-mapping/) ([source](scripts/sources/chord-mapping-source/main.js)). It automates the process above, exporting chord data to JSON and a results log.
+
+### 5.7 Event Iterator — Additional Methods
+
+```javascript
+// On events from context.iterator (MusicEdit context):
+context.iterator.createSequenceIterator()      // Known sequence iterator
+event.getSoundVariationForNote(note)           // Sound variation for a given note
+event.getLyricsForNote(note)                   // Lyrics string for a given note
 ```
 
 ---
@@ -1063,9 +1194,33 @@ Host.GUI.Desktop.closeTopModal()
 Host.GUI.Desktop.getApplicationWindow()
 ```
 
-**Dialog constants:**
+**Dialog constants (with numeric values):**
 
-`kMouseNone`, `kMouseDown`, `kMouseOver`, `kLButton`, `kMButton`, `kRButton`, `kShift`, `kCommand`, `kOption`, `kControl`, `kClick`, `kDrag`, `kDoubleClick`, `kWheel`, `kCancel`, `kOkay`, `kClose`, `kApply`, `kYes`, `kOk`, `kRetry`, `kNo`, `kAlertCancel`
+| Constant | Value | Category |
+|---|---|---|
+| `kMouseNone` | 0 | Mouse state |
+| `kMouseDown` | 1 | Mouse state |
+| `kMouseOver` | 2 | Mouse state |
+| `kLButton` | 1 | Mouse button |
+| `kMButton` | 2 | Mouse button |
+| `kRButton` | 4 | Mouse button |
+| `kShift` | 8 | Modifier key |
+| `kCommand` | 16 | Modifier key |
+| `kOption` | 32 | Modifier key |
+| `kControl` | 64 | Modifier key |
+| `kClick` | 65536 | Mouse event |
+| `kDrag` | 131072 | Mouse event |
+| `kDoubleClick` | 262144 | Mouse event |
+| `kWheel` | 1048576 | Mouse event |
+| `kCancel` | 0 | Dialog result |
+| `kOkay` | 1 | Dialog result |
+| `kClose` | 2 | Dialog result |
+| `kApply` | 3 | Dialog result |
+| `kYes` | 0 | Alert result |
+| `kNo` | 1 | Alert result |
+| `kAlertCancel` | 2 | Alert result |
+| `kOk` | 3 | Alert result |
+| `kRetry` | 4 | Alert result |
 
 ### 9.5 Host.GUI.Clipboard
 
@@ -1094,11 +1249,13 @@ Host.Objects.unregisterObject(name)
 "://hostapp/DocumentManager/ActiveDocument"
 "://hostapp/DocumentManager/ActiveDocument/Environment"
 "://hostapp/DocumentManager/ActiveDocument/Environment/TransportPanel"
+"://hostapp/DocumentManager/ActiveDocument/Environment/MixerConsole"
 "://studioapp"  (same as ://hostapp)
 "://studioapp/DocumentManager"
 "://studioapp/DocumentManager/ActiveDocument"
 "object://hostapp/.../EventInspector"
 "object://hostapp/.../EventInspector/EventInfo"
+"object://hostapp/.../EventInspector/EventInfo/ChordSelector"
 "://hostapp/.../Editor"
 "://hostapp/.../TrackList"
 "://hostapp/.../MediaPool"
@@ -1201,6 +1358,64 @@ Host.Security.checkAccess(packageID, featureName)  // Returns 0 (restricted)
 `IUnknown`, `IClassFactory`, `IComponent`, `IObjectNode`, `IObserver`, `IPersistAttributes`, `ICommandHandler`, `IContextMenuHandler`, `IParamObserver`, `IViewStateHandler`, `ITimerTask`, `IController`, `IScriptComponent`, `IHelpTutorialHandler`, `IPortFilter`, `IBrowserExtension`, `IDocumentTemplateHandler`, `IDocumentEventHandler`, `IEditTask`, `IToolConfiguration`, `IToolMode`, `IToolHelp`, `IToolSet`, `IToolAction`, `IEditHandlerHook`, `IEditHandler`, `IPresetMediator`, `IExtensionHandler`
 
 > All interfaces only expose an `equals()` method. They are COM-style type markers for the `this.interfaces` array.
+
+### 9.14 Host.Locales
+
+```javascript
+Host.Locales.getStrings(key)   // Look up a localized i18n string by key
+```
+
+### 9.15 Host.SystemInfo
+
+```javascript
+Host.SystemInfo.getLocalTime()   // Returns current local system time object
+                                  // (same DateTime object as Host.DateTime — use .toSeconds())
+```
+
+### 9.16 Host.Signals.postMessage
+
+```javascript
+Host.Signals.postMessage(/* args */)   // Undocumented async message method (purpose unclear)
+```
+
+> ⚠️ `postMessage()` is undocumented. Prefer `Host.Signals.signal()` for cross-script messaging.
+
+### 9.17 Host.FileTypes
+
+```javascript
+Host.FileTypes.registerFileType(/* args */)              // Register a custom file type
+Host.FileTypes.getFileTypeByExtension(ext)               // Look up type by file extension
+Host.FileTypes.getFileTypeByMimeType(mimeType)           // Look up type by MIME type
+Host.FileTypes.registerHandler(fileType, handler)        // Register a file handler
+Host.FileTypes.unregisterHandler(fileType, handler)      // Unregister a file handler
+```
+
+### 9.18 Host.GUI.Help (Tutorial System)
+
+```javascript
+Host.GUI.Help.alignActiveTutorial()      // Align the active tutorial overlay
+Host.GUI.Help.centerActiveTutorial()     // Center the active tutorial overlay
+Host.GUI.Help.focusActiveTutorial()      // Focus the active tutorial overlay
+Host.GUI.Help.highlightControl(control)  // Highlight a UI control
+Host.GUI.Help.discardHighlights()        // Remove all highlights
+Host.GUI.Help.modifyHighlights(/* */)   // Modify existing highlights
+Host.GUI.Help.dimAllWindows()            // Dim all windows (tutorial focus effect)
+```
+
+### 9.19 Host.Settings — Additional Method
+
+```javascript
+Host.Settings.sleep(ms)   // Thread sleep in milliseconds
+```
+
+> ⚠️ `sleep()` may block the UI thread. Use with caution and only for short durations.
+
+### 9.20 Script Instance (`this`) — __userdata
+
+```javascript
+this.__userdata   // Undocumented userdata object on the script instance
+                  // Purpose unclear — empty prototype chain
+```
 
 ---
 
@@ -1653,8 +1868,8 @@ path.descend("subfolder");   // Navigate into subdirectory
 
 ### 13.2 Host.IO
 
+**Read text file:**
 ```javascript
-// Read text file:
 var file = Host.IO.openTextFile(path);
 if (file) {
   while (!file.endOfStream) {
@@ -1662,33 +1877,101 @@ if (file) {
   }
   file.close();
 }
+```
 
-// Write text file:
+**Write JSON file (see [Chord Mapping example](#17.2-chord-mapping-complete-working-example)):**
+```javascript
+var path = Host.Url("local://$USERCONTENT/file_name.json");
 var file = Host.IO.createTextFile(path);
 if (file) {
-  file.writeLine("content");
+  file.writeLine(JSON.stringify(data, null, 2));
   file.close();
 }
+```
 
-// File operations:
-Host.IO.File(path).exists()          // Boolean
-Host.IO.File(path).copyTo(destPath)  // Copy
-Host.IO.File(path).remove()          // Delete
 
-// Find files matching a pattern:
-var it = Host.IO.findFiles(folderPath, "*.xml");
+
+**File operations:**
+```javascript
+Host.IO.File(path).exists()     // Boolean
+Host.IO.File(path).copyTo(dest) // Copy
+Host.IO.File(path).remove()     // Delete
+```
+
+**Find files matching pattern:**
+```javascript
+var it = Host.IO.findFiles(folder, "*.xml");
 while (!it.done()) {
   var file = it.next();
-  var name = file.name;  // filename with extension
+  var name = file.name;
 }
+```
 
-// Base64:
+**Base64 encoding/decoding:**
+```javascript
 Host.IO.toBase64(data)
 Host.IO.fromBase64(data)
+```
 
-// Package:
-Host.IO.openPackage(path)    // Returns null for non-package files
-Host.IO.createPackage(path)  // Returns package object
+**Package operations:**
+```javascript
+Host.IO.openPackage(path)   // null for non-packages
+Host.IO.createPackage(path) // Returns package object
+```
+
+**JSON loading:**
+```javascript
+var data = Host.IO.loadJsonFile(Host.Url("local://$USERCONTENT/myfile.json"));
+// Native JS object - fast C++ parsing
+```
+
+**XML tree parsing:**
+```javascript
+var tree = Host.IO.XmlTree(path);
+var root = tree.getRoot(); // or tree.root
+```
+
+
+**XmlTree node API:**
+
+```javascript
+// Node properties (all strings unless noted):
+node.name                          // Tag name
+node.parent                        // Parent node object
+node.text                          // Text content
+node.comment                       // Comment content
+
+// Node methods:
+node.newNode()                     // Create a new child node
+node.setAttribute(name, value)     // Set an attribute
+node.getAttribute(name)            // Get attribute value (string)
+node.addChild(node)                // Add a child node
+node.findNode(name)                // Find first child with matching tag name
+node.newIterator()                 // Create an iterator over child nodes
+```
+
+**XmlTree usage example:**
+
+```javascript
+// Load DAW config:
+var tree = Host.IO.XmlTree(Host.Url("local://$APPCONFIG/User.options"));
+var root = tree.getRoot();
+var child = root.findNode("SomeSection");
+var val   = child.getAttribute("someAttr");
+
+// Walk all child nodes:
+var it = root.newIterator();
+while (!it.done()) {
+  var node = it.next();
+  Host.Console.writeLine(node.name);
+}
+```
+
+> ⚠️ **Host.Url display quirk:** `path.string` returns `undefined` and `String(path)` returns `"[object Object]"`. This is cosmetic only — the path object works correctly when passed to `Host.IO` methods. Hardcode path strings for logging (e.g., `"local://$USERCONTENT/file.json"`).
+
+```javascript
+// Development file path utility:
+Host.IO.getDevelopmentFileLocation()   // Returns path for development/debug use
 ```
 
 ### 13.3 Platform Detection
@@ -1780,17 +2063,30 @@ Channel names are arbitrary strings — define your own. Signals without IObserv
 | **context.iterator properties** | May return undefined in some editor contexts |
 | **Note properties are read-only** | Only `note.startTime.seconds` is confirmed writable |
 | **No event listener / polling** | Cannot monitor DAW state changes; must re-run script |
-| **Bar Offset is visual only** | `activeRegion.start` ignores the Bar Offset setting |
+| **Bar Offset is visual only** | `activeRegion.start` doesn't consider the Bar Offset setting |
 | **Scripts folder (macOS)** | `/Applications/Studio Pro 8.app/Contents/Scripts/` — not `~/Library/...` |
+| **Chord Events** | They are not stored as XML nodes in the `.song` file.
 
 ### 15.3 Known Gaps
 
-- Full command list for `interpretCommand()` (~1660 commands across 54 categories — names only partially documented)
 - MIDI CC / controller event handling
 - Complete `skin.xml` element and attribute reference (Centered labels, dual handle range sliders, etc.)
 - Arranger API: full `addArrangerEvent()` signature
 - `Host.GUI.openUrl()` — seen in source, not yet confirmed
 - Multiple scripts per package
+
+### 15.4 Debugging Utilities
+
+**Prototype chain introspection** — useful for discovering what properties and methods an unknown API object exposes at runtime:
+
+```javascript
+function getAllPropertyNames(obj) {
+  var props = [];
+  do { props = props.concat(Object.getOwnPropertyNames(obj)); }
+  while (obj = Object.getPrototypeOf(obj));
+  Host.GUI.alert(props.join('\r\n'));
+}
+```
 
 ---
 
@@ -1800,9 +2096,24 @@ Channel names are arbitrary strings — define your own. Signals without IObserv
 
 `Constants`, `Commands`, `Themes`, `Desktop`, `Help`, `Configuration`, `Clipboard`, `Alerts`
 
+**Host.GUI.Desktop:** `closeModalWindows()`, `closeTopModal()`, `getApplicationWindow()`
+
+**Host.GUI.Help (Tutorial System):** `alignActiveTutorial()`, `centerActiveTutorial()`, `focusActiveTutorial()`, `highlightControl()`, `discardHighlights()`, `modifyHighlights()`, `dimAllWindows()`
+
 ### 16.2 Host.Engine Properties
 
-`TrackFormats`, `TrackColorPalette`, `TrackIcons`, `MediaClips`, `Speakers`, `CrossFadeFinder`
+`TrackFormats`, `TrackColorPalette`, `TrackIcons`, `MediaClips`, `Speakers`, `CrossFadeFinder`, `createFormatter(name)`, `createTrackFormatWithPort(type, port)`
+
+### 16.10 Host Top-Level Summary
+
+| Namespace | Key Methods / Properties |
+|---|---|
+| `Host.Signals` | `advise()`, `unadvise()`, `signal()`, `postMessage()` |
+| `Host.Locales` | `getStrings(key)` |
+| `Host.SystemInfo` | `getLocalTime()` |
+| `Host.IO` | `openTextFile()`, `createTextFile()`, `File()`, `findFiles()`, `loadJsonFile()`, `XmlTree()`, `getDevelopmentFileLocation()`, `toBase64()`, `fromBase64()`, `openPackage()`, `createPackage()` |
+| `Host.FileTypes` | `registerFileType()`, `getFileTypeByExtension()`, `getFileTypeByMimeType()`, `registerHandler()`, `unregisterHandler()` |
+| `Host.Settings` | `getAttributes()`, `sleep(ms)` |
 
 ### 16.3 context.functions — Full Method List
 
@@ -1880,35 +2191,6 @@ function interpolateColor(color1, color2, t) {
 // Strip alpha from addColor() value: color & 0x00FFFFFF
 ```
 
-**dB conversion:**
-
-```javascript
-function dbToFloat(db)   { return Math.pow(10, parseFloat(db / 20)); }
-function floatToDb(f)    { return (Math.log(parseFloat(f)) / Math.LN10) * 20; }
-```
-
-**Prototype chain introspection (debugging):**
-
-```javascript
-function getAllPropertyNames(obj) {
-  var props = [];
-  do { props = props.concat(Object.getOwnPropertyNames(obj)); }
-  while (obj = Object.getPrototypeOf(obj));
-  Host.GUI.alert(props.join('\r\n'));
-}
-```
-
-**Version detection (fallback pattern):**
-
-```javascript
-var iterator = editor.createSequenceIterator
-  ? editor.createSequenceIterator()           // newer API (does NOT exist in Studio Pro)
-  : (editor.model && editor.model.activeRegion
-     ? editor.model.activeRegion.createIterator()
-     : null);
-// Correct approach: use event.region.createSequenceIterator()
-```
-
 ### 16.8 Application Configuration Access
 
 ```javascript
@@ -1928,13 +2210,25 @@ for (var i = 127; i >= 0; i--) {
 }
 ```
 
+### 16.11 Value Conversions
+
+Utility functions for converting between the value representations used by the API and human-readable equivalents. More conversions to be documented as the API is further explored.
+
+**dB ↔ float (gain/volume)** — `channel.volume` and similar properties use a linear float, not dB:
+
+```javascript
+function dbToFloat(db) { return Math.pow(10, parseFloat(db) / 20); }
+function floatToDb(f)  { return (Math.log(parseFloat(f)) / Math.LN10) * 20; }
+```
+
 ---
 
 ## 17. Examples
 
-### 17.1 Flam Tool — Complete Working Example
+### [17.1 Flam Tool — Complete Working Example](scripts/packages/flam-tool/)
 
 The **Flam Tool** script in this repository is a complete, working example demonstrating:
+
 - `classfactory.xml` with `EditTask` registration
 - `metainfo.xml` with `Package:SkinFile` declaration
 - `skin.xml` with `DialogGroup`, `Slider`, `EditBox`, `CheckBox`, `Knob`, and `Label` elements
@@ -1948,9 +2242,32 @@ The **Flam Tool** script in this repository is a complete, working example demon
 - [`main.js`](scripts/sources/flam-tool-source/main.js)
 - [`skin/skin.xml`](scripts/sources/flam-tool-source/skin/skin.xml)
 
+### [17.2 Chord Mapping — Complete Working Example](scripts/packages/chord-mapping/)
+
+The **Chord Mapping** script in this repository is a complete, working example demonstrating:
+
+- Chord event scraping from the Chord Track
+- JSON file output using `Host.IO.createTextFile()` and `JSON.stringify()`
+- Data extraction from chord events (name, type, root/bass pitches, timing)
+- File I/O operations with `Host.Url()` path construction
+
+**Source code:** [`scripts/sources/chord-mapping-source/`](scripts/sources/chord-mapping-source/)
+
+**Files:**
+- [`classfactory.xml`](scripts/sources/chord-mapping-source/classfactory.xml)
+- [`metainfo.xml`](scripts/sources/chord-mapping-source/metainfo.xml)
+- [`main.js`](scripts/sources/chord-mapping-source/main.js)
+
+**Key features:**
+- Processes selected chord events in EventEdit context
+- Saves chord data to `Chord_Mapping.json` in `local://$USERCONTENT/`
+- Creates both JSON and text output files
+- Demonstrates proper error handling for file operations
+
 ---
 
 ## 18. Community Resources & Sources
+
 
 | Resource | URL |
 |---|---|
@@ -1960,10 +2277,12 @@ The **Flam Tool** script in this repository is a complete, working example demon
 | KVR Audio Forum | https://www.kvraudio.com/forum/ |
 | VI-CONTROL | https://vi-control.net/ |
 
-### Reference Scripts to Study
+### References Used
 - **Navigation Essentials 2.0.1** (Lukas Ruschitzka) — track selection, colorize, piano editor tasks
 - **Studio One X v2.6.1** (Narech Kontcell) (`studioonex.package`) — extensive source reference; reverse engineered via PACKAGEF extraction
+- **Studio One Scripts.exe** (LawrenceF:**KVR**) - referenced source files
+- **ChordstoBiabTextFile** (crossovercable:**KVR**, tonedef71:**KVR**) - reference source files for chord events
 
 ---
 
-*Community-compiled, not affiliated with PreSonus or Fender*
+*Community-compiled, not affiliated with Fender or PreSonus*
