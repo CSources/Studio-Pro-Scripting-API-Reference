@@ -143,6 +143,8 @@ your-script.package (ZIP)
 
 ### 1.4 Installation
 
+For Studio Pro 8, place your `.package` files in the following directory:
+
 | Platform | Scripts folder |
 |---|---|
 | **Windows** | `C:\Program Files\Fender\Studio Pro 8\Scripts\` |
@@ -760,9 +762,9 @@ event.chord.bassPitch  // Bass pitch as absolute MIDI value (0 = C, 1 = C#, …,
 event.chord.hasInterval(interval)  // Boolean — checks if chord contains a given interval
                                    // e.g., hasInterval(11) to test for #11/Lydian
 ```
-> ⚠️ `rootPitch` / `bassPitch` are **absolute MIDI values** anchored to the engine's fixed C=0 reference — independent of the project Key Signature. No transposition math is needed: if rootPitch is 7, the root is G.
+> `rootPitch` / `bassPitch` are **absolute MIDI values** anchored to the engine's fixed C=0 reference — independent of the project Key Signature. No transposition math is needed: if rootPitch is 7, the root is G.
 
-> ⚠️ `root` / `bass` are **absolute directional coordinate values** on the Circle of Fifths Spiral, where C = 0. They allow the script to distinguish between enharmonic notes (like G♯ vs A♭) and identify chord inversions by calculating the spiral distance between the chord's foundation and its lowest note. 
+> `root` / `bass` are **absolute directional coordinate values** on the Circle of Fifths Spiral, where C = 0. They allow the script to distinguish between enharmonic notes (like G♯ vs A♭) and identify chord inversions by calculating the spiral distance between the chord's foundation and its lowest note. 
 
 | Spiral ID (`root`) | MIDI Pitch (`rootPitch`) | Note Name | Harmonic Context |
 | :--- | :--- | :--- | :--- |
@@ -1275,19 +1277,27 @@ Host.Classes.newIterator()                  // Returns empty iterator
 
 | Class ID | Description |
 |---|---|
+| `"CCL:ButtonGroup"` | Button group UI element |
+| `"CCL:CheckBox"` | Checkbox UI element |
+| `"CCL:Divider"` | Divider UI element |
 | `"CCL:FileSelector"` | File picker dialog |
+| `"CCL:Label"` | Label UI element |
+| `"CCL:CommandBarModel"` | Command bar |
+| `"CCL:CommandSelector"` | Command selector |
 | `"CCL:ParamList"` | Parameter list for persistent dialogs |
 | `"CCL:ProgressDialog"` | Progress indicator |
-| `"CCL:CheckBox"` | Checkbox UI element |
-| `"CCL:Label"` | Label UI element |
 | `"CCL:RadioButton"` | RadioButton UI element |
 | `"CCL:ScrollView"` | ScrollView UI element |
 | `"CCL:View"` | View UI element |
-| `"Host:PresetParam"` | Preset parameter |
-| `"Host:ListViewModel"` | List/table data model |
-| `"CCL:CommandBarModel"` | Command bar |
-| `"CCL:CommandSelector"` | Command selector |
 | `"Devices:PortParam"` | Port/MIDI parameter |
+| `"Host:ListViewModel"` | List/table data model |
+| `"Host:PresetParam"` | Preset parameter |
+
+**Command tree / selector notes:**
+
+- `CCL:CommandBarModel` exposes a mutable root/page tree via `getRootItem()` and `createPage()`. The returned nodes expose `addChildItem()`, `removeChildItem()`, `getChildItem()`, `getChildIndex()`, `cloneItem()`, `saveToFile()`, and `loadFromFile()`.
+- `CCL:CommandSelector` exposes `name`, `argColumnEnabled`, and `focusCommand`, plus `addExcludedCategory()`.
+- `CCL:Divider` exposes `jump()` and behaves like a skin/native divider proxy from JavaScript.
 
 ### 9.8 Host.Engine
 
@@ -1566,21 +1576,30 @@ param.removeAll()                      // Clear list items
 
 ### 11.3 List View (Host:ListViewModel)
 
+**Instantiate the list model:**
 ```javascript
 var list = Host.Classes.createInstance("Host:ListViewModel");
-list.columns.addColumn(width, title, field, columnWidth, flags);
-var item = list.newItem(id);
-item.details.myField = "value";
-list.addItem(item);
-list.removeAll();
-list.itemCount
-list.getItem(index)
-list.getFocusItem()
-list.getSelectedItems()            // Returns collection with .newIterator()
-list.changed()                     // Trigger UI refresh
-list.itemView.setFocusItem(index, scroll)
+```
 
-Host.Signals.advise(list, this);   // Observe list events
+**Define columns:** `list.columns.addColumn(width, title, field, columnWidth, flags);`
+**Create/populate items:**
+```javascript
+var item = list.newItem(id);
+item.details.myField = "value";  // 'myField' matches column 'field'
+list.addItem(item);
+list.changed();  // Refresh UI
+```
+
+**Key properties/methods:**
+- `list.itemCount`
+- `list.getItem(index)`
+- `list.getFocusItem()`
+- `list.getSelectedItems()` — iterate with `.newIterator()`
+- `list.itemView.setFocusItem(index, scroll)`
+
+**Observe changes:**
+```javascript
+Host.Signals.advise(list, this);
 Host.Signals.unadvise(list, this);
 ```
 
@@ -1630,29 +1649,47 @@ Required when using custom dialogs. Must declare `Package:SkinFile` in metainfo.
 
 | Element | Description | Confirmed Attributes | Binds To | Confirmed `options` Values |
 |---|---|---|---|---|
-| `<Slider>` | Horizontal or vertical slider | `name`, `width`, `height`, `options` | `addInteger`, `addFloat` | `"horizontal"`, `"vertical"` |
-| `<EditBox>` | Text / number input | `name`, `width`, `height`, `options`, `multiline`, `style`, `tooltip` | `addString`, `addInteger`, `addFloat` | `"password"`, `"focus"`, `"return"`, `"readonly"` |
-| `<ColorBox>` | Color picker (requires nested SelectBox) | `name`, `width`, `height` | `addColor` | - |
-| `<Label>` | Static text label | `title`, `name`, `style` | - | - |
-| `<CheckBox>` | Independent on/off toggle | `name`, `value`, `title` | `addInteger(0, 1, "name")` | - |
 | `<Button>` | Push button (custom actions) | `name`, `title`, `width`, `height`, `tooltip` | `addInteger(0, 1, "name")` | - |
-| `<Knob>` | Rotary control | `name`, `width`, `height` | `addInteger`, `addFloat` | - |
-| `<ComboBox>` | Dropdown selector | `name`, `style` | `addList` (populate via JS) | - |
-| `<SelectBox>` | Dropdown selector (taller than ComboBox) | `name`, `options` | `addList` | `"border"`, `"transparent"`, `"hidetext"`, `"hidefocus"` |
-| `<RadioButton>` | Mutually exclusive selector (grouped by `name`) | `name`, `value`, `title` | `addInteger` | - |
-| `<ToggleGroup>` | Groups toggle buttons | `name`, `attach` | Multiple `addInteger(0,1,"name")` | - |
-| `<Toggle>` | Toggle button (only inside ToggleGroup) | `name`, `title` | `addInteger(0, 1, "name")` | - |
 | `<ButtonGroup>` | Groups momentary buttons | `name` | Multiple `addInteger` | - |
-| `<Vertical>` | Vertical layout container | `spacing`, `margin`, `attach` | - | - |
-| `<Horizontal>` | Horizontal layout container | `spacing`, `margin`, `attach` | - | - |
+| `<CheckBox>` | Independent on/off toggle | `name`, `value`, `title` | `addInteger(0, 1, "name")` | - |
+| `<ColorBox>` | Color picker (requires nested SelectBox) | `name`, `width`, `height` | `addColor` | - |
+| `<ComboBox>` | Dropdown selector | `name`, `style` | `addList` (populate via JS) | - |
+| `<Control>` | Empty shell/container | `name`, `width`, `height` | - | - |
 | `<DialogGroup>` | Creates rounded background panel | `options` | - | `"primary"`, `"secondary"` |
+| `<Divider>` | Visible divider line | `name`, `width`, `height`, `style` | - | - |
+| `<EditBox>` | Text / number input | `name`, `width`, `height`, `options`, `multiline`, `style`, `tooltip` | `addString`, `addInteger`, `addFloat` | `"password"`, `"focus"`, `"return"` |
+| `<Heading>` | Title-style text element | `title`, `name`, `width`, `height` | - | - |
+| `<Horizontal>` | Horizontal layout container | `spacing`, `margin`, `attach` | - | - |
+| `<Knob>` | Rotary control | `name`, `width`, `height` | `addInteger`, `addFloat` | - |
+| `<Label>` | Static text label | `title`, `name`, `style` | - | - |
+| `<ProgressBar>` | Progress indicator | `name`, `width`, `height` | - | - |
+| `<RadioButton>` | Mutually exclusive selector (grouped by `name`) | `name`, `value`, `title` | `addInteger` | - |
+| `<RangeSlider>` | Single-handle slider variant | `name`, `width`, `height`, `min`, `max`, `value`, `options` | `addInteger`, `addFloat` | - |
+| `<Scrollbar>` | Standalone scrollbar control | `name`, `width`, `height`, `options` | `addInteger` | `"vertical"`, `"horizontal"` |
+| `<ScrollView>` | Scrollable view container / scroll chrome host | `name`, `width`, `height`, `options` | - | `"vertical"`, `"horizontal"`, `"vertical horizontal"`
+| `<SelectBox>` | Dropdown selector (taller than ComboBox) | `name`, `options` | `addList` | `"border"`, `"transparent"`, `"hidetext"`, `"hidefocus"` |
+| `<Slider>` | Horizontal or vertical slider | `name`, `width`, `height`, `options` | `addInteger`, `addFloat` | `"horizontal"`, `"vertical"` |
+| `<Table>` | Container-style layout element | `name`, `width`, `height` | - | - |
+| `<TabView>` | Visible tab/view container | `name`, `width`, `height` | - | - |
+| `<TextBox>` | Display-only text field | `name`, `width`, `height`, `style` | `addString` | - |
+| `<ToolButton>` | Small visible tool-style button | `name`, `title`, `width`, `height` | `addInteger(0, 1, "name")` | - |
+| `<Toggle>` | Toggle button (only inside ToggleGroup) | `name`, `title` | `addInteger(0, 1, "name")` | - |
+| `<ToggleGroup>` | Groups toggle buttons | `name`, `attach` | Multiple `addInteger(0,1,"name")` | - |
+| `<TreeView>` | Visible tree-style view | `name`, `width`, `height` | - | - |
+| `<ValueBox>` | Editable value field | `name`, `width`, `height` | `addString`, `addInteger`, `addFloat` | - |
+| `<Vertical>` | Vertical layout container | `spacing`, `margin`, `attach` | - | - |
+| `<View>` | Empty shell/container | `name`, `width`, `height` | - | - |
+| `<WebView>` | Visible blank web surface | `name`, `width`, `height` | - | - |
 
-> **Button behavior:** Click detected via `IParamObserver.paramChanged()`. When clicked, parameter value changes to 1. Must reset to 0 in `paramChanged` to allow re-triggering.
 
-> **EditBox `multiline`:** Requires parameter binding and a defined `height` value to render as multi-line.
+> **Table:** Can host nested children and stacks them vertically by default, similar to `DialogGroup`. It does not bind to `Host:ListViewModel` as a row-backed data table.
+
+> **Scrollbar:** Works as a standalone visible control when bound to an integer parameter, but it did not expose a script-visible change event path in the binding tests.
 
 
-### 12.3 Layout Containers
+### 12.3 (Layout) Vertical & Horizontal
+
+`Vertical` and `Horizontal` are layout containers.
 
 ```xml
 <Vertical spacing="8" margin="10" attach="left right">
@@ -1662,9 +1699,10 @@ Required when using custom dialogs. Must declare `Package:SkinFile` in metainfo.
 <Horizontal spacing="4" margin="5" attach="left right">
   <!-- children arranged horizontally -->
 </Horizontal>
+```
 
+⚠️ **Layout padding quirk:** The topmost `<Horizontal>` or `<Vertical>` container directly inside `<Form>` must have `margin="0"` to eliminate default dialog padding. Without it, a visible gap appears between your DialogGroups and the dialog button edges. Example:
 
-> ⚠️ **Layout padding quirk:** The topmost `<Horizontal>` or `<Vertical>` container directly inside `<Form>` must have `margin="0"` to eliminate default dialog padding. Without it, a visible gap appears between your DialogGroups and the dialog button edges. Example:
 > ```xml
 > <Form name="MyDialog" title="My Dialog">
 >     <Horizontal margin="0">  ← required for button alignment
@@ -1673,9 +1711,11 @@ Required when using custom dialogs. Must declare `Package:SkinFile` in metainfo.
 >     </Horizontal>
 > </Form>
 > ```
-```
 
-### 12.4 ColorBox (Requires Nested SelectBox)
+
+### 12.4 ColorBox
+
+`ColorBox` is a compound color picker that requires a nested `SelectBox` to render its popup and bound color value.
 
 ```xml
 <ColorBox name="Color1" width="100" height="16">
@@ -1691,9 +1731,11 @@ this.Color1.value   = Host.Engine.TrackColorPalette.getAt(0);
 // Strip alpha byte when using the value: color & 0x00FFFFFF
 ```
 
-### 12.5 RadioButton Grouping
+### 12.5 RadioButton
 
-Multiple `<RadioButton>` elements sharing the same `name` form a mutually exclusive group:
+`RadioButton` selector. 
+
+ Grouping elements with the same `name` for a mutually exclusive group example:
 
 ```xml
 <RadioButton name="Mode" value="0" title="Beats"/>
@@ -1710,7 +1752,11 @@ this.Mode.value = 0;  // default selection
 
 > RadioButton `title` always renders to the **right** of the button circle — no attribute can change this. For title-on-left, use a `<Horizontal>` layout with a `<Label>` and an empty-title `<RadioButton>`.
 
-### 12.6 ToggleGroup (Mutual Exclusivity Pattern)
+### 12.6 ToggleGroup
+
+`ToggleGroup` provides grouped toggle buttons.
+
+Grouping with manual exclusivity handled in script example:
 
 ```xml
 <Horizontal spacing="0" attach="left right">
@@ -1740,9 +1786,13 @@ this.paramChanged = function(param) {
 };
 ```
 
-> Wrap `<ToggleGroup>` in `<Horizontal spacing="0">` to render horizontally. `options="horizontal"` on ToggleGroup itself has no effect.
+> ⚠️ **Horizontal Toggles:** Wrap `<ToggleGroup>` in `<Horizontal spacing="0">` to render horizontally.
 
-### 12.7 Button (Custom Action Buttons)
+### 12.7 Button
+
+`Button` is a momentary action trigger.
+
+Custom Reset Defaults action button example:
 
 ```xml
 <Button name="Defaults" title="Reset Defaults" width="120" height="24"/>
@@ -1763,53 +1813,44 @@ this.paramChanged = function(param) {
 };
 ```
 
-### 12.8 Range Slider Pattern (Two Sliders)
+> ⚠️ **Button behavior:** Click detected via `IParamObserver.paramChanged()`. When clicked, parameter value changes to 1. Must reset to 0 in `paramChanged` to allow re-triggering.
 
-Undiscovered native dual-handle range slider exists. Use two separate sliders with enforcement for now:
+### 12.8 RangeSlider
 
-```xml
-<Label title="Min:"/>
-<Horizontal spacing="2" attach="left right">
-  <Slider  name="RangeMin" width="350" height="20" options="horizontal"/>
-  <EditBox name="RangeMin" width="40"  height="20" options="readonly"/>
-</Horizontal>
-<Label title="Max:"/>
-<Horizontal spacing="2" attach="left right">
-  <Slider  name="RangeMax" width="350" height="20" options="horizontal"/>
-  <EditBox name="RangeMax" width="40"  height="20" options="readonly"/>
-</Horizontal>
-```
+`RangeSlider` is a successfully rendered range slider, but currenlty only single handle.
 
-```javascript
-this.RangeMin = params.addInteger(0, 127, "RangeMin"); this.RangeMin.value = 20;
-this.RangeMax = params.addInteger(0, 127, "RangeMax"); this.RangeMax.value = 100;
+> ⚠️ `min`, `max`, and `value` are working attributes on the element, but every probe rendered a single-handle slider. A true dual-handle range slider render has not been acheived yet.
 
-this.paramChanged = function(param) {
-  if (param === this.RangeMin && this.RangeMin.value >= this.RangeMax.value)
-    this.RangeMax.value = this.RangeMin.value + 1;
-  if (param === this.RangeMax && this.RangeMax.value <= this.RangeMin.value)
-    this.RangeMin.value = this.RangeMax.value - 1;
-};
-```
+### 12.9 Slider
 
-### 12.9 Slider with Unit Label
+`Slider` is a slider control.
 
+Slider with shared name unit label example:
 ```xml
 <Horizontal spacing="2" attach="left right">
-  <Slider  name="TimeSlider" width="200" height="20" options="horizontal"/>
-  <EditBox name="TimeSlider" width="60"  height="20"/>
+  <Slider  name="TimeSlider" width="100" height="20" options="horizontal"/>
+  <EditBox name="TimeSlider" width="45" height="20"/>
   <Label title="ms"/>
 </Horizontal>
 ```
 
-> Slider `height` controls handle size. Recommended: `20`. Default is `16`.
+```javascript
+this.TimeSlider = params.addFloat(-1, 1, "TimeSlider");
+this.TimeSlider.value = -0.25;
+```
+
+> 📝 Slider `height` controls handle size. Recommended: `20`. Default is `16`.
 
 ### 12.10 Knob Element
 
+`Knob` is a rotary control.
+
+Knob with unit label and paramChanged logic example:
+
 ```xml
 <Vertical spacing="5">
-  <Knob    name="MyKnob"        width="60" height="60"/>
-  <EditBox name="MyKnobDisplay" width="60" height="20" options="readonly"/>
+  <Knob    name="MyKnob" width="60" height="60"/>
+  <ValueBox name="MyKnobDisplay" width="60" height="20"/>
 </Vertical>
 ```
 
@@ -1824,9 +1865,11 @@ this.paramChanged = function(param) {
 };
 ```
 
-> Knob fill is always left-to-min. Bipolar/center-fill is **not possible** — no attribute achieves this. Recommended sizes: Small=40×40, Medium=60×60, Large=80×80.
+> ⚠️ Bipolar/center-fill is **not possible** — no attribute achieves this. Recommended sizes: Small=40×40, Medium=60×60, Large=80×80.
 
 ### 12.11 Styles System
+
+`Styles` lets you define reusable skin styling rules for controls, including colors and fonts.
 
 ```xml
 <Styles>
@@ -1838,15 +1881,146 @@ this.paramChanged = function(param) {
 </Styles>
 ```
 
-**Confirmed working style properties:** `backcolor` (on focus/press), `textcolor`, font `size`, font `bold`, style `inherit`.
+> ⚠️ **Style Requirement:** Requires top level `Styles` element.   
+📝 **Style properties:** `backcolor` (on focus/press), `textcolor`, font `size`, style `inherit`.
 
-**Not working:** hover/pressed colors on buttons, focused colors on EditBox, italic font, all separator/panel/DialogGroup background overrides, slider colors.
 
-### 12.12 Confirmed Non-Working Elements
+### 12.12 TabView (Multi-Page Container)
 
-Elements that render as plain text or nothing: `<Group>`, `<Section>`, `<Frame>`, `<Box>`, `<Container>`, `<FieldSet>`, `<GroupBox>`, `<Panel>`, `<Separator>`, `<RadioGroup>`, `<SegmentedControl>`
+`TabView` is a multi-page container.
 
-Attributes that have no effect: text alignment (`align`, `halign`, `justify`), ComboBox options from XML (`<Item>`, `items=`, `values=`), CheckBox initial state from XML (`value=`, `checked=`, `default=`), RadioButton group from `group=` attribute (use shared `name` instead).
+Multi-page with varying container types example:
+
+```xml
+<TabView name="MainTabs" width="360" height="220">
+  <DialogGroup title="Page One">
+    <Label title="Page One Content"/>
+    <EditBox name="PageOneText" width="180" height="22"/>
+  </DialogGroup>
+  <Control title="Page Two" width="340" height="180">
+    <Label title="Page Two Content"/>
+    <CheckBox name="PageTwoCheck" value="0" title="Page Two Check"/>
+  </Control>
+  <View title="Page Three" width="340" height="180">
+    <Label title="Page Three Content"/>
+    <Knob name="PageThreeKnob" width="60" height="60"/>
+  </View>
+</TabView>
+```
+
+> 📝 **Page container types:** `DialogGroup`, `Control`, `View`, `Table`   
+📝 **Tab labels:** Use the child page container `title`  
+📝 **Overflow behavior:** Automatically adds a dropdown menu when the tab strip exceeds the available width.
+
+### 12.13 Divider (Separator Control)
+
+`Divider` is a visible separator control with handle **(unknown)**.
+
+Divider style and default dividing behavior examples:
+
+```xml
+<Styles>
+  <Style name="DividerBlue">
+    <Property id="backcolor" value="#336699"/>
+  </Style>
+</Styles>
+
+<Form name="DividerProbe" title="Divider Probe">
+  <DialogGroup title="Divider Example" width="240" height="90">
+    <Vertical spacing="8" margin="8">
+      <Label title="Above"/>
+      <Divider name="DividerBlue" height="4"/>
+      <Label title="Below"/>
+    </Vertical>
+  </DialogGroup>
+</Form>
+```
+
+> ⚠️ In the default skin, a small center handle-like visual appears; this looks like the collapsible section handles used in native Studio Pro panels (Inspector), but we have not yet figured out how to make it function as a collapsible handle in a custom script layout.
+
+### 12.14 ActivityIndicator (Animated Status Indicator)
+
+`ActivityIndicator` renders as a visible animated status control in the skin. **USE UNKOWN**
+
+```xml
+<ActivityIndicator name="BusyA" width="16" height="16"/>
+```
+
+> ⚠️ Not script-instantiable from current probe inspection. `CCL:ActivityIndicator` and `Host:ActivityIndicator` do not resolve, so there is no meaningful JavaScript surface to dump from the control itself.
+
+### 12.15 TextBox
+
+`TextBox` is an unedittable display field.
+
+String value from script displayed in TextBox example:
+
+```xml
+<TextBox name="DisplayText" width="260" height="48"/>
+```
+
+```javascript
+this.DisplayText = context.parameters.addString("DisplayText");
+this.DisplayText.value = "";
+```
+
+> 📝 **TextBox styling:** Having `textcolor` with no defined `backcolor` will default to white background.
+
+### 12.16 ValueBox 
+
+`ValueBox` is an editable value field that can accept typed values and can be written back from script.
+
+```xml
+<ValueBox name="ValueText" width="140" height="22"/>
+```
+
+```javascript
+this.ValueText = context.parameters.addString("ValueText");
+this.ValueText.value = "";
+```
+
+### 12.17 EditBox 
+
+`EditBox` is an edittable text field that accepts typed text and commits its value back to script.
+
+```xml
+<EditBox name="InputText" width="180" height="22"/>
+```
+
+```javascript
+this.InputText = context.parameters.addString("InputText");
+this.InputText.value = "";
+```
+> ⚠️ **EditBox `multiline`:** Requires parameter binding and a defined `height` value to render as multi-line.
+
+### 12.18 DialogGroup (Titled Container)
+
+`DialogGroup` is a visible container for housing other elements.
+
+```xml
+<Form name="DialogGroupProbe" title="DialogGroup Probe">
+  <DialogGroup title="Value Fields" width="220" height="100">
+    <Vertical margin="8" spacing="4">
+      <Label title="ValueBox and TextBox"/>
+      <ValueBox name="ValueText" width="140" height="22"/>
+      <TextBox name="DisplayText" width="180" height="22"/>
+    </Vertical>
+  </DialogGroup>
+</Form>
+```
+
+> 📝 **Centered Label:** The title/header is centered automatically when the `title` attribute is set.
+
+### 12.19 ListView
+
+`ListView` is a table-style UI element that displays rows from a `Host:ListViewModel`.
+
+```xml
+<ListView model="list" height="400" width="500"/>
+```
+
+> 📝 The `model` attribute binds to the `this.list` property (controller scope). See [11.3 List View (Host:ListViewModel)](#113-list-view-hostlistviewmodel)
+
+> ⚠️ **ScrollBar Rendering:** We've yet to establish how to render scrollbars in ListView. Listed content beyond defined container bounds will not be accessible.
 
 ---
 
@@ -2210,7 +2384,7 @@ for (var i = 127; i >= 0; i--) {
 }
 ```
 
-### 16.11 Value Conversions
+### 16.10 Value Conversions
 
 Utility functions for converting between the value representations used by the API and human-readable equivalents. More conversions to be documented as the API is further explored.
 
