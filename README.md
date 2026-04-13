@@ -1662,11 +1662,12 @@ Required when using custom dialogs. Must declare `Package:SkinFile` in metainfo.
 | `<Horizontal>` | Horizontal layout container | `spacing`, `margin`, `attach` | - | - |
 | `<Knob>` | Rotary control | `name`, `width`, `height` | `addInteger`, `addFloat` | - |
 | `<Label>` | Static text label | `title`, `name`, `style` | - | - |
+| `<ListView>` | Table-style list | `name`, `width`, `height`, `options` | `Host:ListViewModel` | `"header"` |
 | `<ProgressBar>` | Progress indicator | `name`, `width`, `height` | - | - |
 | `<RadioButton>` | Mutually exclusive selector (grouped by `name`) | `name`, `value`, `title` | `addInteger` | - |
 | `<RangeSlider>` | Single-handle slider variant | `name`, `width`, `height`, `min`, `max`, `value`, `options` | `addInteger`, `addFloat` | - |
 | `<Scrollbar>` | Standalone scrollbar control | `name`, `width`, `height`, `options` | `addInteger` | `"vertical"`, `"horizontal"` |
-| `<ScrollView>` | Scrollable view container / scroll chrome host | `name`, `width`, `height`, `options` | - | `"vertical"`, `"horizontal"`, `"vertical horizontal"`
+| `<ScrollView>` | Scrollable view container / scroll chrome host | `name`, `width`, `height`, `options` | - | `"vertical"`, `"horizontal"`, `"vertical horizontal"` |
 | `<SelectBox>` | Dropdown selector (taller than ComboBox) | `name`, `options` | `addList` | `"border"`, `"transparent"`, `"hidetext"`, `"hidefocus"` |
 | `<Slider>` | Horizontal or vertical slider | `name`, `width`, `height`, `options` | `addInteger`, `addFloat` | `"horizontal"`, `"vertical"` |
 | `<Table>` | Container-style layout element | `name`, `width`, `height` | - | - |
@@ -1817,7 +1818,7 @@ this.paramChanged = function(param) {
 
 ### 12.8 RangeSlider
 
-`RangeSlider` is a successfully rendered range slider, but currenlty only single handle.
+`RangeSlider` is a successfully rendered range slider, but currently only single handle.
 
 > ⚠️ `min`, `max`, and `value` are working attributes on the element, but every probe rendered a single-handle slider. A true dual-handle range slider render has not been acheived yet.
 
@@ -2015,10 +2016,10 @@ this.InputText.value = "";
 `ListView` is a table-style UI element that displays rows from a `Host:ListViewModel`.
 
 ```xml
-<ListView model="list" height="400" width="500"/>
+<ListView name="list" height="400" width="500"/>
 ```
 
-> 📝 The `model` attribute binds to the `this.list` property (controller scope). See [11.3 List View (Host:ListViewModel)](#113-list-view-hostlistviewmodel)
+> 📝 The `name` attribute binds to the `this.list` property on the controller scope. See [11.3 List View (Host:ListViewModel)](#113-list-view-hostlistviewmodel)
 
 > ⚠️ **ScrollBar Rendering:** We've yet to establish how to render scrollbars in ListView. Listed content beyond defined container bounds will not be accessible.
 
