@@ -2,7 +2,7 @@
 
 **Platform:** Fender Studio Pro / PreSonus Studio One
 
-> ⚠️ **Disclaimer:** Fender/PreSonus does not provide official public documentation for this API. This reference is entirely community-derived. The API is internal and undocumented. Scripts may break between versions. Use defensive coding practices throughout.
+> ⚠️ **Disclaimer:** Fender/PreSonus does not provide official public documentation for this API. This reference is entirely community-derived and incomplete. The API is internal and undocumented. Scripts may break between versions. Use defensive coding practices throughout.
 
 ---
 
@@ -54,7 +54,9 @@ your-script.package (ZIP)
     └── en.xml            ← i18n strings
 ```
 
-> ⚠️ **One script per package.** Studio Pro only loads the **first** `<ScriptClass>` entry in `classfactory.xml`. Additional entries are silently ignored. Each script must be its own `.package` file. See [Known Gaps](#153-known-gaps).
+**Multi-script packages:**
+
+For multi-script packages, the structure is the same at the ZIP root, but each script has its own uniquely named `sourceFile` and unique `classID`, and each of those files is referenced in a single `classfactory.xml`. Shared UI definitions live in one `skin.xml`, with one `<Form>` per script when dialogs are used. See [17.3 Multi Script Demo](#173-multi-script-demo--complete-working-example) for a working example.
 
 ### 1.2 metainfo.xml
 
@@ -2228,8 +2230,6 @@ Channel names are arbitrary strings — define your own. Signals without IObserv
 
 | Limitation | Detail |
 |---|---|
-| **One script per package** | Only the first `<ScriptClass>` in `classfactory.xml` is loaded |
-| **Package caching** | Replacing `.package` alone is not always sufficient — change ID or filename |
 | **No automation access** | Automation tracks cannot be scripted |
 | **No FX chain access** | `channel.effects/inserts/plugins` are all undefined |
 | **No MIDI CC iteration** | CC events may not appear in standard iterators |
@@ -2248,7 +2248,6 @@ Channel names are arbitrary strings — define your own. Signals without IObserv
 - Complete `skin.xml` element and attribute reference (Centered labels, dual handle range sliders, etc.)
 - Arranger API: full `addArrangerEvent()` signature
 - `Host.GUI.openUrl()` — seen in source, not yet confirmed
-- Multiple scripts per package
 
 ### 15.4 Debugging Utilities
 
@@ -2438,6 +2437,30 @@ The **Chord Mapping** script in this repository is a complete, working example d
 - Saves chord data to `Chord_Mapping.json` in `local://$USERCONTENT/`
 - Creates both JSON and text output files
 - Demonstrates proper error handling for file operations
+
+### [17.3 Multi Script Demo — Complete Working Example](scripts/packages/multi-script-demo/)
+
+The **Multi Script Demo** package in this repository is a complete, working example demonstrating:
+
+- Multiple `<ScriptClass>` entries in one `classfactory.xml`
+- Separate `sourceFile` values for `ScriptA.js` and `ScriptB.js`
+- A shared `skin.xml` with one `<Form>` per script
+- A valid `metainfo.xml` using `Package:SkinFile`
+
+**Source code:** [`scripts/sources/multi-script-demo-source/`](scripts/sources/multi-script-demo-source/)
+
+**Files:**
+- [`classfactory.xml`](scripts/sources/multi-script-demo-source/classfactory.xml)
+- [`metainfo.xml`](scripts/sources/multi-script-demo-source/metainfo.xml)
+- [`ScriptA.js`](scripts/sources/multi-script-demo-source/ScriptA.js)
+- [`ScriptB.js`](scripts/sources/multi-script-demo-source/ScriptB.js)
+- [`skin/skin.xml`](scripts/sources/multi-script-demo-source/skin/skin.xml)
+
+**Key features:**
+- Shows how Studio Pro loads more than one script from a single package
+- Uses distinct entry points for each script
+- Shows the shared dialog structure used by multi-script packages
+- Matches the package layout currently deployed for testing
 
 ---
 

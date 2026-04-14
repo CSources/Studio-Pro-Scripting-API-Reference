@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassFactory>
+  <ScriptClass
+    classID="{8D1C5B31-0C0A-4F7A-9E46-90E53A6B1001}"
+    category="EditTask"
+    subCategory="TrackEdit"
+    name="Script A"
+    sourceFile="ScriptA.js"
+    functionName="createInstance">
+    <Attribute id="menuPriority" value="0"/>
+    <Attribute id="commandCategory" value="Multi Script Demo"/>
+  </ScriptClass>
+  <ScriptClass
+    classID="{8D1C5B31-0C0A-4F7A-9E46-90E53A6B1002}"
+    category="EditTask"
+    subCategory="TrackEdit"
+    name="Script B"
+    sourceFile="ScriptB.js"
+    functionName="createInstance">
+    <Attribute id="menuPriority" value="0"/>
+    <Attribute id="commandCategory" value="Multi Script Demo"/>
+  </ScriptClass>
+</ClassFactory>

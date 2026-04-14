@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Skin>
+  <Forms>
+    <Form name="ScriptADialog" title="Script A">
+      <Vertical margin="12">
+        <Label title="Script A dialog"/>
+      </Vertical>
+    </Form>
+    <Form name="ScriptBDialog" title="Script B">
+      <Vertical margin="12">
+        <Label title="Script B dialog"/>
+      </Vertical>
+    </Form>
+  </Forms>
+</Skin>
