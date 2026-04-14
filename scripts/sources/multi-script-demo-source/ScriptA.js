@@ -3,12 +3,16 @@ function ScriptATask() {
 }
 
 ScriptATask.prototype.prepareEdit = function(context) {
-  Host.GUI.alert("Script A is ready.");
-  return Host.Results.kResultOk;
+  this.ShowMessage = context.parameters.addInteger(0, 1, "ShowMessage");
+  this.ShowMessage.value = 1;
+  context.restore();
+  return context.runDialog("ScriptADialog", "com.chris.multi-script-demo");
 };
 
 ScriptATask.prototype.performEdit = function(context) {
-  Host.GUI.alert("Script A ran successfully.");
+  if (this.ShowMessage && this.ShowMessage.value === 1) {
+    Host.GUI.alert("Script A ran successfully.");
+  }
   return Host.Results.kResultOk;
 };
 

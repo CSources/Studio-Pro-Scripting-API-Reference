@@ -2,13 +2,15 @@
 <Skin>
   <Forms>
     <Form name="ScriptADialog" title="Script A">
-      <Vertical margin="12">
+      <Vertical margin="12" spacing="8">
         <Label title="Script A dialog"/>
+        <CheckBox name="ShowMessage" value="1" title="Show confirmation after OK"/>
       </Vertical>
     </Form>
     <Form name="ScriptBDialog" title="Script B">
-      <Vertical margin="12">
+      <Vertical margin="12" spacing="8">
         <Label title="Script B dialog"/>
+        <CheckBox name="ShowMessage" value="1" title="Show confirmation after OK"/>
       </Vertical>
     </Form>
   </Forms>

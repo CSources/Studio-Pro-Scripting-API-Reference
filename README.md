@@ -2446,6 +2446,7 @@ The **Multi Script Demo** package in this repository is a complete, working exam
 - Separate `sourceFile` values for `ScriptA.js` and `ScriptB.js`
 - A shared `skin.xml` with one `<Form>` per script
 - A valid `metainfo.xml` using `Package:SkinFile`
+- A real UI flow where each script opens its own dialog before running
 
 **Source code:** [`scripts/sources/multi-script-demo-source/`](scripts/sources/multi-script-demo-source/)
 
@@ -2459,6 +2460,7 @@ The **Multi Script Demo** package in this repository is a complete, working exam
 **Key features:**
 - Shows how Studio Pro loads more than one script from a single package
 - Uses distinct entry points for each script
+- Opens separate dialogs for Script A and Script B
 - Shows the shared dialog structure used by multi-script packages
 - Matches the package layout currently deployed for testing
 
