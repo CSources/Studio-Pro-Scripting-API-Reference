@@ -1642,8 +1642,8 @@ Required when using custom dialogs. Must declare `Package:SkinFile` in metainfo.
 
 | Element | Description |
 |---|---|
-| `<Styles>` | Optional. Custom style definitions (fonts, colors). See Section 12.11. |
-| `<Align>` | Undocumented. Effect unclear. |
+| `<Styles>` | Optional. Custom style definitions (fonts, colors). See Section 12.10. |
+| `<Align>` | Effect unclear. |
 | `<Forms>` | Required. Container for `<Form>` dialogs. |
 | `<Form>` | Individual dialog definition. Attributes: `name` (required), `title` (required). |
 
@@ -1651,26 +1651,20 @@ Required when using custom dialogs. Must declare `Package:SkinFile` in metainfo.
 
 | Element | Description | Confirmed Attributes | Binds To | Confirmed `options` Values |
 |---|---|---|---|---|
-| `<Button>` | Push button (custom actions) | `name`, `title`, `width`, `height`, `tooltip` | `addInteger(0, 1, "name")` | - |
+| `<Button>` | Push button (custom actions) | `name`, `title`, `width`, `height`, `tooltip` | `addInteger(0, 1, "name")` | `"transparent"` |
 | `<ButtonGroup>` | Groups momentary buttons | `name` | Multiple `addInteger` | - |
 | `<CheckBox>` | Independent on/off toggle | `name`, `value`, `title` | `addInteger(0, 1, "name")` | - |
 | `<ColorBox>` | Color picker (requires nested SelectBox) | `name`, `width`, `height` | `addColor` | - |
 | `<ComboBox>` | Dropdown selector | `name`, `style` | `addList` (populate via JS) | - |
-| `<Control>` | Empty shell/container | `name`, `width`, `height` | - | - |
 | `<DialogGroup>` | Creates rounded background panel | `options` | - | `"primary"`, `"secondary"` |
 | `<Divider>` | Visible divider line | `name`, `width`, `height`, `style` | - | - |
-| `<EditBox>` | Text / number input | `name`, `width`, `height`, `options`, `multiline`, `style`, `tooltip` | `addString`, `addInteger`, `addFloat` | `"password"`, `"focus"`, `"return"` |
-| `<Heading>` | Title-style text element | `title`, `name`, `width`, `height` | - | - |
+| `<EditBox>` | Text / number input | `name`, `width`, `height`, `options`, `multiline`, `style`, `tooltip` | `addString`, `addInteger`, `addFloat` | `"password"`, `"focus"`, `"return"`, `"transparent"`, `"immediate"`, `"multiline"` |
 | `<Horizontal>` | Horizontal layout container | `spacing`, `margin`, `attach` | - | - |
 | `<Knob>` | Rotary control | `name`, `width`, `height` | `addInteger`, `addFloat` | - |
 | `<Label>` | Static text label | `title`, `name`, `style` | - | - |
-| `<ListView>` | Table-style list | `name`, `width`, `height`, `options` | `Host:ListViewModel` | `"header"` |
-| `<ProgressBar>` | Progress indicator | `name`, `width`, `height` | - | - |
+| `<ListView>` | Table-style list | `name`, `width`, `height`, `options`, `scrolloptions` | `Host:ListViewModel` | `"header"`, `"selection"`, `"swallowalphachars"`|
 | `<RadioButton>` | Mutually exclusive selector (grouped by `name`) | `name`, `value`, `title` | `addInteger` | - |
-| `<RangeSlider>` | Single-handle slider variant | `name`, `width`, `height`, `min`, `max`, `value`, `options` | `addInteger`, `addFloat` | - |
-| `<Scrollbar>` | Standalone scrollbar control | `name`, `width`, `height`, `options` | `addInteger` | `"vertical"`, `"horizontal"` |
-| `<ScrollView>` | Scrollable view container / scroll chrome host | `name`, `width`, `height`, `options` | - | `"vertical"`, `"horizontal"`, `"vertical horizontal"` |
-| `<SelectBox>` | Dropdown selector (taller than ComboBox) | `name`, `options` | `addList` | `"border"`, `"transparent"`, `"hidetext"`, `"hidefocus"` |
+| `<SelectBox>` | Dropdown selector (taller than ComboBox) | `name`, `options` | `addList` | `"border"`, `"transparent"`, `"hidetext"`, `"hidefocus"`, `"hidebutton"`, `"trailingbutton"`, `"nowheel"` |
 | `<Slider>` | Horizontal or vertical slider | `name`, `width`, `height`, `options` | `addInteger`, `addFloat` | `"horizontal"`, `"vertical"` |
 | `<Table>` | Container-style layout element | `name`, `width`, `height` | - | - |
 | `<TabView>` | Visible tab/view container | `name`, `width`, `height` | - | - |
@@ -1678,16 +1672,46 @@ Required when using custom dialogs. Must declare `Package:SkinFile` in metainfo.
 | `<ToolButton>` | Small visible tool-style button | `name`, `title`, `width`, `height` | `addInteger(0, 1, "name")` | - |
 | `<Toggle>` | Toggle button (only inside ToggleGroup) | `name`, `title` | `addInteger(0, 1, "name")` | - |
 | `<ToggleGroup>` | Groups toggle buttons | `name`, `attach` | Multiple `addInteger(0,1,"name")` | - |
-| `<TreeView>` | Visible tree-style view | `name`, `width`, `height` | - | - |
 | `<ValueBox>` | Editable value field | `name`, `width`, `height` | `addString`, `addInteger`, `addFloat` | - |
 | `<Vertical>` | Vertical layout container | `spacing`, `margin`, `attach` | - | - |
+
+> 📖 `scrolloptions` Used to add scrollbars to supported elements, `vertical`, `horizontal`, `autohide`, `autohideboth`, `border`, `transparent`
+
+
+<details>
+<summary>Probed / Unconfirmed elements and options:</summary>
+
+These are elements and options discovered or probed in tests that are not yet fully confirmed as stable standalone examples or have unknown use cases.
+
+| Element | Description | Confirmed Attributes | Binds To | Confirmed `options` Values |
+|---|---|---|---|---|
+| `<AlignView>` | Context-menu passthrough / layout anchoring | `attach`, `options` | - | `"passcontextmenu"` |
+| `<ActivityIndicator>` | Activity indicator | `width`, `height` | - | - |
+| `<CommandBarView>` | Command bar container | `name`, `height`, `attach`, `style` | - | `"horizontal vertical"` |
+| `<Control>` | Empty shell/container | `name`, `width`, `height` | - | - |
+| `<Heading>` | Title-style text element | `title`, `name`, `width`, `height` | - | - |
+| `<ImageView>` | Decorative/image wrapper | `style`, `width`, `height` | - | - |
+| `<Link>` | Clickable folder-link style control | `name`, `title`, `attach` | - | - |
+| `<ProgressBar>` | Progress indicator | `name`, `width`, `height` | - | - |
+| `<RangeSlider>` | Dual-handle slider variant | `name`, `width`, `height`, `min`, `max`, `value` | `addInteger`, `addFloat` | `"horizontal"`, `"vertical"` |
+| `<Scrollbar>` | Standalone scrollbar control | `name`, `width`, `height` | `addInteger` | `"vertical"`, `"horizontal"` |
+| `<ScrollView>` | Scrollable view container / scroll chrome host | `name`, `width`, `height`, `options`, `hscroll.style` | - | `"canscrollh"`, `"autobuttonsh"`, `"extendtarget"`, `"noscreenscroll"` |
+| `<Space>` | Layout spacer | `width`, `height` | - | - |
+| `<Table>` | Generic layout container | `name`, `width`, `height` | - | - |
+| `<TreeView>` | Visible tree-style view | `name`, `width`, `height`, `options`, `scrolloptions` | - | `"noroot"`, `"noicons"`, `"nodrag"`, `"selectfullwidth"`, `"selection"`, `"exclusive"`, `"autoexpand"`, `"swallowalphachars"` |
+| `<TriggerView>` | Click/gesture wrapper | `style`, `gesturepriority`, `attach` | - | - |
 | `<View>` | Empty shell/container | `name`, `width`, `height` | - | - |
 | `<WebView>` | Visible blank web surface | `name`, `width`, `height` | - | - |
 
+> ⚠️ **`<ActivityIndicator>`** Renders a visual indicator. Not script-instantiable from current probe inspection. `CCL:ActivityIndicator` and `Host:ActivityIndicator` do not resolve, so there is no meaningful JavaScript surface to dump from the control itself.Unknown use case.  
+> ⚠️ **`<RangeSlider>`** Every probe rendered a single-handle slider. A true dual-handle range slider render has not been acheived yet.
+> ⚠️ **`<Scrollbar>`** Works as a standalone visible control when bound to an integer parameter, but it did not expose a script-visible change event path in the binding tests. Unknown use case.   
+> ⚠️ **`<ScrollView>`** Remains opaque and does not provide a useful direct JS-visible control surface. Unknown use case.  
+> ⚠️ **`<TreeView>`** Remains opaque and does not provide a useful direct JS-visible control surface. Unknown use case.    
+> ⚠️ **`<Table>`** Can host nested children and stacks them vertically by default, similar to `DialogGroup`. No binding confirmed. Unknown use case.   
 
-> **Table:** Can host nested children and stacks them vertically by default, similar to `DialogGroup`. It does not bind to `Host:ListViewModel` as a row-backed data table.
 
-> **Scrollbar:** Works as a standalone visible control when bound to an integer parameter, but it did not expose a script-visible change event path in the binding tests.
+</details>
 
 
 ### 12.3 (Layout) Vertical & Horizontal
@@ -1818,13 +1842,8 @@ this.paramChanged = function(param) {
 
 > ⚠️ **Button behavior:** Click detected via `IParamObserver.paramChanged()`. When clicked, parameter value changes to 1. Must reset to 0 in `paramChanged` to allow re-triggering.
 
-### 12.8 RangeSlider
 
-`RangeSlider` is a successfully rendered range slider, but currently only single handle.
-
-> ⚠️ `min`, `max`, and `value` are working attributes on the element, but every probe rendered a single-handle slider. A true dual-handle range slider render has not been acheived yet.
-
-### 12.9 Slider
+### 12.8 Slider
 
 `Slider` is a slider control.
 
@@ -1842,9 +1861,9 @@ this.TimeSlider = params.addFloat(-1, 1, "TimeSlider");
 this.TimeSlider.value = -0.25;
 ```
 
-> 📝 Slider `height` controls handle size. Recommended: `20`. Default is `16`.
+> 📖 Slider `height` appears to alter handle size. Recommended: `20`. Default is `16`.
 
-### 12.10 Knob Element
+### 12.9 Knob Element
 
 `Knob` is a rotary control.
 
@@ -1870,7 +1889,7 @@ this.paramChanged = function(param) {
 
 > ⚠️ Bipolar/center-fill is **not possible** — no attribute achieves this. Recommended sizes: Small=40×40, Medium=60×60, Large=80×80.
 
-### 12.11 Styles System
+### 12.10 Styles System
 
 `Styles` lets you define reusable skin styling rules for controls, including colors and fonts.
 
@@ -1885,10 +1904,10 @@ this.paramChanged = function(param) {
 ```
 
 > ⚠️ **Style Requirement:** Requires top level `Styles` element.   
-📝 **Style properties:** `backcolor` (on focus/press), `textcolor`, font `size`, style `inherit`.
+📖 **Style properties:** `backcolor` (on focus/press), `textcolor`, font `size`, style `inherit`.
 
 
-### 12.12 TabView (Multi-Page Container)
+### 12.11 TabView (Multi-Page Container)
 
 `TabView` is a multi-page container.
 
@@ -1911,11 +1930,11 @@ Multi-page with varying container types example:
 </TabView>
 ```
 
-> 📝 **Page container types:** `DialogGroup`, `Control`, `View`, `Table`   
-📝 **Tab labels:** Use the child page container `title`  
-📝 **Overflow behavior:** Automatically adds a dropdown menu when the tab strip exceeds the available width.
+> 📖 **Page container types:** `DialogGroup`, `Control`, `View`, `Table`   
+📖 **Tab labels:** Use the child page container `title`  
+📖 **Overflow behavior:** Automatically adds a dropdown menu when the tab strip exceeds the available width.
 
-### 12.13 Divider (Separator Control)
+### 12.12 Divider (Separator Control)
 
 `Divider` is a visible separator control with handle **(unknown)**.
 
@@ -1941,17 +1960,8 @@ Divider style and default dividing behavior examples:
 
 > ⚠️ In the default skin, a small center handle-like visual appears; this looks like the collapsible section handles used in native Studio Pro panels (Inspector), but we have not yet figured out how to make it function as a collapsible handle in a custom script layout.
 
-### 12.14 ActivityIndicator (Animated Status Indicator)
 
-`ActivityIndicator` renders as a visible animated status control in the skin. **USE UNKOWN**
-
-```xml
-<ActivityIndicator name="BusyA" width="16" height="16"/>
-```
-
-> ⚠️ Not script-instantiable from current probe inspection. `CCL:ActivityIndicator` and `Host:ActivityIndicator` do not resolve, so there is no meaningful JavaScript surface to dump from the control itself.
-
-### 12.15 TextBox
+### 12.13 TextBox
 
 `TextBox` is an unedittable display field.
 
@@ -1966,9 +1976,9 @@ this.DisplayText = context.parameters.addString("DisplayText");
 this.DisplayText.value = "";
 ```
 
-> 📝 **TextBox styling:** Having `textcolor` with no defined `backcolor` will default to white background.
+> 📖 **TextBox styling:** Having `textcolor` with no defined `backcolor` will default to white background.
 
-### 12.16 ValueBox 
+### 12.14 ValueBox 
 
 `ValueBox` is an editable value field that can accept typed values and can be written back from script.
 
@@ -1981,7 +1991,7 @@ this.ValueText = context.parameters.addString("ValueText");
 this.ValueText.value = "";
 ```
 
-### 12.17 EditBox 
+### 12.15 EditBox 
 
 `EditBox` is an edittable text field that accepts typed text and commits its value back to script.
 
@@ -1995,7 +2005,7 @@ this.InputText.value = "";
 ```
 > ⚠️ **EditBox `multiline`:** Requires parameter binding and a defined `height` value to render as multi-line.
 
-### 12.18 DialogGroup (Titled Container)
+### 12.16 DialogGroup (Titled Container)
 
 `DialogGroup` is a visible container for housing other elements.
 
@@ -2011,9 +2021,9 @@ this.InputText.value = "";
 </Form>
 ```
 
-> 📝 **Centered Label:** The title/header is centered automatically when the `title` attribute is set.
+> 📖 **Centered Label:** The title/header is centered automatically when the `title` attribute is set.
 
-### 12.19 ListView
+### 12.17 ListView
 
 `ListView` is a table-style UI element that displays rows from a `Host:ListViewModel`.
 
@@ -2021,9 +2031,9 @@ this.InputText.value = "";
 <ListView name="list" height="400" width="500"/>
 ```
 
-> 📝 The `name` attribute binds to the `this.list` property on the controller scope. See [11.3 List View (Host:ListViewModel)](#113-list-view-hostlistviewmodel)
+> 📖 The `name` attribute binds to the `this.list` property on the controller scope. See [11.3 List View (Host:ListViewModel)](#113-list-view-hostlistviewmodel)
 
-> ⚠️ **ScrollBar Rendering:** We've yet to establish how to render scrollbars in ListView. Listed content beyond defined container bounds will not be accessible.
+> 📖 **ScrollBar Rendering:** Render scrollbars using the `scrolloptions` attribute
 
 ---
 
@@ -2471,11 +2481,10 @@ The **Multi Script Demo** package in this repository is a complete, working exam
 
 | Resource | URL |
 |---|---|
-| PreSonus Forums | https://studiooneforum.com/ |
-| Studio One Toolbox (Lukas Ruschitzka) | https://s1toolbox.com/ |
+| Studio One Toolbox | https://s1toolbox.com/navigationessentials
 | GitHub — DjFix functions helper | https://github.com/DjFix/studioone_functions |
-| KVR Audio Forum | https://www.kvraudio.com/forum/ |
-| VI-CONTROL | https://vi-control.net/ |
+| KVR Audio Forum | https://www.kvraudio.com/forum/viewtopic.php?t=506195 |
+| audiosex.pro Forum| https://audiosex.pro/threads/how-do-you-install-studio-one-x.30244/ |
 
 ### References Used
 - **Navigation Essentials 2.0.1** (Lukas Ruschitzka) — track selection, colorize, piano editor tasks

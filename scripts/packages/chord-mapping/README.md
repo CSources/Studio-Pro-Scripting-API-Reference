@@ -6,7 +6,7 @@ Scrapes selected chord events from the Chord Track, extracts data (name, type, r
 ## Installation
 | Platform | Scripts folder |
 |----------|----------------|
-| Windows  | `C:\\Program Files\\Fender\\Studio Pro 8\\Scripts\\` |
+| Windows  | `C:\Program Files\Fender\Studio Pro 8\Scripts\` |
 | macOS    | `/Applications/Studio Pro 8.app/Contents/Scripts/` |
 
 Copy Chord Mapping.package to the folder. Restart Studio Pro if needed.
