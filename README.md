@@ -22,8 +22,8 @@
 12. [skin.xml Reference](#12-skinxml-reference)
 13. [File I/O](#13-file-io)
 14. [Cross-Script Communication](#14-cross-script-communication)
-15. [Known Limitations, Dead Ends & Debugging](#15-known-limitations--dead-ends)
-16. [Complete API Index](#16-complete-api-index)
+15. [Complete API Index](#15-complete-api-index)
+16. [Known Limitations, Dead Ends & Debugging](#16-known-limitations--dead-ends)
 17. [Examples](#17-examples)
 18. [Community Resources & References](#18-community-resources)
 
@@ -108,31 +108,31 @@ For multi-script packages, the structure is the same at the ZIP root, but each s
 
 | Value | Context |
 |---|---|
-| `"TrackEdit"` | Track list operations |
-| `"MusicEdit"` | Piano roll / MIDI editor |
 | `"AudioEdit"` | Audio editor |
 | `"EventEdit"` | Arrangement editor events |
-| `"ProjectEdit"` | Project-level operations |
-| `"MusicPartEdit"` | Instrument Part editor |
 | `"FrameworkService"` | Background service, no menu entry |
+| `"MusicEdit"` | Piano roll / MIDI editor |
+| `"MusicPartEdit"` | Instrument Part editor |
+| `"ProjectEdit"` | Project-level operations |
+| `"TrackEdit"` | Track list operations |
 
 **Optional `<Attribute>` entries:**
 
 | ID | Description |
 |---|---|
-| `menuPriority` | Integer sort order; `-1` hides from menu |
-| `menuGroup` | Group name for menu clustering |
-| `commandCategory` | Category in macro/key binding system |
 | `arguments` | Comma-separated param names (e.g., `"Volume,Pan"`) |
 | `alwaysEnabled` | `"1"` skips `prepareEdit()` result for enable/disable |
-| `hidden` | `"1"` hides from menus; accessible via command system only |
-| `supportsProject` | `"1"` for project-level operation |
-| `wantAudioParts` | `"1"` to include audio clips in iteration |
-| `musicEditorOnly` | `"1"` restricts to music editor context |
-| `TrackContextMenu` | `"1"` adds to track right-click menu |
+| `commandCategory` | Category in macro/key binding system |
 | `formName` | skin.xml Form name (for `EditAddIn` panels) |
 | `groupName` | Panel group location (e.g., `"Song.AddInPanel"`) |
+| `hidden` | `"1"` hides from menus; accessible via command system only |
+| `menuGroup` | Group name for menu clustering |
+| `menuPriority` | Integer sort order; `-1` hides from menu |
 | `metaClassID` | Optional unique GUID for internal metadata binding; (**purpose unclear**)|
+| `musicEditorOnly` | `"1"` restricts to music editor context |
+| `supportsProject` | `"1"` for project-level operation |
+| `TrackContextMenu` | `"1"` adds to track right-click menu |
+| `wantAudioParts` | `"1"` to include audio clips in iteration |
 
 **Adding an icon (`ScriptMetaClass`):**
 
@@ -1065,6 +1065,8 @@ fn.root.findTrackByID(trackID)       // Find track by ID
 
 ### 7.6 Arranger Track
 
+**Confirmed working pattern:**
+
 ```javascript
 var arranger = context.editor.model.arranger;
 var track    = arranger.getArrangerTrack();
@@ -1078,6 +1080,40 @@ var event = arranger.addArrangerEvent(track, start, end);
 fn.renameEvent(event, "Section Name");
 fn.colorizeEvent(event, colorIntValue);
 arranger.showArrangerTrack();
+```
+
+**Arranger object:**
+
+```javascript
+arranger.addArrangerEvent(track, start, end) // Create arranger section
+arranger.getArrangerTrack()                 // Returns ArrangerTrack handle
+arranger.showArrangerTrack()                // Shows the Arranger Track
+```
+
+**ArrangerTrack object:**
+
+```javascript
+track.name   // "Arranger Track"
+```
+
+The `ArrangerTrack` object is primarily a handle passed to `addArrangerEvent()`.
+
+**Arranger event object:**
+
+```javascript
+event.name
+event.startTime
+event.endTime
+event.length
+event.lengthTime
+event.color
+```
+
+Confirmed edit support:
+
+```javascript
+fn.renameEvent(event, "Section Name")
+fn.colorizeEvent(event, colorIntValue)
 ```
 
 ---
@@ -1280,12 +1316,12 @@ Host.Classes.newIterator()                  // Returns empty iterator
 | Class ID | Description |
 |---|---|
 | `"CCL:ButtonGroup"` | Button group UI element |
+| `"CCL:CommandBarModel"` | Command bar |
+| `"CCL:CommandSelector"` | Command selector |
 | `"CCL:CheckBox"` | Checkbox UI element |
 | `"CCL:Divider"` | Divider UI element |
 | `"CCL:FileSelector"` | File picker dialog |
 | `"CCL:Label"` | Label UI element |
-| `"CCL:CommandBarModel"` | Command bar |
-| `"CCL:CommandSelector"` | Command selector |
 | `"CCL:ParamList"` | Parameter list for persistent dialogs |
 | `"CCL:ProgressDialog"` | Progress indicator |
 | `"CCL:RadioButton"` | RadioButton UI element |
@@ -1298,6 +1334,9 @@ Host.Classes.newIterator()                  // Returns empty iterator
 **Command tree / selector notes:**
 
 - `CCL:CommandBarModel` exposes a mutable root/page tree via `getRootItem()` and `createPage()`. The returned nodes expose `addChildItem()`, `removeChildItem()`, `getChildItem()`, `getChildIndex()`, `cloneItem()`, `saveToFile()`, and `loadFromFile()`.
+- `CCL:CommandBarModel` tree nodes expose fields such as `name`, `layout`, `revision`, `id`, `title`, `type`, `numChilds`, `flags`, `isReadOnly`, `isTemporary`, and `isLeftClickContextMenu`.
+- `CCL:CommandBarModel.cloneItem()` preserves the root node `id` field in the returned tree object.
+- `CCL:CommandBarView` exposes `dragItem()`.
 - `CCL:CommandSelector` exposes `name`, `argColumnEnabled`, and `focusCommand`, plus `addExcludedCategory()`.
 - `CCL:Divider` exposes `jump()` and behaves like a skin/native divider proxy from JavaScript.
 
@@ -1370,6 +1409,8 @@ Host.Security.checkAccess(packageID, featureName)  // Returns 0 (restricted)
 `IUnknown`, `IClassFactory`, `IComponent`, `IObjectNode`, `IObserver`, `IPersistAttributes`, `ICommandHandler`, `IContextMenuHandler`, `IParamObserver`, `IViewStateHandler`, `ITimerTask`, `IController`, `IScriptComponent`, `IHelpTutorialHandler`, `IPortFilter`, `IBrowserExtension`, `IDocumentTemplateHandler`, `IDocumentEventHandler`, `IEditTask`, `IToolConfiguration`, `IToolMode`, `IToolHelp`, `IToolSet`, `IToolAction`, `IEditHandlerHook`, `IEditHandler`, `IPresetMediator`, `IExtensionHandler`
 
 > All interfaces only expose an `equals()` method. They are COM-style type markers for the `this.interfaces` array.
+>
+> `IEditTask` is the interface for scripts that run editable actions in Studio Pro. Use it when a script should validate first in `prepareEdit()` and then make changes in `performEdit()`.
 
 ### 9.14 Host.Locales
 
@@ -1387,10 +1428,10 @@ Host.SystemInfo.getLocalTime()   // Returns current local system time object
 ### 9.16 Host.Signals.postMessage
 
 ```javascript
-Host.Signals.postMessage(/* args */)   // Undocumented async message method (purpose unclear)
+Host.Signals.postMessage(/* args */)   // Exposed API, but tested as a silent no-op
 ```
 
-> ⚠️ `postMessage()` is undocumented. Prefer `Host.Signals.signal()` for cross-script messaging.
+> ⚠️ `postMessage()` is unclear. Tested in `EditTask`, `FrameworkService`, `MusicEdit`, and list-observer contexts; it returned `undefined` every time and never triggered `notify()`. Prefer `Host.Signals.signal()` for cross-script messaging.
 
 ### 9.17 Host.FileTypes
 
@@ -1443,24 +1484,24 @@ var tp = Host.Objects.getObjectByUrl(
 
 | Name | Description |
 |---|---|
-| `"tempo"` | BPM value |
 | `"loop"` | Loop enabled (0/1) |
-| `"loopStart"` | Loop start in beats |
 | `"loopEnd"` | Loop end in beats |
 | `"loopLength"` | Loop length in beats (derived) |
-| `"record"` | Recording state (0/1) |
+| `"loopStart"` | Loop start in beats |
 | `"precount"` | Precount enabled (0/1) |
 | `"punchIn"` | Punch in (0/1) |
 | `"punchOut"` | Punch out (0/1) |
+| `"record"` | Recording state (0/1) |
+| `"tempo"` | BPM value |
 
 **Read-only parameters:**
 
 | Name | Description |
 |---|---|
 | `"primaryTime"` | Current cursor position |
+| `"rewind"` | Rewind state |
 | `"start"` | Transport start state |
 | `"stop"` | Transport stop state |
-| `"rewind"` | Rewind state |
 
 **Parameter object structure:**
 
@@ -1576,6 +1617,15 @@ param.appendString(text)               // Add item to list/menu
 param.removeAll()                      // Clear list items
 ```
 
+**Additional confirmed `Host:PresetParam` methods:**
+- `setValue(val)`
+- `fromString(text)`
+- `setNormalized(value)`
+- `getNormalized()`
+- `setCurve(value)`
+- `isType()`
+- `setSignalAlways(value)`
+
 ### 11.3 List View (Host:ListViewModel)
 
 **Instantiate the list model:**
@@ -1598,6 +1648,9 @@ list.changed();  // Refresh UI
 - `list.getFocusItem()`
 - `list.getSelectedItems()` — iterate with `.newIterator()`
 - `list.itemView.setFocusItem(index, scroll)`
+- `list.doPopup()`
+- `list.addTitleSorter()`
+- `list.addDetailSorter()`
 
 **Observe changes:**
 ```javascript
@@ -1643,7 +1696,6 @@ Required when using custom dialogs. Must declare `Package:SkinFile` in metainfo.
 | Element | Description |
 |---|---|
 | `<Styles>` | Optional. Custom style definitions (fonts, colors). See Section 12.10. |
-| `<Align>` | Effect unclear. |
 | `<Forms>` | Required. Container for `<Form>` dialogs. |
 | `<Form>` | Individual dialog definition. Attributes: `name` (required), `title` (required). |
 
@@ -1651,6 +1703,7 @@ Required when using custom dialogs. Must declare `Package:SkinFile` in metainfo.
 
 | Element | Description | Confirmed Attributes | Binds To | Confirmed `options` Values |
 |---|---|---|---|---|
+| `<Align>` | Style helper for text alignment inside styles | `name`, `align` | `Style` definitions | `"left"`, `"center"`, `"right"`, `"top"`, `"bottom"` |
 | `<Button>` | Push button (custom actions) | `name`, `title`, `width`, `height`, `tooltip` | `addInteger(0, 1, "name")` | `"transparent"` |
 | `<ButtonGroup>` | Groups momentary buttons | `name` | Multiple `addInteger` | - |
 | `<CheckBox>` | Independent on/off toggle | `name`, `value`, `title` | `addInteger(0, 1, "name")` | - |
@@ -1666,9 +1719,9 @@ Required when using custom dialogs. Must declare `Package:SkinFile` in metainfo.
 | `<RadioButton>` | Mutually exclusive selector (grouped by `name`) | `name`, `value`, `title` | `addInteger` | - |
 | `<SelectBox>` | Dropdown selector (taller than ComboBox) | `name`, `options` | `addList` | `"border"`, `"transparent"`, `"hidetext"`, `"hidefocus"`, `"hidebutton"`, `"trailingbutton"`, `"nowheel"` |
 | `<Slider>` | Horizontal or vertical slider | `name`, `width`, `height`, `options` | `addInteger`, `addFloat` | `"horizontal"`, `"vertical"` |
-| `<Table>` | Container-style layout element | `name`, `width`, `height` | - | - |
 | `<TabView>` | Visible tab/view container | `name`, `width`, `height` | - | - |
-| `<TextBox>` | Display-only text field | `name`, `width`, `height`, `style` | `addString` | - |
+| `<Table>` | Container-style layout element | `name`, `width`, `height` | - | - |
+| `<TextBox>` | Display-only text field | `name`, `width`, `height`, `style` | `addString` | `multiline`, `fittext` |
 | `<ToolButton>` | Small visible tool-style button | `name`, `title`, `width`, `height` | `addInteger(0, 1, "name")` | - |
 | `<Toggle>` | Toggle button (only inside ToggleGroup) | `name`, `title` | `addInteger(0, 1, "name")` | - |
 | `<ToggleGroup>` | Groups toggle buttons | `name`, `attach` | Multiple `addInteger(0,1,"name")` | - |
@@ -1703,8 +1756,8 @@ These are elements and options discovered or probed in tests that are not yet fu
 | `<View>` | Empty shell/container | `name`, `width`, `height` | - | - |
 | `<WebView>` | Visible blank web surface | `name`, `width`, `height` | - | - |
 
-> ⚠️ **`<ActivityIndicator>`** Renders a visual indicator. Not script-instantiable from current probe inspection. `CCL:ActivityIndicator` and `Host:ActivityIndicator` do not resolve, so there is no meaningful JavaScript surface to dump from the control itself.Unknown use case.  
-> ⚠️ **`<RangeSlider>`** Every probe rendered a single-handle slider. A true dual-handle range slider render has not been acheived yet.
+> ⚠️ **`<ActivityIndicator>`** Renders a visual indicator. Not script-instantiable from current inspection. `CCL:ActivityIndicator` and `Host:ActivityIndicator` do not resolve, so there is no meaningful JavaScript surface to dump from the control itself.Unknown use case.  
+> ⚠️ **`<RangeSlider>`** Every test rendered a single-handle slider. A true dual-handle range slider render has not been acheived yet.   
 > ⚠️ **`<Scrollbar>`** Works as a standalone visible control when bound to an integer parameter, but it did not expose a script-visible change event path in the binding tests. Unknown use case.   
 > ⚠️ **`<ScrollView>`** Remains opaque and does not provide a useful direct JS-visible control surface. Unknown use case.  
 > ⚠️ **`<TreeView>`** Remains opaque and does not provide a useful direct JS-visible control surface. Unknown use case.    
@@ -1848,6 +1901,7 @@ this.paramChanged = function(param) {
 `Slider` is a slider control.
 
 Slider with shared name unit label example:
+
 ```xml
 <Horizontal spacing="2" attach="left right">
   <Slider  name="TimeSlider" width="100" height="20" options="horizontal"/>
@@ -1904,7 +1958,8 @@ this.paramChanged = function(param) {
 ```
 
 > ⚠️ **Style Requirement:** Requires top level `Styles` element.   
-📖 **Style properties:** `backcolor` (on focus/press), `textcolor`, font `size`, style `inherit`.
+📖 **Style properties:** `backcolor` (on focus/press), `textcolor`, font `size`, style `inherit`.   
+📖 **Align helper:** Use `<Align name="textalign" align="left|center|right|top|bottom|..."/>` inside a `Style` to control text alignment on supported elements. Combined values like `align="right top"` are supported.
 
 
 ### 12.11 TabView (Multi-Page Container)
@@ -1947,7 +2002,7 @@ Divider style and default dividing behavior examples:
   </Style>
 </Styles>
 
-<Form name="DividerProbe" title="Divider Probe">
+<Form name="DividerExample" title="Divider Example">
   <DialogGroup title="Divider Example" width="240" height="90">
     <Vertical spacing="8" margin="8">
       <Label title="Above"/>
@@ -1961,7 +2016,70 @@ Divider style and default dividing behavior examples:
 > ⚠️ In the default skin, a small center handle-like visual appears; this looks like the collapsible section handles used in native Studio Pro panels (Inspector), but we have not yet figured out how to make it function as a collapsible handle in a custom script layout.
 
 
-### 12.13 TextBox
+### 12.13 Align
+
+`Align` is a style helper that sets text alignment on controls that support it.
+
+```xml
+<Styles>
+  <Style name="AlignCenterEditBox" inherit="Standard.AddIn.EditBox">
+    <Align name="textalign" align="center"/>
+  </Style>
+  <Style name="AlignRightTopEditBox" inherit="Standard.AddIn.EditBox">
+    <Align name="textalign" align="right top"/>
+  </Style>
+</Styles>
+```
+
+```javascript
+this.CenterEdit = context.parameters.addString("CenterEdit");
+this.CenterEdit.value = "Centered text";
+```
+
+> 📖 **Related binding reference:** `Align` is used inside `<Style>` definitions. For the parameter-side population patterns used by the tested controls, see [Section 11.2 ParamList](#112-system-2-cclparamlist-persistent-dialog--panel).   
+> 📖 **Applicable Elements:** Confirmed working for `EditBox`, `ValueBox`, `TextBox`, `SelectBox`, and `ComboBox`.  
+> 📖 **Combined Attributes:** Accepts more than one token in the `align` attribute, so you can combine horizontal and vertical alignment in one helper, for example `align="right top"`.
+
+
+### 12.14 ComboBox
+
+`ComboBox` is a dropdown selector for choosing one item from a list of script-provided values.
+
+It is bound to a `ParamList` list parameter and populated from script with `appendString()`.
+
+```xml
+<ComboBox name="Choice" width="180" style="MyComboBox"/>
+```
+
+```javascript
+this.Choice = context.parameters.addList("Choice");
+this.Choice.appendString("Option 1");
+this.Choice.appendString("Option 2");
+this.Choice.value = 0;
+```
+
+> 📖 **Population reference:** See [Section 11.2 ParamList](#112-system-2-cclparamlist-persistent-dialog--panel) for `addList()` and `appendString()`.
+
+### 12.15 SelectBox
+
+`SelectBox` is a taller dropdown selector than `ComboBox`, intended for list-style selection in dialogs.
+
+It is also bound to a `ParamList` list parameter and populated from script with `appendString()`.
+
+```xml
+<SelectBox name="Choice" width="180" options="border"/>
+```
+
+```javascript
+this.Choice = context.parameters.addList("Choice");
+this.Choice.appendString("Option 1");
+this.Choice.appendString("Option 2");
+this.Choice.value = 0;
+```
+
+> 📖 **Population reference:** See [Section 11.2 ParamList](#112-system-2-cclparamlist-persistent-dialog--panel) for `addList()` and `appendString()`.
+
+### 12.16 TextBox
 
 `TextBox` is an unedittable display field.
 
@@ -1976,9 +2094,10 @@ this.DisplayText = context.parameters.addString("DisplayText");
 this.DisplayText.value = "";
 ```
 
+> 📖 **Prefill note:** TextBox text is typically prefilled by setting the parameter `.value` before the dialog opens.   
 > 📖 **TextBox styling:** Having `textcolor` with no defined `backcolor` will default to white background.
 
-### 12.14 ValueBox 
+### 12.17 ValueBox 
 
 `ValueBox` is an editable value field that can accept typed values and can be written back from script.
 
@@ -1991,7 +2110,9 @@ this.ValueText = context.parameters.addString("ValueText");
 this.ValueText.value = "";
 ```
 
-### 12.15 EditBox 
+> 📖 **Prefill note:** ValueBox text is typically prefilled by setting the parameter `.value` before the dialog opens.
+
+### 12.18 EditBox 
 
 `EditBox` is an edittable text field that accepts typed text and commits its value back to script.
 
@@ -2003,14 +2124,15 @@ this.ValueText.value = "";
 this.InputText = context.parameters.addString("InputText");
 this.InputText.value = "";
 ```
+> 📖 **Prefill note:** EditBox text is typically prefilled by setting the parameter `.value` before the dialog opens.   
 > ⚠️ **EditBox `multiline`:** Requires parameter binding and a defined `height` value to render as multi-line.
 
-### 12.16 DialogGroup (Titled Container)
+### 12.19 DialogGroup (Titled Container)
 
 `DialogGroup` is a visible container for housing other elements.
 
 ```xml
-<Form name="DialogGroupProbe" title="DialogGroup Probe">
+<Form name="DialogGroupExample" title="DialogGroup Example">
   <DialogGroup title="Value Fields" width="220" height="100">
     <Vertical margin="8" spacing="4">
       <Label title="ValueBox and TextBox"/>
@@ -2031,8 +2153,7 @@ this.InputText.value = "";
 <ListView name="list" height="400" width="500"/>
 ```
 
-> 📖 The `name` attribute binds to the `this.list` property on the controller scope. See [11.3 List View (Host:ListViewModel)](#113-list-view-hostlistviewmodel)
-
+> 📖 The `name` attribute binds to the `this.list` property on the controller scope. See [11.3 List View (Host:ListViewModel)](#113-list-view-hostlistviewmodel)    
 > 📖 **ScrollBar Rendering:** Render scrollbars using the `scrolloptions` attribute
 
 ---
@@ -2218,65 +2339,9 @@ Channel names are arbitrary strings — define your own. Signals without IObserv
 
 ---
 
-## 15. Known Limitations & Dead Ends
+## 15. Complete API Index
 
-### 15.1 Confirmed Dead Ends (Re-Investigate If You'd Like)
-
-| API | Status |
-|---|---|
-| `editor.createSequenceIterator()` | Does NOT exist — use `event.region.createSequenceIterator()` |
-| `editor.selectMultiple()` | Does NOT exist — use `editor.createSelectFunctions().selectMultiple()` |
-| `fn.root.createFunctions()` | Returns broken stub; worse than `context.functions` |
-| `fn.createEvent(template, ...)` | Returns undefined; no note appears regardless of args |
-| `interpretCommand("Music", "Insert Note")` | No effect |
-| `Host.GUI.Alerts` | Empty namespace — use `Host.GUI.alert()` directly |
-| `Host.Graphics` drawing | Image loading only — no canvas/draw API; may crash |
-| `Host.Signals` without IObserver | Returns undefined by design — implement IObserver |
-| `note.clone()` + `fn.insertEvent(note)` | Clone properties are read-only; must use `insertEvent(region, note)` |
-| Knob center/bipolar fill | Impossible — no attribute achieves this |
-| `ComboBox` items from `<Item>` XML | Ignored — populate via `addList().appendString()` |
-
-### 15.2 Confirmed Limitations
-
-| Limitation | Detail |
-|---|---|
-| **No automation access** | Automation tracks cannot be scripted |
-| **No FX chain access** | `channel.effects/inserts/plugins` are all undefined |
-| **No MIDI CC iteration** | CC events may not appear in standard iterators |
-| **Selection is not undoable** | Disable journaling before any selection operations |
-| **Piano editor quantize UI** | Read-only via `context.editor.quantize` — cannot change UI |
-| **context.iterator properties** | May return undefined in some editor contexts |
-| **Note properties are read-only** | Only `note.startTime.seconds` is confirmed writable |
-| **No event listener / polling** | Cannot monitor DAW state changes; must re-run script |
-| **Bar Offset is visual only** | `activeRegion.start` doesn't consider the Bar Offset setting |
-| **Scripts folder (macOS)** | `/Applications/Studio Pro 8.app/Contents/Scripts/` — not `~/Library/...` |
-| **Chord Events** | They are not stored as XML nodes in the `.song` file.
-
-### 15.3 Known Gaps
-
-- MIDI CC / controller event handling
-- Complete `skin.xml` element and attribute reference (Centered labels, dual handle range sliders, etc.)
-- Arranger API: full `addArrangerEvent()` signature
-- `Host.GUI.openUrl()` — seen in source, not yet confirmed
-
-### 15.4 Debugging Utilities
-
-**Prototype chain introspection** — useful for discovering what properties and methods an unknown API object exposes at runtime:
-
-```javascript
-function getAllPropertyNames(obj) {
-  var props = [];
-  do { props = props.concat(Object.getOwnPropertyNames(obj)); }
-  while (obj = Object.getPrototypeOf(obj));
-  Host.GUI.alert(props.join('\r\n'));
-}
-```
-
----
-
-## 16. Complete API Index
-
-### 16.1 Host.GUI Namespaces
+### 15.1 Host.GUI Namespaces
 
 `Constants`, `Commands`, `Themes`, `Desktop`, `Help`, `Configuration`, `Clipboard`, `Alerts`
 
@@ -2284,11 +2349,11 @@ function getAllPropertyNames(obj) {
 
 **Host.GUI.Help (Tutorial System):** `alignActiveTutorial()`, `centerActiveTutorial()`, `focusActiveTutorial()`, `highlightControl()`, `discardHighlights()`, `modifyHighlights()`, `dimAllWindows()`
 
-### 16.2 Host.Engine Properties
+### 15.2 Host.Engine Properties
 
 `TrackFormats`, `TrackColorPalette`, `TrackIcons`, `MediaClips`, `Speakers`, `CrossFadeFinder`, `createFormatter(name)`, `createTrackFormatWithPort(type, port)`
 
-### 16.10 Host Top-Level Summary
+### 15.3 Host Top-Level Summary
 
 | Namespace | Key Methods / Properties |
 |---|---|
@@ -2299,7 +2364,7 @@ function getAllPropertyNames(obj) {
 | `Host.FileTypes` | `registerFileType()`, `getFileTypeByExtension()`, `getFileTypeByMimeType()`, `registerHandler()`, `unregisterHandler()` |
 | `Host.Settings` | `getAttributes()`, `sleep(ms)` |
 
-### 16.3 context.functions — Full Method List
+### 15.4 context.functions — Full Method List
 
 ```
 beginMultiple, endMultiple, setJournalEnabled, isJournalEnabled,
@@ -2313,13 +2378,13 @@ newMusicalTime, newMediaTime,
 root (object), executeImmediately (flag)
 ```
 
-### 16.4 Iterator — Full Method List
+### 15.5 Iterator — Full Method List
 
 ```
 done(), first(), last(), next(), previous()
 ```
 
-### 16.5 note.startTime — Full Method List
+### 15.6 note.startTime — Full Method List
 
 ```
 as()          → seconds as plain number
@@ -2328,7 +2393,7 @@ convert()     → undefined
 toMusicalTime() → undefined
 ```
 
-### 16.6 Editor Object — Key Confirmed Working Methods
+### 15.7 Editor Object — Key Confirmed Working Methods
 
 ```
 getItemType(note)           → "NoteEvent"
@@ -2347,7 +2412,7 @@ newTimeSegment(time)
 select(note), unselect(note)
 ```
 
-### 16.7 Color Utilities
+### 15.8 Color Utilities
 
 **Hex string to color integer:**
 
@@ -2375,14 +2440,14 @@ function interpolateColor(color1, color2, t) {
 // Strip alpha from addColor() value: color & 0x00FFFFFF
 ```
 
-### 16.8 Application Configuration Access
+### 15.9 Application Configuration Access
 
 ```javascript
 var value = Host.studioapp.find("Application").Configuration
   .getValue("Engine.Editing", "midiValuePresentationEnabled");
 ```
 
-### 16.9 Pitch Name List
+### 15.10 Pitch Name List
 
 ```javascript
 var musicPartFunctions = context.editor.activeRegion.getRoot()
@@ -2394,7 +2459,7 @@ for (var i = 127; i >= 0; i--) {
 }
 ```
 
-### 16.10 Value Conversions
+### 15.11 Value Conversions
 
 Utility functions for converting between the value representations used by the API and human-readable equivalents. More conversions to be documented as the API is further explored.
 
@@ -2403,6 +2468,61 @@ Utility functions for converting between the value representations used by the A
 ```javascript
 function dbToFloat(db) { return Math.pow(10, parseFloat(db) / 20); }
 function floatToDb(f)  { return (Math.log(parseFloat(f)) / Math.LN10) * 20; }
+```
+
+---
+
+## 16. Known Limitations & Dead Ends
+
+### 16.1 Confirmed Dead Ends (Re-Investigate If You'd Like)
+
+| API | Status |
+|---|---|
+| `editor.createSequenceIterator()` | Does NOT exist — use `event.region.createSequenceIterator()` |
+| `editor.selectMultiple()` | Does NOT exist — use `editor.createSelectFunctions().selectMultiple()` |
+| `fn.root.createFunctions()` | Returns broken stub; worse than `context.functions` |
+| `fn.createEvent(template, ...)` | Returns undefined; no note appears regardless of args |
+| `interpretCommand("Music", "Insert Note")` | No effect |
+| `Host.GUI.Alerts` | Empty namespace — use `Host.GUI.alert()` directly |
+| `Host.Graphics` drawing | Image loading only — no canvas/draw API; may crash |
+| `Host.Signals` without IObserver | Returns undefined by design — implement IObserver |
+| `Host.Signals.postMessage()` | Returns undefined and does not notify in tested EditTask, FrameworkService, MusicEdit, or list-observer contexts |
+| `note.clone()` + `fn.insertEvent(note)` | Clone properties are read-only; must use `insertEvent(region, note)` |
+| Knob center/bipolar fill | No tested attribute achieves this |
+
+### 16.2 Confirmed Limitations
+
+| Limitation | Detail |
+|---|---|
+| **No automation access** | Automation tracks cannot be scripted |
+| **No FX chain access** | `channel.effects/inserts/plugins` are all undefined |
+| **No MIDI CC iteration** | MIDI CC / controller data did not appear in `context.iterator`, `editor.selection.newIterator()`, or `activeRegion.createSequenceIterator()` tests; only note events were exposed |
+| **Selection is not undoable** | Disable journaling before any selection operations |
+| **Piano editor quantize UI** | Read-only via `context.editor.quantize` — cannot change UI |
+| **context.iterator properties** | May return undefined in some editor contexts |
+| **Note properties are read-only** | Only `note.startTime.seconds` is confirmed writable |
+| **No event listener / polling** | Cannot monitor DAW state changes; must re-run script |
+| **Bar Offset is visual only** | `activeRegion.start` doesn't consider the Bar Offset setting |
+| **Scripts folder (macOS)** | `/Applications/Studio Pro 8.app/Contents/Scripts/` — not `~/Library/...` |
+| **Chord Events** | They are not stored as XML nodes in the `.song` file.
+
+### 16.3 Known Gaps
+
+- Complete `skin.xml` element and attribute reference (Dual handle range sliders, EditBox / TextBox scrollbars, etc.)
+- `Host.GUI.openUrl()` — seen in source, not yet confirmed
+- `Host.Signals.postMessage()` caller semantics beyond `signal()`-style dispatch are unresolved, but the current test evidence suggests it is inert in normal script contexts
+
+### 16.4 Debugging Utilities
+
+**Prototype chain introspection** — useful for discovering what properties and methods an unknown API object exposes at runtime:
+
+```javascript
+function getAllPropertyNames(obj) {
+  var props = [];
+  do { props = props.concat(Object.getOwnPropertyNames(obj)); }
+  while (obj = Object.getPrototypeOf(obj));
+  Host.GUI.alert(props.join('\r\n'));
+}
 ```
 
 ---
