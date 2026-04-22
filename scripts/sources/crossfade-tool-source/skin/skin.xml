@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Skin>
+  <Resources>
+    <Image name="LinearPreview" url="images/linear.png"/>
+    <Image name="LogarithmicPreview" url="images/logarithmic.png"/>
+    <Image name="ExponentialPreview" url="images/exponential.png"/>
+  </Resources>
+
+  <Styles>
+  </Styles>
+
+  <Forms>
+    <Form name="CrossfadeToolDialog" title="Crossfade Tool" windowstyle="dialogstyle restorepos">
+      <Vertical margin="0" spacing="8">
+        <DialogGroup width="330" title="Crossfade Length">
+          <Vertical margin="18" spacing="8">
+            <Space height="4"/>
+            <Horizontal margin="0" spacing="8">
+            <Slider name="FadeLength" width="200" height="20" options="horizontal"/>
+              <ValueBox name="FadeLength" width="50" height="20"/>
+              <Label title="ms"/>
+            </Horizontal>
+            <CheckBox name="SplitCrossfade" title="Split Duration" tooltip="Splits crossfade duration evenly between both clips"/>
+          </Vertical>
+        </DialogGroup>
+
+        <DialogGroup width="330" title="Type">
+          <Vertical margin="18" spacing="8">
+            <Space height="4"/>
+            <Horizontal margin="0" spacing="9">
+              <Vertical width="92" spacing="4" attach="hcenter">
+                <ImageView image="LinearPreview" width="48" height="48" attach="hcenter" tooltip="Linear"/>
+                <RadioButton name="Type" value="0" attach="hcenter"/>
+              </Vertical>
+              <Vertical width="92" spacing="4" attach="hcenter">
+                <ImageView image="LogarithmicPreview" width="48" height="48" attach="hcenter" tooltip="Logarithmic"/>
+                <RadioButton name="Type" value="1" attach="hcenter"/>
+              </Vertical>
+              <Vertical width="92" spacing="4" attach="hcenter">
+                <ImageView image="ExponentialPreview" width="48" height="48" attach="hcenter" tooltip="Exponential"/>
+                <RadioButton name="Type" value="2" attach="hcenter"/>
+              </Vertical>
+            </Horizontal>
+            <Horizontal margin="0" spacing="8">
+              <Label title="Bend:" width="35" tooltip="Sets bend percentage of Logarithmic and Exponential crossfade types."/>
+              <ValueBox name="Bend" width="50" height="20"/>
+              <Label title="%"/>
+            </Horizontal>
+          </Vertical>
+        </DialogGroup>
+      </Vertical>
+    </Form>
+  </Forms>
+</Skin>

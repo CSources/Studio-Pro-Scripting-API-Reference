@@ -992,7 +992,12 @@ newTime.seconds = 30.5;
 
 ## 7. Edit Functions (context.functions)
 
-`context.functions` is the **only reliable** function object for note manipulation. Do not use `fn.root.createFunctions()` — it returns a different broken stub.
+`fn` is a common local alias used for `context.functions`; it must be defined in
+the script before use.
+
+`context.functions` is the **only reliable** function object for note manipulation. Do not use `fn.root.createFunctions()` for note editing — it returns a different broken stub in tested note-edit paths.
+
+For root-specific function families such as `AudioFunctions` and `MusicPartFunctions`, call `createFunctions("FamilyName")` from the correct object root for the item being edited. For example, audio event operations should create `AudioFunctions` from an audio event or region root, not from an unrelated note-edit function stub.
 
 ### 7.1 Undo / Journal Control
 
@@ -1205,6 +1210,20 @@ Host.GUI.Commands.interpretCommand("Transport", "Cursor follows Edit Position", 
 Host.GUI.Commands.interpretCommand(  "File", "Save New Version", false,  Host.Attributes(["Description", "Before Operation"]));
 ```
 
+**Audio crossfade command attributes:**
+
+```javascript
+var attrs = Host.Attributes([
+  "Length", "0.02",
+  "Type", "Linear",
+  "Bend", "0"
+]);
+
+Host.GUI.Commands.interpretCommand("Audio", "Create Crossfades", false, attrs);
+```
+
+`Audio -> Create Crossfades` accepts `Length`, `Type`, and `Bend` attributes. Confirmed `Type` values are `Linear`, `Logarithmic`, and `Exponential`. For a full working package using this command alongside `AudioFunctions.createCrossFades(...)`, see [17.4 Crossfade Tool](#174-crossfade-tool--complete-working-example).
+
 ### 9.3 Host.studioapp (Alternative Command Interpreter)
 
 > An alternative to `Host.GUI.Commands.interpretCommand()`:
@@ -1271,7 +1290,27 @@ Host.GUI.Clipboard.getText()       // Get clipboard text
 
 > ⚠️ Text-only. Binary DAW data (MIDI clips, etc.) is not accessible via the clipboard.
 
-### 9.6 Host.Objects (URL-Based Object Access)
+### 9.6 Host.GUI.openUrl
+
+```javascript
+Host.GUI.openUrl(url)   // Open a local file or URL in the host
+```
+
+`Host.GUI.openUrl()` accepts a `Host.Url` object and returns a numeric status
+code. `0` indicates success.
+
+**Usage:**
+
+```javascript
+var targetPath = Host.Url("local://$USERCONTENT/OpenUrlProbe_Target.txt");
+var status = Host.GUI.openUrl(targetPath);
+Host.Console.writeLine("openUrl status: " + status);
+```
+
+> 📖 The call can open local files and folders.   
+> ⚠️ Passing a plain string returns a nonzero failure code.
+
+### 9.7 Host.Objects (URL-Based Object Access)
 
 ```javascript
 Host.Objects.getObjectByUrl(url)    // Get internal host object by URL
@@ -1303,7 +1342,7 @@ Host.Objects.unregisterObject(name)
 
 All URL objects share: `obj.findParameter(name)`, `obj.interpretCommand(...)`, `obj.find(name)`
 
-### 9.7 Host.Classes (Factory Instantiation)
+### 9.8 Host.Classes (Factory Instantiation)
 
 ```javascript
 Host.Classes.createInstance(classID)        // Create instance
@@ -1340,7 +1379,7 @@ Host.Classes.newIterator()                  // Returns empty iterator
 - `CCL:CommandSelector` exposes `name`, `argColumnEnabled`, and `focusCommand`, plus `addExcludedCategory()`.
 - `CCL:Divider` exposes `jump()` and behaves like a skin/native divider proxy from JavaScript.
 
-### 9.8 Host.Engine
+### 9.9 Host.Engine
 
 ```javascript
 Host.Engine.TrackFormats              // 17 track format types
@@ -1366,7 +1405,7 @@ var velocityFormatter = Host.Engine.createFormatter("Media.MusicVelocity");
 param.setFormatter(pitchFormatter);  // Displays "C3" instead of "60"
 ```
 
-### 9.9 Host.Settings (Script-Local Key-Value Store)
+### 9.10 Host.Settings (Script-Local Key-Value Store)
 
 ```javascript
 var attrs = Host.Settings.getAttributes();
@@ -1380,13 +1419,13 @@ attrs.getAttributeValue(index)
 
 > ⚠️ `Host.Settings` is a **blank, script-local** store — not a way to read Studio Pro preferences. No DAW settings are pre-populated. Useful for persisting state between `prepareEdit` and `performEdit` phases.
 
-### 9.10 Host.Console
+### 9.11 Host.Console
 
 ```javascript
 Host.Console.writeLine(text)   // Console output (alternative to alert for debugging)
 ```
 
-### 9.11 Host.Graphics (Image Utility)
+### 9.12 Host.Graphics (Image Utility)
 
 ```javascript
 Host.Graphics.loadImage(path)
@@ -1398,13 +1437,13 @@ Host.Graphics.createBitmapFilter()
 
 > ⚠️ `Host.Graphics` has **no drawing primitives** (no drawRect, drawLine, drawText). It is an image loading/saving utility only. Deep testing of Graphics methods can crash Studio Pro.
 
-### 9.12 Host.Security
+### 9.13 Host.Security
 
 ```javascript
 Host.Security.checkAccess(packageID, featureName)  // Returns 0 (restricted)
 ```
 
-### 9.13 Host.Interfaces (Complete List — 28)
+### 9.14 Host.Interfaces (Complete List — 28)
 
 `IUnknown`, `IClassFactory`, `IComponent`, `IObjectNode`, `IObserver`, `IPersistAttributes`, `ICommandHandler`, `IContextMenuHandler`, `IParamObserver`, `IViewStateHandler`, `ITimerTask`, `IController`, `IScriptComponent`, `IHelpTutorialHandler`, `IPortFilter`, `IBrowserExtension`, `IDocumentTemplateHandler`, `IDocumentEventHandler`, `IEditTask`, `IToolConfiguration`, `IToolMode`, `IToolHelp`, `IToolSet`, `IToolAction`, `IEditHandlerHook`, `IEditHandler`, `IPresetMediator`, `IExtensionHandler`
 
@@ -1412,20 +1451,30 @@ Host.Security.checkAccess(packageID, featureName)  // Returns 0 (restricted)
 >
 > `IEditTask` is the interface for scripts that run editable actions in Studio Pro. Use it when a script should validate first in `prepareEdit()` and then make changes in `performEdit()`.
 
-### 9.14 Host.Locales
+### 9.15 Host.Locales
 
 ```javascript
 Host.Locales.getStrings(key)   // Look up a localized i18n string by key
 ```
 
-### 9.15 Host.SystemInfo
+### 9.16 Host.SystemInfo
 
 ```javascript
 Host.SystemInfo.getLocalTime()   // Returns current local system time object
                                   // (same DateTime object as Host.DateTime — use .toSeconds())
 ```
 
-### 9.16 Host.Signals.postMessage
+### Application Configuration Access
+
+```javascript
+var value = Host.studioapp.find("Application").Configuration
+  .getValue("Engine.Editing", "midiValuePresentationEnabled");
+```
+
+> ⚠️ The configuration object is reachable, but section and key names are not
+> documented. Treat them as exploratory lookups and verify them by probing.
+
+### 9.17 Host.Signals.postMessage
 
 ```javascript
 Host.Signals.postMessage(/* args */)   // Exposed API, but tested as a silent no-op
@@ -1433,7 +1482,7 @@ Host.Signals.postMessage(/* args */)   // Exposed API, but tested as a silent no
 
 > ⚠️ `postMessage()` is unclear. Tested in `EditTask`, `FrameworkService`, `MusicEdit`, and list-observer contexts; it returned `undefined` every time and never triggered `notify()`. Prefer `Host.Signals.signal()` for cross-script messaging.
 
-### 9.17 Host.FileTypes
+### 9.18 Host.FileTypes
 
 ```javascript
 Host.FileTypes.registerFileType(/* args */)              // Register a custom file type
@@ -1443,7 +1492,7 @@ Host.FileTypes.registerHandler(fileType, handler)        // Register a file hand
 Host.FileTypes.unregisterHandler(fileType, handler)      // Unregister a file handler
 ```
 
-### 9.18 Host.GUI.Help (Tutorial System)
+### 9.19 Host.GUI.Help (Tutorial System)
 
 ```javascript
 Host.GUI.Help.alignActiveTutorial()      // Align the active tutorial overlay
@@ -1455,7 +1504,7 @@ Host.GUI.Help.modifyHighlights(/* */)   // Modify existing highlights
 Host.GUI.Help.dimAllWindows()            // Dim all windows (tutorial focus effect)
 ```
 
-### 9.19 Host.Settings — Additional Method
+### 9.20 Host.Settings — Additional Method
 
 ```javascript
 Host.Settings.sleep(ms)   // Thread sleep in milliseconds
@@ -1693,11 +1742,12 @@ Required when using custom dialogs. Must declare `Package:SkinFile` in metainfo.
 
 **Top-level elements:**
 
-| Element | Description |
-|---|---|
-| `<Styles>` | Optional. Custom style definitions (fonts, colors). See Section 12.10. |
-| `<Forms>` | Required. Container for `<Form>` dialogs. |
-| `<Form>` | Individual dialog definition. Attributes: `name` (required), `title` (required). |
+| Element | Description | Confirmed `options` / style tokens |
+|---|---|---|
+| `<Form>` | Individual dialog definition. Attributes: `name` (required), `title` (required). | `windowstyle=("dialogstyle", "sizable", "restorepos", "restoresize", "titlebar", "maximize", "inflate", "center", "pluginhost")` |
+| `<Forms>` | Required. Container for `<Form>` dialogs. | - |
+| `<Resources>` | Top-level container for reusable named assets. See Section 12.21. | - |
+| `<Styles>` | Optional. Custom style definitions (fonts, colors). See Section 12.10. | - |
 
 ### 12.2 Confirmed Working Elements
 
@@ -1713,12 +1763,15 @@ Required when using custom dialogs. Must declare `Package:SkinFile` in metainfo.
 | `<Divider>` | Visible divider line | `name`, `width`, `height`, `style` | - | - |
 | `<EditBox>` | Text / number input | `name`, `width`, `height`, `options`, `multiline`, `style`, `tooltip` | `addString`, `addInteger`, `addFloat` | `"password"`, `"focus"`, `"return"`, `"transparent"`, `"immediate"`, `"multiline"` |
 | `<Horizontal>` | Horizontal layout container | `spacing`, `margin`, `attach` | - | - |
+| `<Image>` | Named image resource stored inside `<Resources>` | `name`, `url` | Referenced by `ImageView` | - |
+| `<ImageView>` | Displays a named image resource | `image`, `width`, `height`, `attach`, `tooltip` | - | - |
 | `<Knob>` | Rotary control | `name`, `width`, `height` | `addInteger`, `addFloat` | - |
 | `<Label>` | Static text label | `title`, `name`, `style` | - | - |
 | `<ListView>` | Table-style list | `name`, `width`, `height`, `options`, `scrolloptions` | `Host:ListViewModel` | `"header"`, `"selection"`, `"swallowalphachars"`|
 | `<RadioButton>` | Mutually exclusive selector (grouped by `name`) | `name`, `value`, `title` | `addInteger` | - |
 | `<SelectBox>` | Dropdown selector (taller than ComboBox) | `name`, `options` | `addList` | `"border"`, `"transparent"`, `"hidetext"`, `"hidefocus"`, `"hidebutton"`, `"trailingbutton"`, `"nowheel"` |
 | `<Slider>` | Horizontal or vertical slider | `name`, `width`, `height`, `options` | `addInteger`, `addFloat` | `"horizontal"`, `"vertical"` |
+| `<Space>` | Layout spacer | `width`, `height` | - | - |
 | `<TabView>` | Visible tab/view container | `name`, `width`, `height` | - | - |
 | `<Table>` | Container-style layout element | `name`, `width`, `height` | - | - |
 | `<TextBox>` | Display-only text field | `name`, `width`, `height`, `style` | `addString` | `multiline`, `fittext` |
@@ -1743,13 +1796,11 @@ These are elements and options discovered or probed in tests that are not yet fu
 | `<CommandBarView>` | Command bar container | `name`, `height`, `attach`, `style` | - | `"horizontal vertical"` |
 | `<Control>` | Empty shell/container | `name`, `width`, `height` | - | - |
 | `<Heading>` | Title-style text element | `title`, `name`, `width`, `height` | - | - |
-| `<ImageView>` | Decorative/image wrapper | `style`, `width`, `height` | - | - |
 | `<Link>` | Clickable folder-link style control | `name`, `title`, `attach` | - | - |
 | `<ProgressBar>` | Progress indicator | `name`, `width`, `height` | - | - |
 | `<RangeSlider>` | Dual-handle slider variant | `name`, `width`, `height`, `min`, `max`, `value` | `addInteger`, `addFloat` | `"horizontal"`, `"vertical"` |
 | `<Scrollbar>` | Standalone scrollbar control | `name`, `width`, `height` | `addInteger` | `"vertical"`, `"horizontal"` |
 | `<ScrollView>` | Scrollable view container / scroll chrome host | `name`, `width`, `height`, `options`, `hscroll.style` | - | `"canscrollh"`, `"autobuttonsh"`, `"extendtarget"`, `"noscreenscroll"` |
-| `<Space>` | Layout spacer | `width`, `height` | - | - |
 | `<Table>` | Generic layout container | `name`, `width`, `height` | - | - |
 | `<TreeView>` | Visible tree-style view | `name`, `width`, `height`, `options`, `scrolloptions` | - | `"noroot"`, `"noicons"`, `"nodrag"`, `"selectfullwidth"`, `"selection"`, `"exclusive"`, `"autoexpand"`, `"swallowalphachars"` |
 | `<TriggerView>` | Click/gesture wrapper | `style`, `gesturepriority`, `attach` | - | - |
@@ -2094,10 +2145,22 @@ this.DisplayText = context.parameters.addString("DisplayText");
 this.DisplayText.value = "";
 ```
 
-> 📖 **Prefill note:** TextBox text is typically prefilled by setting the parameter `.value` before the dialog opens.   
-> 📖 **TextBox styling:** Having `textcolor` with no defined `backcolor` will default to white background.
+> 📖 **Prefill note:** TextBox can be prefilled by setting the parameter `.value` before the dialog opens.   
+> ⚠️ **TextBox styling:** Having `textcolor` with no defined `backcolor` will default to white background.  
+> ⚠️ **Visibility alignment:** For multiline `TextBox` controls, apply a style alignment such as `<Align name="textalign" align="left top"/>`. Without explicit style alignment, default centering can push top lines partly out of the visible bounds.
 
-### 12.17 ValueBox 
+### 12.17 ListView
+
+`ListView` is a table-style UI element that displays rows from a `Host:ListViewModel`.
+
+```xml
+<ListView name="list" height="400" width="500"/>
+```
+
+> 📖 The `name` attribute binds to the `this.list` property on the controller scope. See [11.3 List View (Host:ListViewModel)](#113-list-view-hostlistviewmodel)    
+> 📖 **ScrollBar Rendering:** Render scrollbars using the `scrolloptions` attribute
+
+### 12.18 ValueBox 
 
 `ValueBox` is an editable value field that can accept typed values and can be written back from script.
 
@@ -2105,14 +2168,33 @@ this.DisplayText.value = "";
 <ValueBox name="ValueText" width="140" height="22"/>
 ```
 
+**Prefill:** ValueBox text can be prefilled by setting the parameter `.value` before the dialog opens.
+
 ```javascript
 this.ValueText = context.parameters.addString("ValueText");
 this.ValueText.value = "";
 ```
 
-> 📖 **Prefill note:** ValueBox text is typically prefilled by setting the parameter `.value` before the dialog opens.
 
-### 12.18 EditBox 
+**Display-vs-storage translation:** `ValueBox` can show a user-friendly display unit while the script stores and uses a different underlying unit. Such as storing crossfade length in seconds internally, but displaying milliseconds in the UI.
+
+```javascript
+function displayMs(valueSeconds) {
+  return Math.round(Math.max(0, Number(valueSeconds || 0)) * 1000);
+}
+
+function storageSeconds(valueMs) {
+  return Math.max(0, Number(valueMs || 0)) / 1000;
+}
+
+// Example:
+// UI shows: 20 ms
+// Script stores: 0.02
+```
+
+> 📖 **Formatting note:** The label next to the field can remain the visible unit marker, while the script handles translation before command execution.
+
+### 12.19 EditBox 
 
 `EditBox` is an edittable text field that accepts typed text and commits its value back to script.
 
@@ -2124,10 +2206,12 @@ this.ValueText.value = "";
 this.InputText = context.parameters.addString("InputText");
 this.InputText.value = "";
 ```
-> 📖 **Prefill note:** EditBox text is typically prefilled by setting the parameter `.value` before the dialog opens.   
-> ⚠️ **EditBox `multiline`:** Requires parameter binding and a defined `height` value to render as multi-line.
+> 📖 **Prefill note:** EditBox text can be prefilled by setting the parameter `.value` before the dialog opens.   
+> ⚠️ **EditBox `multiline`:** Requires parameter binding and a defined `height` value to render as multi-line.  
+> ⚠️ **Visibility alignment:** For multiline `EditBox` controls, apply a style alignment such as `<Align name="textalign" align="left top"/>`. Without explicit style alignment, default centering can push top lines partly out of the visible bounds.  
+> 📖 **Edit/Focus state scrollbar:** Use `options="multiline vertical"` with long overflow content. Scrollbar is only visible in edit/focus state.  
 
-### 12.19 DialogGroup (Titled Container)
+### 12.20 DialogGroup (Titled Container)
 
 `DialogGroup` is a visible container for housing other elements.
 
@@ -2145,18 +2229,48 @@ this.InputText.value = "";
 
 > 📖 **Centered Label:** The title/header is centered automatically when the `title` attribute is set.
 
-### 12.17 ListView
+### 12.21 Space
 
-`ListView` is a table-style UI element that displays rows from a `Host:ListViewModel`.
+`Space` is a lightweight layout spacer used to add fixed blank area between controls.
 
 ```xml
-<ListView name="list" height="400" width="500"/>
+<Vertical margin="0" spacing="8">
+  <Label title="Top Control"/>
+  <Space height="4"/>
+  <Label title="Bottom Control"/>
+</Vertical>
 ```
 
-> 📖 The `name` attribute binds to the `this.list` property on the controller scope. See [11.3 List View (Host:ListViewModel)](#113-list-view-hostlistviewmodel)    
-> 📖 **ScrollBar Rendering:** Render scrollbars using the `scrolloptions` attribute
+### 12.22 Resources
 
----
+`Resources` is a top-level skin block used to define reusable named assets for the form.
+
+```xml
+<Skin>
+  <Resources>
+    <Image name="LinearPreview" url="images/linear.png"/>
+  </Resources>
+</Skin>
+```
+
+> 📖 **Top-level placement:** `Resources` sits directly under `<Skin>`, alongside `<Styles>` and `<Forms>`.   
+> 📖 **Usage:** Declare named images and reference them from `ImageView`.
+
+### 12.23 Image Resource + ImageView
+
+`ImageView` displays a named image resource defined in the form `Resources` block.
+
+```xml
+<Resources>
+  <Image name="LinearPreview" url="images/linear.png"/>
+</Resources>
+
+<Vertical spacing="4">
+  <ImageView image="LinearPreview" width="48" height="48" tooltip="Linear"/>
+</Vertical>
+```
+
+> 📖 **Nested behavior:** `ImageView` can sit inside a container like a normal visual control.
 
 ## 13. File I/O
 
@@ -2373,10 +2487,28 @@ modifyPitch, modifyVelocity, muteEvent,
 freezeVelocity, freezePitch, freezeQuantize,
 quantize, quantizeEvent, setLyrics, createEvent,
 renameEvent, colorizeEvent, removeTrack,
-createFadeIn, createFadeOut,
+createFadeIn, createFadeOut, createCrossFade,
 newMusicalTime, newMediaTime,
 root (object), executeImmediately (flag)
 ```
+
+**Root-created function families:**
+
+Some edit functions are exposed through root-specific function families created with `root.createFunctions("FamilyName")`.
+
+```javascript
+var root = audioEvent.getRoot();
+var audioFunctions = root.createFunctions("AudioFunctions");
+audioFunctions.createCrossFades(events, fadeLengthSeconds);
+```
+
+| Family | Confirmed Methods |
+|---|---|
+| `AudioFunctions` | `createCrossFades(events, fadeLengthSeconds)` |
+| `MusicPartFunctions` | `createPitchNameList(track)` |
+
+> 📖 **Context note:** `createFunctions(...)` is root dependent. Use the root belonging to the event, region, or editor object you intend to operate on.  
+> 📖 **Crossfade note:** `context.functions.createCrossFade(leftEvent, rightEvent)` is the singular overlap-based method. `AudioFunctions.createCrossFades(events, fadeLengthSeconds)` is the plural timed method used when explicit crossfade length is needed.
 
 ### 15.5 Iterator — Full Method List
 
@@ -2509,8 +2641,8 @@ function floatToDb(f)  { return (Math.log(parseFloat(f)) / Math.LN10) * 20; }
 ### 16.3 Known Gaps
 
 - Complete `skin.xml` element and attribute reference (Dual handle range sliders, EditBox / TextBox scrollbars, etc.)
-- `Host.GUI.openUrl()` — seen in source, not yet confirmed
 - `Host.Signals.postMessage()` caller semantics beyond `signal()`-style dispatch are unresolved, but the current test evidence suggests it is inert in normal script contexts
+- `Host.studioapp.find("Application").Configuration.getValue(...)` works, but the section/key namespaces are still exploratory and need more cataloging
 
 ### 16.4 Debugging Utilities
 
@@ -2593,6 +2725,36 @@ The **Multi Script Demo** package in this repository is a complete, working exam
 - Opens separate dialogs for Script A and Script B
 - Shows the shared dialog structure used by multi-script packages
 - Matches the package layout currently deployed for testing
+
+### [17.4 Crossfade Tool — Complete Working Example](scripts/packages/crossfade-tool/)
+
+The **Crossfade Tool** package in this repository is a complete, working example demonstrating:
+
+- `AudioEdit` `EditTask` registration for an audio-event-only workflow
+- `skin.xml` with `Resources`, `Image`, `ImageView`, `Space`, `Slider`, `ValueBox`, `CheckBox`, and `RadioButton`
+- named image resources displayed through `ImageView`
+- grouped `RadioButton` controls used as a visual Type selector
+- display-vs-storage translation for millisecond UI values and second-based API values
+- `Host.GUI.Commands.interpretCommand("Audio", "Create Crossfades", false, attrs)` with `Length`, `Type`, and `Bend`
+- `AudioFunctions.createCrossFades(events, fadeLengthSeconds)` for the actual edit operation
+
+**Source code:** [`scripts/sources/crossfade-tool-source/`](scripts/sources/crossfade-tool-source/)
+
+**Files:**
+- [`classfactory.xml`](scripts/sources/crossfade-tool-source/classfactory.xml)
+- [`metainfo.xml`](scripts/sources/crossfade-tool-source/metainfo.xml)
+- [`main.js`](scripts/sources/crossfade-tool-source/main.js)
+- [`skin/skin.xml`](scripts/sources/crossfade-tool-source/skin/skin.xml)
+- [`skin/images/linear.png`](scripts/sources/crossfade-tool-source/skin/images/linear.png)
+- [`skin/images/logarithmic.png`](scripts/sources/crossfade-tool-source/skin/images/logarithmic.png)
+- [`skin/images/exponential.png`](scripts/sources/crossfade-tool-source/skin/images/exponential.png)
+
+**Key features:**
+- Processes selected audio events in `AudioEdit` context
+- Supports Linear, Logarithmic, and Exponential crossfade types
+- Supports Bend as a user-facing percentage value
+- Supports optional split-duration behavior so the entered duration can be divided evenly between both clips
+- Demonstrates how command arguments and edit functions can be combined in one script
 
 ---
 

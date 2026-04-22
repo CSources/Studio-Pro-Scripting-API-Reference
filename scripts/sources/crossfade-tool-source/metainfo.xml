@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MetaInformation>
+  <Attribute id="Package:ID" value="crossfadetool"/>
+  <Attribute id="Package:Name" value="Crossfade Tool"/>
+  <Attribute id="Package:Version" value="1.0.0"/>
+  <Attribute id="Package:Vendor" value="Chris R"/>
+  <Attribute id="Package:SkinFile" value="skin/"/>
+</MetaInformation>

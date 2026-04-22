@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ClassFactory>
+  <ScriptClass
+    classID="{89526C7F-5E76-4598-B63B-3D505861C6F9}"
+    metaClassID="{A3CDD092-D287-40C7-A4F7-4BF792AC8B31}"
+    name="Crossfade Tool"
+    category="EditTask"
+    subCategory="AudioEdit"
+    sourceFile="main.js"
+    functionName="createInstance">
+    <Attribute id="menuFollow" value="1"/>
+    <Attribute id="menuPriority" value="0"/>
+    <Attribute id="commandCategory" value="Audio"/>
+    <Attribute id="alwaysEnabled" value="1"/>
+    <Attribute id="ignoreEventLock" value="1"/>
+  </ScriptClass>
+</ClassFactory>
