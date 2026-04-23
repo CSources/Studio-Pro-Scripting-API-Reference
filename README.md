@@ -56,7 +56,7 @@ your-script.package (ZIP)
 
 **Multi-script packages:**
 
-For multi-script packages, the structure is the same at the ZIP root, but each script has its own uniquely named `sourceFile` and unique `classID`, and each of those files is referenced in a single `classfactory.xml`. Shared UI definitions live in one `skin.xml`, with one `<Form>` per script when dialogs are used. See [17.3 Multi Script Demo](#173-multi-script-demo--complete-working-example) for a working example.
+For multi-script packages, the structure is the same at the ZIP root. Each `<ScriptClass>` needs a unique `classID`; `functionName` only needs to name the factory function inside that entry's `sourceFile`. Multiple entries may point at the same `sourceFile` when one JavaScript file exports several factory functions. Shared UI definitions live in one `skin.xml`, with one `<Form>` per script when dialogs are used. See [17.3 Multi Script Demo](#173-multi-script-demo--complete-working-example) for a working example.
 
 ### 1.2 metainfo.xml
 
@@ -67,10 +67,13 @@ For multi-script packages, the structure is the same at the ZIP root, but each s
   <Attribute id="Package:Name"    value="Display Name"/>
   <Attribute id="Package:Version" value="1.0.0"/>
   <Attribute id="Package:Vendor"  value="Your Name"/>
+  <Attribute id="Package:Email"   value="you@example.com"/>
   <!-- Required when script uses custom dialogs: -->
   <Attribute id="Package:SkinFile" value="skin/"/>
 </MetaInformation>
 ```
+
+Only `Package:ID` has been observed as strictly required for simple command-only packages. `Package:Name`, `Package:Version`, `Package:Vendor`, and `Package:Email` are metadata fields.
 
 > ⚠️ `Package:SkinFile` is **required** when using `skin.xml` dialogs. Without it, scripts with dialogs will not appear in the menu.
 
@@ -103,6 +106,25 @@ For multi-script packages, the structure is the same at the ZIP root, but each s
 | `name` | Display name in menus |
 | `sourceFile` | JS filename (relative to ZIP root) |
 | `functionName` | Function exported by the JS file |
+
+**Multiple commands from one JS file:**
+
+```xml
+<ScriptClass name="Remove Empty Tracks"
+  sourceFile="code.js"
+  functionName="removeEmpty"/>
+
+<ScriptClass name="Remove Disabled Tracks"
+  sourceFile="code.js"
+  functionName="removeDisabled"/>
+```
+
+```javascript
+function removeEmpty()    { return new TrackAction("removeEmptyTracks"); }
+function removeDisabled() { return new TrackAction("removeDisabledTracks"); }
+```
+
+This pattern is useful for command families that share helpers, dialog state, or one task constructor with different action modes.
 
 **subCategory values:**
 
@@ -1121,6 +1143,27 @@ fn.renameEvent(event, "Section Name")
 fn.colorizeEvent(event, colorIntValue)
 ```
 
+### 7.7 Specialized Function Families
+
+Some edit operations are exposed through root-specific function families created with `root.createFunctions("FamilyName")`.
+
+```javascript
+var root = event.getRoot ? event.getRoot() : event.region.getRoot();
+var audioFunctions = root.createFunctions("AudioFunctions");
+audioFunctions.createCrossFades(events, fadeLengthSeconds);
+```
+
+| Family | Observed methods |
+|---|---|
+| `AudioFunctions` | `createCrossFades(events, fadeLengthSeconds)`, `createFadeOut(event, fadeType, fadeLength, fadeBend)`, `removeEvent(event)` |
+| `AudioEffectFunctions` | `insertEventEffect(audioEvent, presetOrClassID)` |
+| `AutomationFunctions` | `removeAllAutomation(trackOrEvent)` |
+| `DeviceEditFunctions` | `insertDevice(folder, presetOrClassID)`, `connectChannel(channel, destinationInput)` |
+| `MusicFunctions` | Music-region operations; surface still exploratory |
+| `MusicPartFunctions` | `addMediaTrack(...)`, `moveToFolder(...)`, `createPitchNameList(track)` |
+
+`createFunctions(...)` is root/context dependent. Create the function family from the root of the object you intend to edit; the same family name may be unavailable or unusable from another context.
+
 ---
 
 ## 8. Editor Object
@@ -1368,6 +1411,8 @@ Host.Classes.newIterator()                  // Returns empty iterator
 | `"CCL:View"` | View UI element |
 | `"Devices:PortParam"` | Port/MIDI parameter |
 | `"Host:ListViewModel"` | List/table data model |
+| `"Host:PlugInMenuParam"` | Plug-in menu parameter |
+| `"Host:PlugInSelector"` | Plug-in selector controller |
 | `"Host:PresetParam"` | Preset parameter |
 
 **Command tree / selector notes:**
@@ -1399,11 +1444,20 @@ Host.Engine.createTrackFormatWithPort(type, port)
 
 **Formatters:**
 
+`Host.Engine.createFormatter(name)` creates a display formatter for parameter-backed controls. Apply the formatter with `param.setFormatter(formatter)`; the backing `param.value` remains numeric while the UI displays a host-formatted string.
+
 ```javascript
 var pitchFormatter    = Host.Engine.createFormatter("Media.MusicNote");
 var velocityFormatter = Host.Engine.createFormatter("Media.MusicVelocity");
 param.setFormatter(pitchFormatter);  // Displays "C3" instead of "60"
 ```
+
+**Confirmed formatter names:**
+
+| Formatter | Display behavior |
+|---|---|
+| `"Media.MusicNote"` | Displays MIDI pitch integer values as note names such as `D#2` or `C3` |
+| `"Media.MusicVelocity"` | Displays velocity values using the host velocity presentation mode, including percent-style display when enabled |
 
 ### 9.10 Host.Settings (Script-Local Key-Value Store)
 
@@ -1742,46 +1796,48 @@ Required when using custom dialogs. Must declare `Package:SkinFile` in metainfo.
 
 **Top-level elements:**
 
-| Element | Description | Confirmed `options` / style tokens |
-|---|---|---|
-| `<Form>` | Individual dialog definition. Attributes: `name` (required), `title` (required). | `windowstyle=("dialogstyle", "sizable", "restorepos", "restoresize", "titlebar", "maximize", "inflate", "center", "pluginhost")` |
-| `<Forms>` | Required. Container for `<Form>` dialogs. | - |
-| `<Resources>` | Top-level container for reusable named assets. See Section 12.21. | - |
-| `<Styles>` | Optional. Custom style definitions (fonts, colors). See Section 12.10. | - |
+| Element | Description | Attributes | `options` / style tokens |
+|---|---|---|---|
+| `<Form>` | Individual dialog definition. | `name` (required), `title` (required), `image` | `windowstyle=("dialogstyle", "sizable", "restorepos", "restoresize", "titlebar", "maximize", "inflate", "center", "pluginhost")` |
+| `<Forms>` | Required. Container for `<Form>` dialogs. | - | - |
+| `<Resources>` | Top-level container for reusable named assets. See Section 12.22. | - | - |
+| `<Styles>` | Optional. Custom style definitions (fonts, colors). See Section 12.10. | - | - |
 
 ### 12.2 Confirmed Working Elements
 
-| Element | Description | Confirmed Attributes | Binds To | Confirmed `options` Values |
+| Element | Description | Attributes | Binds To | `options` / style tokens |
 |---|---|---|---|---|
 | `<Align>` | Style helper for text alignment inside styles | `name`, `align` | `Style` definitions | `"left"`, `"center"`, `"right"`, `"top"`, `"bottom"` |
-| `<Button>` | Push button (custom actions) | `name`, `title`, `width`, `height`, `tooltip` | `addInteger(0, 1, "name")` | `"transparent"` |
+| `<Button>` | Push button (custom actions) | `name`, `title`, `width`, `height`, `size`, `tooltip` | `addInteger(0, 1, "name")` | `"transparent"` |
 | `<ButtonGroup>` | Groups momentary buttons | `name` | Multiple `addInteger` | - |
-| `<CheckBox>` | Independent on/off toggle | `name`, `value`, `title` | `addInteger(0, 1, "name")` | - |
+| `<CheckBox>` | Independent on/off toggle | `name`, `value`, `title`, `tooltip`, `style` | `addInteger(0, 1, "name")` | - |
 | `<ColorBox>` | Color picker (requires nested SelectBox) | `name`, `width`, `height` | `addColor` | - |
 | `<ComboBox>` | Dropdown selector | `name`, `style` | `addList` (populate via JS) | - |
 | `<DialogGroup>` | Creates rounded background panel | `options` | - | `"primary"`, `"secondary"` |
 | `<Divider>` | Visible divider line | `name`, `width`, `height`, `style` | - | - |
-| `<EditBox>` | Text / number input | `name`, `width`, `height`, `options`, `multiline`, `style`, `tooltip` | `addString`, `addInteger`, `addFloat` | `"password"`, `"focus"`, `"return"`, `"transparent"`, `"immediate"`, `"multiline"` |
+| `<EditBox>` | Text / number input | `name`, `width`, `height`, `size`, `options`, `multiline`, `style`, `tooltip` | `addString`, `addInteger`, `addFloat` | `"password"`, `"focus"`, `"return"`, `"transparent"`, `"immediate"`, `"multiline"` |
 | `<Horizontal>` | Horizontal layout container | `spacing`, `margin`, `attach` | - | - |
 | `<Image>` | Named image resource stored inside `<Resources>` | `name`, `url` | Referenced by `ImageView` | - |
-| `<ImageView>` | Displays a named image resource | `image`, `width`, `height`, `attach`, `tooltip` | - | - |
+| `<ImageView>` | Displays a named image resource | `image`, `width`, `height`, `size`, `attach`, `tooltip` | - | - |
 | `<Knob>` | Rotary control | `name`, `width`, `height` | `addInteger`, `addFloat` | - |
-| `<Label>` | Static text label | `title`, `name`, `style` | - | - |
-| `<ListView>` | Table-style list | `name`, `width`, `height`, `options`, `scrolloptions` | `Host:ListViewModel` | `"header"`, `"selection"`, `"swallowalphachars"`|
-| `<RadioButton>` | Mutually exclusive selector (grouped by `name`) | `name`, `value`, `title` | `addInteger` | - |
-| `<SelectBox>` | Dropdown selector (taller than ComboBox) | `name`, `options` | `addList` | `"border"`, `"transparent"`, `"hidetext"`, `"hidefocus"`, `"hidebutton"`, `"trailingbutton"`, `"nowheel"` |
+| `<Label>` | Static text label | `title`, `name`, `width`, `height`, `style` | - | - |
+| `<ListView>` | Table-style list | `name`, `width`, `height`, `size`, `options`, `scrolloptions` | `Host:ListViewModel` | `"header"`, `"selection"`, `"swallowalphachars"`|
+| `<RadioButton>` | Mutually exclusive selector (grouped by `name`) | `name`, `value`, `title`, `width`, `height`, `tooltip`, `style` | `addInteger`, `addList` | - |
+| `<SelectBox>` | Dropdown selector (taller than ComboBox) | `name`, `size`, `options` | `addList` | `"border"`, `"transparent"`, `"hidetext"`, `"hidefocus"`, `"hidebutton"`, `"trailingbutton"`, `"nowheel"` |
 | `<Slider>` | Horizontal or vertical slider | `name`, `width`, `height`, `options` | `addInteger`, `addFloat` | `"horizontal"`, `"vertical"` |
 | `<Space>` | Layout spacer | `width`, `height` | - | - |
 | `<TabView>` | Visible tab/view container | `name`, `width`, `height` | - | - |
-| `<Table>` | Container-style layout element | `name`, `width`, `height` | - | - |
-| `<TextBox>` | Display-only text field | `name`, `width`, `height`, `style` | `addString` | `multiline`, `fittext` |
+| `<Table>` | Grid layout container | `name`, `columns`, `margin`, `spacing`, `width`, `height`, `size`, `attach` | - | - |
+| `<TextBox>` | Display-only text field | `name`, `width`, `height`, `size`, `style` | `addString` | `multiline`, `fittext` |
 | `<ToolButton>` | Small visible tool-style button | `name`, `title`, `width`, `height` | `addInteger(0, 1, "name")` | - |
-| `<Toggle>` | Toggle button (only inside ToggleGroup) | `name`, `title` | `addInteger(0, 1, "name")` | - |
+| `<Toggle>` | Toggle button (only inside ToggleGroup) | `name`, `title`, `size` | `addInteger(0, 1, "name")` | - |
 | `<ToggleGroup>` | Groups toggle buttons | `name`, `attach` | Multiple `addInteger(0,1,"name")` | - |
-| `<ValueBox>` | Editable value field | `name`, `width`, `height` | `addString`, `addInteger`, `addFloat` | - |
+| `<ValueBox>` | Editable value field | `name`, `width`, `height`, `size` | `addString`, `addInteger`, `addFloat` | - |
 | `<Vertical>` | Vertical layout container | `spacing`, `margin`, `attach` | - | - |
+| `<View>` | Layout wrapper / positioned container | `name`, `width`, `height`, `size`, `attach` | - | - |
 
-> 📖 `scrolloptions` Used to add scrollbars to supported elements, `vertical`, `horizontal`, `autohide`, `autohideboth`, `border`, `transparent`
+> 📖 `scrolloptions` Used to add scrollbars to supported elements, `vertical`, `horizontal`, `autohide`, `autohideboth`, `border`, `transparent`    
+> 📖 `size="x,y,w,h"` is a geometry attribute used by multiple skin elements. On layout wrappers such as `<View>`, it defines the wrapper rectangle; on controls it defines the control bounds; on image resources and shapes it defines the source/drawing rectangle. See [12.24 View](#1224-view) for the wrapper-specific breakdown.
 
 
 <details>
@@ -1789,7 +1845,7 @@ Required when using custom dialogs. Must declare `Package:SkinFile` in metainfo.
 
 These are elements and options discovered or probed in tests that are not yet fully confirmed as stable standalone examples or have unknown use cases.
 
-| Element | Description | Confirmed Attributes | Binds To | Confirmed `options` Values |
+| Element | Description | Attributes | Binds To | `options` / style tokens |
 |---|---|---|---|---|
 | `<AlignView>` | Context-menu passthrough / layout anchoring | `attach`, `options` | - | `"passcontextmenu"` |
 | `<ActivityIndicator>` | Activity indicator | `width`, `height` | - | - |
@@ -1797,22 +1853,20 @@ These are elements and options discovered or probed in tests that are not yet fu
 | `<Control>` | Empty shell/container | `name`, `width`, `height` | - | - |
 | `<Heading>` | Title-style text element | `title`, `name`, `width`, `height` | - | - |
 | `<Link>` | Clickable folder-link style control | `name`, `title`, `attach` | - | - |
+| `<PopupBox>` | Popup-style host selector element | `name`, `size`, `attach` | - | - |
 | `<ProgressBar>` | Progress indicator | `name`, `width`, `height` | - | - |
 | `<RangeSlider>` | Dual-handle slider variant | `name`, `width`, `height`, `min`, `max`, `value` | `addInteger`, `addFloat` | `"horizontal"`, `"vertical"` |
 | `<Scrollbar>` | Standalone scrollbar control | `name`, `width`, `height` | `addInteger` | `"vertical"`, `"horizontal"` |
 | `<ScrollView>` | Scrollable view container / scroll chrome host | `name`, `width`, `height`, `options`, `hscroll.style` | - | `"canscrollh"`, `"autobuttonsh"`, `"extendtarget"`, `"noscreenscroll"` |
-| `<Table>` | Generic layout container | `name`, `width`, `height` | - | - |
 | `<TreeView>` | Visible tree-style view | `name`, `width`, `height`, `options`, `scrolloptions` | - | `"noroot"`, `"noicons"`, `"nodrag"`, `"selectfullwidth"`, `"selection"`, `"exclusive"`, `"autoexpand"`, `"swallowalphachars"` |
 | `<TriggerView>` | Click/gesture wrapper | `style`, `gesturepriority`, `attach` | - | - |
-| `<View>` | Empty shell/container | `name`, `width`, `height` | - | - |
 | `<WebView>` | Visible blank web surface | `name`, `width`, `height` | - | - |
 
 > ⚠️ **`<ActivityIndicator>`** Renders a visual indicator. Not script-instantiable from current inspection. `CCL:ActivityIndicator` and `Host:ActivityIndicator` do not resolve, so there is no meaningful JavaScript surface to dump from the control itself.Unknown use case.  
 > ⚠️ **`<RangeSlider>`** Every test rendered a single-handle slider. A true dual-handle range slider render has not been acheived yet.   
 > ⚠️ **`<Scrollbar>`** Works as a standalone visible control when bound to an integer parameter, but it did not expose a script-visible change event path in the binding tests. Unknown use case.   
 > ⚠️ **`<ScrollView>`** Remains opaque and does not provide a useful direct JS-visible control surface. Unknown use case.  
-> ⚠️ **`<TreeView>`** Remains opaque and does not provide a useful direct JS-visible control surface. Unknown use case.    
-> ⚠️ **`<Table>`** Can host nested children and stacks them vertically by default, similar to `DialogGroup`. No binding confirmed. Unknown use case.   
+> ⚠️ **`<TreeView>`** Remains opaque and does not provide a useful direct JS-visible control surface. Unknown use case.
 
 
 </details>
@@ -2209,6 +2263,7 @@ this.InputText.value = "";
 > 📖 **Prefill note:** EditBox text can be prefilled by setting the parameter `.value` before the dialog opens.   
 > ⚠️ **EditBox `multiline`:** Requires parameter binding and a defined `height` value to render as multi-line.  
 > ⚠️ **Visibility alignment:** For multiline `EditBox` controls, apply a style alignment such as `<Align name="textalign" align="left top"/>`. Without explicit style alignment, default centering can push top lines partly out of the visible bounds.  
+> 📖 **Formatted values:** `EditBox` display can be affected by the backing parameter formatter. See [Host.Engine formatters](#99-hostengine).   
 > 📖 **Edit/Focus state scrollbar:** Use `options="multiline vertical"` with long overflow content. Scrollbar is only visible in edit/focus state.  
 
 ### 12.20 DialogGroup (Titled Container)
@@ -2270,7 +2325,64 @@ this.InputText.value = "";
 </Vertical>
 ```
 
-> 📖 **Nested behavior:** `ImageView` can sit inside a container like a normal visual control.
+> 📖 **Nested behavior:** `ImageView` can sit inside a container like a normal visual control.  
+> 📖 **Form Background:** `Form image="..."` to set a background image for the whole dialog.
+
+### 12.24 View
+
+`View` is a layout wrapper / container.
+
+```xml
+<View size="40,10,150,220">
+  <Vertical spacing="2" margin="0">
+    ...
+  </Vertical>
+</View>
+```
+
+The four comma-separated values in `size="x,y,w,h"` are:
+
+| Value | Meaning |
+|---|---|
+| `x` | Left offset inside the parent form |
+| `y` | Top offset inside the parent form |
+| `w` | Layout width |
+| `h` | Layout height |
+
+`View` is used to position blocks of controls while the inner `Vertical` and `Horizontal` containers handle local flow.
+
+### 12.25 Table
+
+`Table` is a grid layout container. Child elements are assigned to cells in source order, moving left to right across each row and then continuing on the next row.
+
+```xml
+<Table columns="2" margin="0" spacing="6">
+  <Label title="Name"/>
+  <EditBox name="Name"/>
+
+  <Label title="Count"/>
+  <ValueBox name="Count"/>
+</Table>
+```
+
+With `columns="2"`, the placement is:
+
+| Source order | Cell |
+|---|---|
+| First child: `Label` | Row 1, column 1 |
+| Second child: `EditBox` | Row 1, column 2 |
+| Third child: `Label` | Row 2, column 1 |
+| Fourth child: `ValueBox` | Row 2, column 2 |
+
+`<Null/>` can be used as an empty placeholder cell:
+
+```xml
+<Table columns="3" margin="4" spacing="8">
+  <Null/>
+  <Button title="Middle"/>
+  <Button title="Right"/>
+</Table>
+```
 
 ## 13. File I/O
 
@@ -2494,18 +2606,9 @@ root (object), executeImmediately (flag)
 
 **Root-created function families:**
 
-Some edit functions are exposed through root-specific function families created with `root.createFunctions("FamilyName")`.
+See [7.7 Specialized Function Families](#77-specialized-function-families) for usage notes and observed methods.
 
-```javascript
-var root = audioEvent.getRoot();
-var audioFunctions = root.createFunctions("AudioFunctions");
-audioFunctions.createCrossFades(events, fadeLengthSeconds);
-```
-
-| Family | Confirmed Methods |
-|---|---|
-| `AudioFunctions` | `createCrossFades(events, fadeLengthSeconds)` |
-| `MusicPartFunctions` | `createPitchNameList(track)` |
+Observed families: `AudioFunctions`, `AudioEffectFunctions`, `AutomationFunctions`, `DeviceEditFunctions`, `MusicFunctions`, `MusicPartFunctions`.
 
 > 📖 **Context note:** `createFunctions(...)` is root dependent. Use the root belonging to the event, region, or editor object you intend to operate on.  
 > 📖 **Crossfade note:** `context.functions.createCrossFade(leftEvent, rightEvent)` is the singular overlap-based method. `AudioFunctions.createCrossFades(events, fadeLengthSeconds)` is the plural timed method used when explicit crossfade length is needed.
@@ -2705,7 +2808,7 @@ The **Chord Mapping** script in this repository is a complete, working example d
 The **Multi Script Demo** package in this repository is a complete, working example demonstrating:
 
 - Multiple `<ScriptClass>` entries in one `classfactory.xml`
-- Separate `sourceFile` values for `ScriptA.js` and `ScriptB.js`
+- Separate `sourceFile` values for `ScriptA.js` and `ScriptB.js` (packages may also share one `sourceFile` when that file exports multiple factory functions)
 - A shared `skin.xml` with one `<Form>` per script
 - A valid `metainfo.xml` using `Package:SkinFile`
 - A real UI flow where each script opens its own dialog before running
@@ -2767,13 +2870,14 @@ The **Crossfade Tool** package in this repository is a complete, working example
 | GitHub — DjFix functions helper | https://github.com/DjFix/studioone_functions |
 | KVR Audio Forum | https://www.kvraudio.com/forum/viewtopic.php?t=506195 |
 | audiosex.pro Forum| https://audiosex.pro/threads/how-do-you-install-studio-one-x.30244/ |
+| GitHub - Track-Actions | https://github.com/jamesg545454/Track-Actions |
 
 ### References Used
-- **Navigation Essentials 2.0.1** (Lukas Ruschitzka) — track selection, colorize, piano editor tasks
-- **Studio One X v2.6.1** (Narech Kontcell) (`studioonex.package`) — extensive source reference; reverse engineered via PACKAGEF extraction
+- **Navigation Essentials 2.0.1** (Lukas Ruschitzka) — reference track selection, colorize, piano editor tasks
+- **Studio One X v2.6.1** (Narech Kontcell) (`studioonex.package`) — extensive source reference
 - **Studio One Scripts.exe** (LawrenceF:**KVR**) - referenced source files
 - **ChordstoBiabTextFile** (crossovercable:**KVR**, tonedef71:**KVR**) - reference source files for chord events
-
----
+- **Track-Actions** (Jamesg545454) - reference multi-command .JS files
+- **Logical Editor** (Jamesg545454) - reference display formatter for parameter-backed controls, form background, view layout wrapper
 
 *Community-compiled, not affiliated with Fender or PreSonus*

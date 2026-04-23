@@ -1,6 +1,6 @@
 # Crossfade Tool Documentation
 
-A Studio Pro script for creating precise crossfades between selected audio events.
+A Studio Pro script for creating crossfades between selected audio events.
 
 <p align="center">
   <img src="/scripts/packages/crossfade-tool/Crossfade Tool.png" alt="Crossfade Tool">
@@ -8,9 +8,7 @@ A Studio Pro script for creating precise crossfades between selected audio event
 
 ## Overview
 
-The Crossfade Tool creates crossfades between selected audio events with control over duration, crossfade type, and bend amount. It is designed for fast audio-edit workflows where the built-in Create Crossfades command needs repeatable, typed values from a compact script dialog.
-
-## Installation
+The Crossfade Tool creates crossfades between selected audio events with control over duration, crossfade type, and bend amount.
 
 | Platform | Scripts folder |
 |---|---|
@@ -30,7 +28,7 @@ Place the `.package` in your Studio Pro scripts folder. Restart Studio Pro after
 ### Split Duration
 
 - **Unchecked:** The entered crossfade length applies the full amount to each of the adjacent events.
-- **Checked:** The entered crossfade length is divided by two, applying half the crossfade amount to each of the adjacent events.
+- **Checked:** The entered crossfade length is divided by two between each of the adjacent events.
 - **Description:** Splits the entered duration evenly between the adjacent, selected clips.
 
 ### Type
