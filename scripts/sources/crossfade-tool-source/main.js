@@ -2,79 +2,77 @@ var kPackageID = "crossfadetool";
 
 function CrossfadeToolTask() {
   this.interfaces = [Host.Interfaces.IEditTask, Host.Interfaces.IParamObserver];
-}
-
-CrossfadeToolTask.prototype.prepareEdit = function(context) {
-  var params = context.parameters;
-  if (!params) {
-    Host.GUI.alert("Crossfade Tool: no parameter list available.");
-    return Host.Results.kResultFailed;
-  }
-
-  this.FadeLength = params.addInteger(0, 1000, "FadeLength");
-  this.FadeLength.value = 20;
-
-  this.Type = params.addInteger(0, 2, "Type");
-  this.Type.value = 0;
-
-  this.Bend = params.addInteger(0, 100, "Bend");
-  this.Bend.value = 100;
-
-  this.SplitCrossfade = params.addParam("SplitCrossfade");
-  this.SplitCrossfade.value = 0;
-
-  this.Status = params.addString("Status");
-  this.Status.value = "This tool needs at least two audio events selected.";
-
-
-  context.restore();
-  return context.runDialog("CrossfadeToolDialog", kPackageID);
-};
-
-CrossfadeToolTask.prototype.paramChanged = function(param) {
-  if ((param === this.FadeLength || param === this.Type || param === this.Bend || param === this.SplitCrossfade) && this.Status) {
-    var total = formatSeconds(this.FadeLength.value / 1000);
-    var bendPct = Math.round(bendValueFromField(this) * 100);
-    var head = "Type " + typeNameFromIndex(this.Type ? this.Type.value : 0) + ", Bend " + bendPct + "% | ";
-    if (this.SplitCrossfade && this.SplitCrossfade.value) {
-      this.Status.value = head + "Split evenly: " + total + " total, " + formatSeconds((this.FadeLength.value || 0) / 2) + " per side";
-      return;
+  this.prepareEdit = function(context) {
+    var params = context.parameters;
+    if (!params) {
+      Host.GUI.alert("Crossfade Tool: no parameter list available.");
+      return Host.Results.kResultFailed;
     }
-    this.Status.value = head + "Full amount per side: " + total;
-  }
-};
 
-CrossfadeToolTask.prototype.performEdit = function(context) {
-  var events = collectAudioEvents(context);
-  if (events.length < 2) {
-    Host.GUI.alert("Crossfade Tool:\nSelect at least two audio events.");
-    return Host.Results.kResultFailed;
-  }
+    this.FadeLength = params.addInteger(0, 1000, "FadeLength");
+    this.FadeLength.value = 20;
 
-  var functions = getAudioFunctions(context, events[0]);
-  if (!functions || !functions.createCrossFades) {
-    Host.GUI.alert("Crossfade Tool:\nCould not create AudioFunctions.createCrossFades.");
-    return Host.Results.kResultFailed;
-  }
+    this.Type = params.addInteger(0, 2, "Type");
+    this.Type.value = 0;
 
-  var length = Math.max(0, Math.min(1000, Number(this.FadeLength.value || 0))) / 1000;
-  if (this.SplitCrossfade && this.SplitCrossfade.value) {
-    length = length / 2;
-  }
+    this.Bend = params.addInteger(0, 100, "Bend");
+    this.Bend.value = 100;
 
-  var typeName = typeNameFromIndex(this.Type ? this.Type.value : 0);
-  var bendValue = bendValueForType(this);
-  var attrs = Host.Attributes(["Length", String(length), "Type", typeName, "Bend", String(bendValue)]);
-  try {
-    Host.GUI.Commands.interpretCommand("Audio", "Create Crossfades", false, attrs);
-  } catch (e) {
-    Host.GUI.alert("Crossfade Tool:\nCould not create crossfades.");
-    return Host.Results.kResultFailed;
-  }
+    this.SplitCrossfade = params.addParam("SplitCrossfade");
+    this.SplitCrossfade.value = 0;
 
-  functions.createCrossFades(events, length);
+    this.Status = params.addString("Status");
+    this.Status.value = "This tool needs at least two audio events selected.";
 
-  return Host.Results.kResultOk;
+    context.restore();
+    return context.runDialog("CrossfadeToolDialog", kPackageID);
+  };
+
+  this.paramChanged = function(param) {
+    if ((param === this.FadeLength || param === this.Type || param === this.Bend || param === this.SplitCrossfade) && this.Status) {
+      var total = formatSeconds(this.FadeLength.value / 1000);
+      var bendPct = Math.round(bendValueFromField(this) * 100);
+      var head = "Type " + typeNameFromIndex(this.Type ? this.Type.value : 0) + ", Bend " + bendPct + "% | ";
+      if (this.SplitCrossfade && this.SplitCrossfade.value) {
+        this.Status.value = head + "Split evenly: " + total + " total, " + formatSeconds((this.FadeLength.value || 0) / 2) + " per side";
+        return;
+      }
+      this.Status.value = head + "Full amount per side: " + total;
+    }
+  };
+
+  this.performEdit = function(context) {
+    var events = collectAudioEvents(context);
+    if (events.length < 2) {
+      Host.GUI.alert("Crossfade Tool:\nSelect at least two audio events.");
+      return Host.Results.kResultFailed;
+    }
+
+    var functions = getAudioFunctions(context, events[0]);
+    if (!functions || !functions.createCrossFades) {
+      Host.GUI.alert("Crossfade Tool:\nCould not create AudioFunctions.createCrossFades.");
+      return Host.Results.kResultFailed;
+    }
+
+    var length = Math.max(0, Math.min(1000, Number(this.FadeLength.value || 0))) / 1000;
+    if (this.SplitCrossfade && this.SplitCrossfade.value) {
+      length = length / 2;
+    }
+
+    var typeName = typeNameFromIndex(this.Type ? this.Type.value : 0);
+    var bendValue = bendValueForType(this);
+    var attrs = Host.Attributes(["Length", String(length), "Type", typeName, "Bend", String(bendValue)]);
+    try {
+      Host.GUI.Commands.interpretCommand("Audio", "Create Crossfades", false, attrs);
+    } catch (e) {
+      Host.GUI.alert("Crossfade Tool:\nCould not create crossfades.");
+      return Host.Results.kResultFailed;
+    }
+
+    functions.createCrossFades(events, length);
+
+    return Host.Results.kResultOk;
+  };
 };
 
 function collectAudioEvents(context) {
@@ -130,7 +128,6 @@ function safeString(value) {
     return "<error>";
   }
 }
-
 
 function createInstance() {
   return new CrossfadeToolTask();
