@@ -42,7 +42,7 @@ A `.package` is the script bundle format used by Studio Pro. It is typically dis
 your-script.package (ZIP)
 ├── metainfo.xml          ← Package metadata
 ├── classfactory.xml      ← Script registration & entry points
-└── script.js             ← Script source (filename can be anything; classfactory.xml points to it)
+└── scriptname.js             ← Script source (filename can be anything; classfactory.xml points to it)
 ```
 
 **Optional files:**
@@ -91,7 +91,7 @@ Script registration, entry points, and attributes.
     category="EditTask"
     subCategory="TrackEdit"
     name="My Script Name"
-    sourceFile="script.js"
+    sourceFile="scriptname.js"
     functionName="createInstance">
     <Attribute id="menuPriority"    value="0"/>
     <Attribute id="commandCategory" value="MyCategory"/>
@@ -104,8 +104,8 @@ Script registration, entry points, and attributes.
 | Attribute | Description |
 |---|---|
 | `classID` | Unique GUID — generate with any GUID tool |
-| `category` | `"EditTask"`, `"EditAddIn"`, or `"FrameworkService"` |
-| `subCategory` | See table below |
+| `category` | Script class type |
+| `subCategory` | Host context selector |
 | `name` | Display name in menus |
 | `sourceFile` | JS filename (relative to package root) |
 | `functionName` | Function exported by the JS file |
@@ -115,19 +115,40 @@ Script registration, entry points, and attributes.
 | ID | Description |
 |---|---|
 | `arguments` | Comma-separated param names (e.g., `"Volume,Pan"`) |
-| `alwaysEnabled` | `"1"` skips `prepareEdit()` result for enable/disable |
+| `alwaysEnabled` | `"1"` keeps the command enabled regardless of normal `prepareEdit` gating |
 | `commandCategory` | Category in macro/key binding system |
-| `formName` | skin.xml Form name (for `EditAddIn` panels) |
+| `formName` | User-defined `skin.xml` Form name (for `EditAddIn` panels) |
 | `groupName` | Panel group location (e.g., `"Song.AddInPanel"`) |
 | `hidden` | `"1"` hides from menus; accessible via command system only |
-| `menuGroup` | Group name for menu clustering |
+| `menuGroup` | Group name for menu bar, right-click and action menu categorization. |
 | `menuPriority` | Integer sort order; `-1` hides from menu |
-| `menuFollow` | - |
-| `metaClassID` | Optional unique GUID for internal metadata binding |
+| `menuFollow` | `"1"` |
+| `metaClassID` | Optional unique GUID for internal metadata binding, such as `ScriptMetaClass` |
+| `allowPatternParts` | `"1"` |
+| `ignoreAudioEvents` | `"1"` |
+| `ignoreEventLock` | `"1"` |
+| `ignoreTrackLock` | `"1"` |
 | `musicEditorOnly` | `"1"` restricts to music editor context |
+| `supportsLauncher` | `"1"` |
 | `supportsProject` | `"1"` for project-level operation |
+| `useChannelSelection` | `"1"` |
+| `useEventSelection` | `"1"` |
+| `useLayerSegments` | `"1"` |
+| `useTimeSelection` | `"1"` |
+| `useTrackSelection` | `"1"` |
 | `TrackContextMenu` | `"1"` adds to track right-click menu |
+| `TrackSourceContextMenu` | `"1"` |
 | `wantAudioParts` | `"1"` to include audio clips in iteration |
+
+**category values:**
+
+| Value | Context |
+|---|---|
+| `"EditTask"` | Command/action script |
+| `"EditAddIn"` | Native add-in panel or toolbar integration |
+| `"ExtensionHandler"` | Extension lifecycle handler |
+| `"FrameworkService"` | Host-managed service surface, not shown in menus |
+| `"Gadget"` | - |
 
 **subCategory values:**
 
@@ -135,18 +156,53 @@ Script registration, entry points, and attributes.
 |---|---|
 | `"AudioEdit"` | Audio editor |
 | `"EventEdit"` | Arrangement editor events |
-| `"FrameworkService"` | Background service, no menu entry |
+| `"Engine"` | Song add-in toolbar panels |
+| `"FrameworkService"` | Host-managed service surface, not shown in menus |
 | `"MusicEdit"` | Piano roll / MIDI editor |
 | `"MusicPartEdit"` | Instrument Part editor |
+| `"Project"` | Project add-in toolbar panels |
 | `"ProjectEdit"` | Project-level operations |
+| `"Show"` | Show add-in toolbar panels |
 | `"ShowEdit"` | Show page operations |
-| `"TrackEdit"` | Track list operations |
+| `"TrackEdit"` | Track operations |
+
+**groupName values:**
+
+| Value | Context |
+|---|---|
+| `"Song.AddInPanel"` | Song add-in panel strip |
+| `"SongOnly.AddInPanel"` | Arrangement-only add-in panel strip |
+| `"MusicOnly.AddInPanel"` | Music editor add-in panel strip |
+| `"AudioOnly.AddInPanel"` | Audio editor add-in panel strip |
+| `"Project.AddInPanel"` | Project page add-in panel strip |
+| `"Show.AddInPanel"` | Show page add-in panel strip |
+
+**menuGroup values**
+
+| Value | Menu | subCategory | Grouping |
+|---|---|---|---|
+| `"AudioProcess"` | Audio | `AudioEdit` | Audio Processing category |
+| `"AudioVolume"` | Audio |  `AudioEdit` | Volume Curve category |
+| `"AudioBend"` | Audio |  `AudioEdit` | Audio Bend category |
+| `"AudioChords"` | Audio |  `AudioEdit` | Chords category |
+| `"AudioParts"` | Audio |  `AudioEdit` | Audio Parts category |
+| `"EventGeneral"` | Event | `EventEdit` | First non-header category |
+| `"EventMute"` | Event | `EventEdit` | Second non-header category |
+| `"EventOther"` | Event | `EventEdit` | Third non-header category |
+| `"EventQuantize"` | Event, Musical Functions | `EventEdit`, `MusicEdit` | Quantize category |
+| `"MusicMute"` | Event, Musical Functions | `EventEdit`, `MusicEdit` | Mute category |
+| `"MusicGlobal"` | Musical Functions | `MusicEdit` | Global category |
+| `"MusicPitch"` | Musical Functions | `MusicEdit` | Pitch category |
+| `"MusicVelocity"` | Musical Functions | `MusicEdit` | Velocity category |
+| `"MusicTime"` | Musical Functions | `MusicEdit` | Time category |
+| `"MusicProcess"` | Musical Functions | `MusicEdit` | Process category |
 
 **Multiple commands from one JS file:**
 
 Several `<ScriptClass>` entries can point to the same JS source file while exposing different factory functions, helpers, or action modes.
 
 ```xml
+<!-- classfactory.xml -->
 <ScriptClass name="Remove Empty Tracks"
   sourceFile="code.js"
   functionName="removeEmpty"/>
@@ -157,18 +213,77 @@ Several `<ScriptClass>` entries can point to the same JS source file while expos
 ```
 
 ```javascript
+// scriptname.js
 function removeEmpty()    { return new TrackAction("removeEmptyTracks"); }
 function removeDisabled() { return new TrackAction("removeDisabledTracks"); }
 ```
 
-**Adding an icon (`ScriptMetaClass`):**
+**Adding an icon-button to native Toolbars (`ScriptMetaClass`):**
 
-`ScriptMetaClass` binds an icon resource to an `EditAddIn` or toolbar-style script class. The image is loaded from `skin/images/...`, declared in `skin.xml` as an `Image`, and referenced from `classfactory.xml` with `theme://$package/...`.
+`ScriptMetaClass` binds an icon resource to an `EditAddIn` script class and exposes it as a button in the Toolbar.
+
+- The class uses `subCategory="Engine"`.
+- `groupName` determines location of icon-button.
+- The image is loaded from `skin/images/...`, declared in `skin.xml` as an `Image`.
+- The image is referenced from `classfactory.xml` with `theme://$package/...`.
 
 ```xml
+<!-- skin.xml -->
+<Image name="IconName" url="images/IconName.png"/>
+```
+
+```xml
+<!-- classfactory.xml -->
 <ScriptMetaClass classID="{your-metaClassID}">
   <ScriptClassResource id="Class:ImageResource"
     url="theme://$package/IconName"/>
+</ScriptMetaClass>
+```
+
+**Adding an icon to script menu items (`ScriptMetaClass`):**
+
+`ScriptMetaClass` binds an icon resource to an `EditTask` script class and exposes it in menus.
+
+- The class uses `menuGroup` to determine where the script appears.
+- The image is loaded from `skin/images/...`, declared in `skin.xml` as an `Image`.
+- The image is referenced from `classfactory.xml` with `theme://$package/...`.
+
+```xml
+<!-- skin.xml -->
+<Image name="IconName" url="images/IconName.png"/>
+```
+
+```xml
+<!-- classfactory.xml -->
+<ScriptMetaClass classID="{your-metaClassID}">
+  <ScriptClassResource id="Class:ImageResource"
+    url="theme://$package/IconName"/>
+</ScriptMetaClass>
+```
+
+**Gadget resource binding (`ScriptMetaClass`):**
+
+`ScriptMetaClass` can also bind a gadget resource XML to a `Gadget` script class.
+
+- The class uses `category="Gadget"`.
+- The meta class points to a `resources/gadget.xml` file with `Class:GadgetResource`.
+- The gadget XML carries the gadget's `themeName`, `formName`, `iconName`, and `menuIconName`.
+
+```xml
+<!-- resources/gadget.xml -->
+<Gadget
+  themeName="theme.name"
+  formName="FormName"
+  iconName="IconName"
+  menuIconName="MenuIconName"
+  />
+```
+
+```xml
+<!-- classfactory.xml -->
+<ScriptMetaClass classID="{your-metaClassID}">
+  <ScriptClassResource id="Class:GadgetResource"
+    url="resources/gadget.xml"/>
 </ScriptMetaClass>
 ```
 
@@ -232,7 +347,7 @@ create_package('MyScriptFolder', 'my-script.package')
 
 ### 2.1 Basic Task Structure
 
-Every script implements a task object and exports a `createInstance()` factory function.
+Every script implements a task object and exports a factory function named by `classfactory.xml`.
 
 ```javascript
 function MyTask() {
@@ -246,7 +361,7 @@ function MyTask() {
     return Host.Results.kResultOk;
   };
 }
-
+// Function name matches classfactory.xml functionName.
 function createInstance() {
   return new MyTask();
 }
@@ -888,29 +1003,6 @@ There are absolute directional coordinates on the Circle of Fifths Spiral, used 
 
 For a ready-to-use chord scraping script, see the [Chord Mapping package](scripts/packages/chord-mapping/) ([source](scripts/sources/chord-mapping-source/main.js)). It automates the process of exporting chord data to JSON and a results log.
 
-### 5.7 Extension Handler Lifecycle
-
-Long-lived extensions can use `IExtensionHandler` to initialize, register, and clean up host objects.
-
-```javascript
-this.interfaces = [Host.Interfaces.IExtensionHandler, Host.Interfaces.IComponent];
-
-this.initialize = function(context) {
-  Host.Objects.registerObject(this, "MacroExtensionHandler");
-  return Host.Results.kResultOk;
-};
-
-this.startupExtension = function(description) {
-  // Called for each loaded extension package
-  return 1;
-};
-
-this.terminate = function() {
-  Host.Objects.unregisterObject(this);
-  return Host.Results.kResultOk;
-};
-```
-
 ---
 
 ## 6. Time Objects
@@ -1127,7 +1219,7 @@ fn.setLyrics(event, text)            // Set lyrics on event
 
 ### 7.3 Track / Arrangement Editing
 
-Use `context.functions` for track and arrangement-level editing operations. See [Section 16.4](#164-contextfunctions-full-method-list) for the full direct `context.functions` method list.
+Use `context.functions` for track and arrangement-level editing operations. See [Section 16.12](#164-contextfunctions-full-method-list) for the full direct `context.functions` method list.
 
 ```javascript
 fn.addMediaTrack(index, name, trackFormat)   // Create a media track
@@ -1924,6 +2016,12 @@ attrs.getAttributeName(index)
 attrs.getAttributeValue(index)
 ```
 
+```javascript
+Host.Settings.sleep(ms)   // Thread sleep in milliseconds
+```
+
+`sleep()` is exposed on `Host.Settings`, but its scripting behavior is not yet documented in this guide.
+
 ### 9.13 Host.Console
 
 Host.Console provides console output for debugging.
@@ -1951,13 +2049,11 @@ Host.Security.checkAccess(packageID, featureName)  // Returns 0 (restricted)
 ```
 Behavior not yet documented in this guide.
 
-### 9.16 Host.UID / Host.Signals.flush
+### 9.16 Host.UID
 
 ```javascript
 Host.UID(classDescription.classID)   // Wrap a class ID for host APIs
-Host.Signals.flush()                 // Flush pending host signals
 ```
-
 Behavior not yet documented in this guide.
 
 ### 9.17 Host.Interfaces (Known List — 28)
@@ -1970,40 +2066,168 @@ Interface names are listed here as a reference inventory for `this.interfaces` u
 |---|---|
 | `IBrowserExtension` | - |
 | `IClassFactory` | - |
-| `ICommandHandler` | - |
-| `IComponent` | - |
-| `IContextMenuHandler` | - |
-| `IController` | - |
-| `IEditHandler` | - |
-| `IEditHandlerHook` | - |
-| `IEditTask` | Script lifecycle for editable actions: `prepareEdit()` then `performEdit()` |
-| `IExtensionHandler` | - |
-| `IHelpTutorialHandler` | - |
-| `IObjectNode` | - |
-| `IObserver` | - |
-| `IPersistAttributes` | - |
+| `ICommandHandler` | Handles command interpretation callbacks |
+| `IComponent` | Base component / shared object interface |
+| `IContextMenuHandler` | Builds context menus |
+| `IController` | Controller for dialog and view parameter bindings |
+| `IDocumentEventHandler` | Document lifecycle event handler |
+| `IDocumentTemplateHandler` | Document template handler |
+| `IEditHandler` | Edit-handler interface for tool and edit subsystems |
+| `IEditHandlerHook` | Hook for edit-handler coordination |
+| `IEditTask` | Editable action lifecycle |
+| `IExtensionHandler` | Extension lifecycle handler |
+| `IHelpTutorialHandler` | Tutorial/help lifecycle handler |
+| `IObjectNode` | Object-tree node interface for UI models |
+| `IObserver` | Receives callbacks from `Host.Signals` |
+| `IPersistAttributes` | Saves and restores attributes/state |
 | `IParamObserver` | Parameter-change observer for bound dialog/control parameters |
-| `IPortFilter` | - |
-| `IPresetMediator` | - |
-| `IToolConfiguration` | - |
-| `IToolMode` | - |
-| `IToolHelp` | - |
-| `IToolSet` | - |
-| `IToolAction` | - |
-| `ITimerTask` | - |
+| `IPortFilter` | Filters available ports for a dialog or task |
+| `IPresetMediator` | Mediates preset selection / preset state |
+| `IScriptComponent` | Component bridge for script-side UI composition |
+| `IToolAction` | Executable action within a tool or toolset |
+| `IToolConfiguration` | Configuration object for a tool or tool family |
+| `IToolHelp` | Tool help / help metadata |
+| `IToolMode` | Selectable tool mode |
+| `IToolSet` | Group of related tools or modes |
+| `ITimerTask` | Timer-driven task |
 | `IUnknown` | - |
-| `IScriptComponent` | - |
-| `IViewStateHandler` | - |
+| `IViewStateHandler` | Saves and restores view state for add-ins |
 
 **Callback Contracts:**
 
-| Interface | Required callback(s) | Description |
-|---|---|---|
-| `IEditTask` | `prepareEdit()` and `performEdit()` | Script lifecycle for editable actions. |
-| `IExtensionHandler` | `initialize(context)`, `startupExtension(description)`, `terminate()` | Host lifecycle surface for long-lived extensions. |
-| `IObserver` | `notify(subject, msg)` | Receives `Host.Signals` callbacks from `Host.Signals.advise(...)`. |
-| `IParamObserver` | `paramChanged(param)` | Receives parameter change callbacks from dialog/control bindings; required for `paramChanged()`-driven toggle handling. |
-| `IViewStateHandler` | `initialize(context)`, `saveViewState(viewID, viewName, attributes)`, `loadViewState(viewID, viewName, attributes)`, `terminate()` | Saves and restores view state for add-ins and view-state-aware components. |
+| Interface | Required callback(s) |
+|---|---|
+| `IContextMenuHandler` | `extendMenu(menu)` |
+| `IController` | `paramChanged(param)` |
+| `IEditTask` | `prepareEdit()` and `performEdit()` |
+| `IExtensionHandler` | `initialize(context)`, `startupExtension(description)`, `terminate()` |
+| `IObserver` | `notify(subject, msg)` |
+| `IParamObserver` | `paramChanged(param)` |
+| `IPersistAttributes` | `storeValues(attributes)`, `restoreValues(attributes)` |
+| `IViewStateHandler` | `initialize(context)`, `saveViewState(viewID, viewName, attributes)`, `loadViewState(viewID, viewName, attributes)`, `terminate()` |
+
+**Interface Pattern Examples:**
+
+**IContextMenuHandler**
+
+```javascript
+this.interfaces = [Host.Interfaces.IContextMenuHandler];
+
+this.extendMenu = function(menu) {
+  // Add commands or separators to the context menu.
+  menu.addCommandItem("Clear", " ", " ", this);
+};
+```
+
+**IController**
+
+```javascript
+this.interfaces = [Host.Interfaces.IController, Host.Interfaces.IParamObserver];
+
+this.initialize = function(panel) {
+  // Create the parameter list and bind it to this controller.
+  this.paramList = Host.Classes.createInstance("CCL:ParamList");
+  this.paramList.controller = this;
+};
+
+this.paramChanged = function(param) {
+  // Called when a bound parameter changes.
+};
+```
+
+**IEditTask**
+
+```javascript
+this.interfaces = [Host.Interfaces.IEditTask];
+
+this.prepareEdit = function(context) {
+  return Host.Results.kResultOk;
+};
+
+this.performEdit = function(context) {
+  return Host.Results.kResultOk;
+};
+```
+
+**IExtensionHandler:**
+
+Long-lived extensions can use `IExtensionHandler` to initialize, register, and clean up host objects.
+
+```javascript
+this.interfaces = [Host.Interfaces.IExtensionHandler, Host.Interfaces.IComponent];
+
+this.initialize = function(context) {
+  // Register the shared handler object.
+  Host.Objects.registerObject(this, "MacroExtensionHandler");
+  return Host.Results.kResultOk;
+};
+
+this.startupExtension = function(description) {
+  // Runs once for each loaded extension package.
+  return 1;
+};
+
+this.terminate = function() {
+  // Unregister the handler during shutdown.
+  Host.Objects.unregisterObject(this);
+  return Host.Results.kResultOk;
+};
+```
+
+**IObserver**
+
+```javascript
+this.interfaces = [Host.Interfaces.IObserver];
+
+// Subscribe the object to a signal channel.
+Host.Signals.advise("my-channel-name", this);
+
+this.notify = function(subject, msg) {
+  // Handle Host.Signals callbacks.
+};
+```
+
+**IParamObserver**
+
+```javascript
+this.interfaces = [Host.Interfaces.IParamObserver];
+
+this.paramChanged = function(param) {
+  // Called when a dialog/control parameter changes.
+};
+```
+
+**IPersistAttributes**
+
+```javascript
+this.interfaces = [Host.Interfaces.IPersistAttributes];
+
+this.storeValues = function(attributes) {
+  // Save persistent state into attributes.
+  return Host.Results.kResultOk;
+};
+
+this.restoreValues = function(attributes) {
+  // Restore persistent state from attributes.
+  return Host.Results.kResultOk;
+};
+```
+
+**IViewStateHandler**
+
+```javascript
+this.interfaces = [Host.Interfaces.IViewStateHandler];
+
+this.saveViewState = function(viewID, viewName, attributes) {
+  // Save view-specific state.
+  return true;
+};
+
+this.loadViewState = function(viewID, viewName, attributes) {
+  // Restore view-specific state.
+  return true;
+};
+```
 
 ### 9.18 Host.Locales
 
@@ -2031,15 +2255,7 @@ var value = Host.studioapp.find("Application").Configuration
 
 Configuration values are accessed by section/key name. Available keys are not yet documented in this guide.
 
-### 9.21 Host.Signals.postMessage
-
-```javascript
-Host.Signals.postMessage(/* args */)
-```
-
-`postMessage()` is exposed on `Host.Signals`, but its scripting behavior is not yet documented in this guide.
-
-### 9.22 Host.FileTypes
+### 9.21 Host.FileTypes
 
 ```javascript
 Host.FileTypes.registerFileType(/* args */)              // Register a custom file type
@@ -2051,15 +2267,7 @@ Host.FileTypes.unregisterHandler(fileType, handler)      // Unregister a file ha
 
 Behavior not yet documented in this guide.
 
-### 9.23 Host.Settings — Additional Method
-
-```javascript
-Host.Settings.sleep(ms)   // Thread sleep in milliseconds
-```
-
-`sleep()` is exposed on `Host.Settings`, but its scripting behavior is not yet documented in this guide.
-
-### 9.24 Script Instance (`this`) — __userdata
+### 9.22 Script Instance (`this`) — __userdata
 
 ```javascript
 this.__userdata
@@ -2506,6 +2714,8 @@ function getSongFolder(fileName) {
 | `Host.Signals.advise(channel, observer)` | Subscribe an observer to a signal channel. |
 | `Host.Signals.unadvise(channel, observer)` | Unsubscribe an observer from a signal channel. |
 | `Host.Signals.signal(channel, eventName, payload)` | Emit a signal to subscribed observers. |
+| `Host.Signals.flush()` | Flush pending host signals. |
+| `Host.Signals.postMessage()` | - |
 
 ```javascript
 // Implement in task:
@@ -2573,50 +2783,222 @@ function floatToDb(f)  { return (Math.log(parseFloat(f)) / Math.LN10) * 20; }
 
 ## 16. Complete API Index
 
-### 16.1 Host.GUI Namespaces
+### 16.1 Host Top-Level Summary
 
 | Namespace | Key Methods / Properties |
 |---|---|
-| `Host.GUI.Constants` | UI constants |
-| `Host.GUI.Commands` | command dispatch helpers |
-| `Host.GUI.Themes` | theme lookup and selection |
-| `Host.GUI.Desktop` | `closeModalWindows()`, `closeTopModal()`, `getApplicationWindow()` |
-| `Host.GUI.Help` | `alignActiveTutorial()`, `centerActiveTutorial()`, `focusActiveTutorial()`, `highlightControl()`, `discardHighlights()`, `modifyHighlights()`, `dimAllWindows()` |
-| `Host.GUI.Configuration` | configuration access helpers |
-| `Host.GUI.Clipboard` | clipboard helpers |
-
-### 16.2 Host.Engine Properties
-
-| Namespace | Key Methods / Properties |
-|---|---|
-| `Host.Engine.TrackFormats` | track format collection |
-| `Host.Engine.TrackColorPalette` | track color palette |
-| `Host.Engine.TrackIcons` | track icon collection |
-| `Host.Engine.MediaClips` | media clip collection |
-| `Host.Engine.Speakers` | speaker collection |
-| `Host.Engine.CrossFadeFinder` | crossfade helper object |
-| `Host.Engine.createFormatter(name)` | create a formatter |
-| `Host.Engine.createTrackFormatWithPort(type, port)` | create a track format from a port |
-
-### 16.3 Host Top-Level Summary
-
-| Namespace | Key Methods / Properties |
-|---|---|
+| `Host.Attributes` | - |
 | `Host.Classes` | `createInstance()`, `getClassDescription()`, `newIterator()` |
 | `Host.Console` | `writeLine(text)` |
-| `Host.Signals` | `advise()`, `unadvise()`, `signal()`, `postMessage()` |
+| `Host.DateTime` | Parse date string |
+| `Host.Signals` | `advise()`, `unadvise()`, `signal()`, `flush()`, `postMessage()` |
 | `Host.Graphics` | `loadImage()`, `saveImage()`, `createBitmap()`, `copyBitmap()`, `createBitmapFilter()` |
 | `Host.Interfaces` | known interface inventory and callback contracts |
 | `Host.Locales` | `getStrings(key)` |
 | `Host.Objects` | `getObjectByUrl()`, `getObjectByName()`, `getObjectByID()`, `registerObject()`, `unregisterObject()` |
+| `Host.studioapp` | Application-level command interpreter |
 | `Host.Security` | `checkAccess(packageID, featureName)` |
 | `Host.SystemInfo` | `getLocalTime()` |
+| `Host.UID` | Wrap a class ID for host APIs |
+| `Host.Url` | Create a host path object |
 | `Host.IO` | `openTextFile()`, `createTextFile()`, `File()`, `findFiles()`, `loadJsonFile()`, `XmlTree()`, `getDevelopmentFileLocation()`, `toBase64()`, `fromBase64()`, `openPackage()`, `createPackage()` |
 | `Host.FileTypes` | `registerFileType()`, `getFileTypeByExtension()`, `getFileTypeByMimeType()`, `registerHandler()`, `unregisterHandler()` |
 | `Host.Settings` | `getAttributes()`, `sleep(ms)` |
+| `Host.Services` | - |
+| `Host.getPlatform()` | Returns `"win"` or `"mac"` |
+
+### 16.2 Host.GUI Namespaces
+
+| Namespace | Key Methods / Properties |
+|---|---|
+| `Host.GUI.Constants` | UI constants |
+| `Host.GUI.Commands` | Command dispatch helpers |
+| `Host.GUI.openUrl` | Open URL / file helper |
+| `Host.GUI.keyStateToString` | Modifier mask formatting helper |
+| `Host.GUI.Themes` | Theme lookup and selection |
+| `Host.GUI.Desktop` | `closeModalWindows()`, `closeTopModal()`, `getApplicationWindow()` |
+| `Host.GUI.Help` | `alignActiveTutorial()`, `centerActiveTutorial()`, `focusActiveTutorial()`, `highlightControl()`, `discardHighlights()`, `modifyHighlights()`, `dimAllWindows()` |
+| `Host.GUI.Configuration` | Configuration access helpers |
+| `Host.GUI.Clipboard` | Clipboard helpers |
+
+**Common Methods:**
+
+| Method | Description |
+|---|---|
+| `Host.GUI.Commands.interpretCommand(category, name, clearSelection, attrs)` | Execute a host command |
+| `Host.GUI.Commands.deferCommand(category, name)` | Defer a host command |
+| `Host.GUI.Commands.findCommand(cat, name)` | Find a command object |
+| `Host.GUI.Commands.newCommandIterator()` | Iterate commands |
+| `Host.GUI.Commands.newCategoryIterator()` | Iterate command categories |
+| `Host.GUI.alert(msg)` | Modal alert |
+| `Host.GUI.ask(msg)` | Yes/No dialog |
+| `Host.GUI.runDialog(theme, "FormName", controller)` | Show a `skin.xml` dialog |
+| `Host.GUI.openUrl(url)` | Open a local file or URL |
+| `Host.GUI.keyStateToString(mask)` | Format modifier-key masks |
+| `Host.GUI.Clipboard.setText(text)` | Set clipboard text |
+| `Host.GUI.Clipboard.getText()` | Get clipboard text |
+
+### 16.3 Host.Engine Properties
+
+| Namespace | Key Methods / Properties |
+|---|---|
+| `Host.Engine.TrackFormats` | Track format collection |
+| `Host.Engine.TrackColorPalette` | Track color palette |
+| `Host.Engine.TrackIcons` | Track icon collection |
+| `Host.Engine.MediaClips` | Media clip collection |
+| `Host.Engine.Speakers` | Speaker collection |
+| `Host.Engine.CrossFadeFinder` | Crossfade helper object |
+| `Host.Engine.createFormatter(name)` | Create a formatter |
+| `Host.Engine.createTrackFormatWithPort(type, port)` | Create a track format from a port |
+
+### 16.4 Host.Signals
+
+| Method | Description |
+|---|---|
+| `Host.Signals.advise(channel, observer)` | Subscribe an observer to a signal channel |
+| `Host.Signals.unadvise(channel, observer)` | Unsubscribe an observer from a signal channel |
+| `Host.Signals.signal(channel, eventName, payload)` | Emit a signal to subscribed observers |
+| `Host.Signals.flush()` | Flush pending host signals |
+| `Host.Signals.postMessage()` | - |
+
+### 16.5 Host.Objects
+
+**Object Access:**
+
+| Method | Description |
+|---|---|
+| `Host.Objects.getObjectByUrl(url)` | Get internal host object by URL |
+| `Host.Objects.getObjectByName(name)` | Get object by name |
+| `Host.Objects.getObjectByID(id)` | Get object by ID |
+| `Host.Objects.registerObject(name, object)` | Register object |
+| `Host.Objects.unregisterObject(name)` | Unregister object |
+
+**Shared URL Object Methods:**
+
+| Method | Description |
+|---|---|
+| `obj.find(name)` | Find a named child object |
+| `obj.findParameter(name)` | Get a parameter object by key |
+| `obj.interpretCommand(category, name, clearSelection, attrs)` | Execute a command on the object |
+
+### 16.6 Host.Url / Path Object
+
+**Function:**
+
+| Function | Description |
+|---|---|
+| `Host.Url(path)` | Create a host path object |
+
+**Methods:**
+
+| Method | Description |
+|---|---|
+| `path.ascend()` | Move up one directory |
+| `path.descend(name)` | Move into a child path |
+
+### 16.7 Host.Settings Attributes
+
+| Method | Description |
+|---|---|
+| `attrs.contains(key)` | Check whether a key exists |
+| `attrs.countAttributes()` | Count stored attributes |
+| `attrs.getAttribute(key)` | Get a value by key |
+| `attrs.getAttributeName(index)` | Get a key name by index |
+| `attrs.getAttributeValue(index)` | Get a value by index |
+| `attrs.setAttribute(key, value)` | Store a value by key |
+
+### 16.8 Host.IO
+
+| Method | Description |
+|---|---|
+| `Host.IO.openTextFile(path)` | Open a text file for reading |
+| `Host.IO.createTextFile(path)` | Create a text file for writing |
+| `Host.IO.File(path).exists()` | Check file existence |
+| `Host.IO.File(path).copyTo(dest)` | Copy a file |
+| `Host.IO.File(path).remove()` | Delete a file |
+| `Host.IO.findFiles(folder, pattern)` | Iterate files matching a pattern |
+| `Host.IO.loadJsonFile(path)` | Load JSON into a JavaScript object |
+| `Host.IO.XmlTree(path)` | Parse XML into an inspectable tree |
+| `Host.IO.openPackage(path)` | Open a `.package` archive |
+| `Host.IO.createPackage(path)` | Create a `.package` archive |
+| `Host.IO.toBase64(data)` | Encode data as Base64 |
+| `Host.IO.fromBase64(data)` | Decode data from Base64 |
+| `Host.IO.getDevelopmentFileLocation()` | Returns path for development/debug use |
+
+### 16.9 Host.IO.XmlTree Node API
+
+**Properties:**
+
+| Property | Description |
+|---|---|
+| `node.comment` | Comment content |
+| `node.name` | Tag name |
+| `node.parent` | Parent node object |
+| `node.text` | Text content |
+
+**Methods:**
+
+| Method | Description |
+|---|---|
+| `node.addChild(node)` | Add a child node |
+| `node.findNode(name)` | Find first child with matching tag name |
+| `node.getAttribute(name)` | Get attribute value |
+| `node.newIterator()` | Create an iterator over child nodes |
+| `node.newNode()` | Create a new child node |
+| `node.setAttribute(name, value)` | Set an attribute |
+
+### 16.10 Host.Results
+
+| Constant | Meaning |
+|---|---|
+| `Host.Results.kResultOk` | Success |
+| `Host.Results.kResultTrue` | True |
+| `Host.Results.kResultFalse` | False |
+| `Host.Results.kResultInvalidArgument` | Invalid argument |
+| `Host.Results.kResultOutOfMemory` | Out of memory |
+| `Host.Results.kResultClassNotFound` | Class not found |
+| `Host.Results.kResultWrongThread` | Wrong thread |
+| `Host.Results.kResultUnexpected` | Unexpected error |
+| `Host.Results.kResultFailed` | Failure |
+| `Host.Results.kResultInvalidPointer` | Invalid pointer |
+| `Host.Results.kResultNoInterface` | No interface |
+| `Host.Results.kResultNotImplemented` | Not implemented |
+
+### 16.11 Context Object
+
+| Property / Method | Description |
+|---|---|
+| `context.contains(name)` | Check whether a named context attribute exists |
+| `context.countAttributes()` | Count context attributes |
+| `context.editor` | Active editor surface |
+| `context.functions` | Active edit-function surface |
+| `context.getArguments()` | Read arguments defined in `classfactory.xml` |
+| `context.getAttribute(name)` | Get a context attribute by name |
+| `context.getAttributeName(index)` | Get a context attribute name by index |
+| `context.getAttributeValue(index)` | Get a context attribute value by index |
+| `context.isSilentMode()` | Check whether the script is running silently |
+| `context.iterator` | Iterate selected events in the active editor |
+| `context.mainTrackList` | Track-list surface used for selection and track creation workflows |
+| `context.parameters` | Parameters used by the dialog flow |
+| `context.restore(true)` | Restore the current edit context state before continuing |
+| `context.runDialog(name, pkgID)` | Open a dialog for the current package |
+| `context.setAttribute(name, value)` | Set a context attribute by name |
+| `context.trackList` | Active track list surface |
+
+**context.mainTrackList Methods:**
+
+| Method | Description |
+|---|---|
+| `tl.numTracks` | Total track count |
+| `tl.numSelectedTracks` | Selected track count |
+| `tl.getInsertPosition()` | Where new tracks would be inserted |
+| `tl.getTrack(index)` | Get track by index |
+| `tl.getSelectedTrack(i)` | Get selected track by index |
+| `tl.selectTrack(track, select, exclusive)` | Select a track |
+| `tl.unselectAll()` | Deselect all tracks |
 
 <a id="164-contextfunctions-full-method-list"></a>
-### 16.4 context.functions — Full Method / Property List
+### 16.12 context.functions — Full Method / Property List
 
 **Properties:**
 
@@ -2687,7 +3069,7 @@ function floatToDb(f)  { return (Math.log(parseFloat(f)) / Math.LN10) * 20; }
 | `transferEvent()` | - |
 | `transposeEvent()` | - |
 
-### 16.5 Iterator — Full Method List
+### 16.13 Iterator — Full Method List
 
 | Method | Description |
 |---|---|
@@ -2697,16 +3079,7 @@ function floatToDb(f)  { return (Math.log(parseFloat(f)) / Math.LN10) * 20; }
 | `next()` | Advance to next item |
 | `previous()` | Move to previous item |
 
-### 16.6 note.startTime — Full Method List
-
-| Method | Description |
-|---|---|
-| `as()` | Seconds as plain number |
-| `clone()` | Valid time object copy |
-| `convert()` | Returns `undefined` |
-| `toMusicalTime()` | Returns `undefined` |
-
-### 16.7 Editor Object — Key Confirmed Working Methods
+### 16.14 Editor Object — Key Confirmed Working Methods
 
 | Method | Description |
 |---|---|
@@ -2726,79 +3099,201 @@ function floatToDb(f)  { return (Math.log(parseFloat(f)) / Math.LN10) * 20; }
 | `split(event, time)` | Split an event |
 | `unselect(note)` | Unselect a note |
 
-### 16.8 Host.Objects — Shared URL Object Methods
+### 16.15 Track Object
 
-| Method | Description |
+**Properties:**
+
+| Property | Description |
 |---|---|
-| `obj.find(name)` | Find a named child object |
-| `obj.findParameter(name)` | Get a parameter object by key |
-| `obj.interpretCommand(category, name, clearSelection, attrs)` | Execute a command on the object |
-
-### 16.9 Host.Url / Path Object
-
-**Function:**
-
-| Function | Description |
-|---|---|
-| `Host.Url(path)` | Create a host path object |
+| `track.channel` | Channel strip object |
+| `track.color` | Color integer (read/write) |
+| `track.flags` | Bitfield of track properties |
+| `track.folded` | Boolean - folder track is collapsed |
+| `track.hidden` | Boolean - visibility state |
+| `track.layers.count` | Number of layers on track |
+| `track.mediaType` | `"Audio"`, `"Music"`, etc. |
+| `track.name` | String - track display name (read/write) |
+| `track.parentFolder` | Parent folder track object |
 
 **Methods:**
 
 | Method | Description |
 |---|---|
-| `path.ascend()` | Move up one directory |
-| `path.descend(name)` | Move into a child path |
+| `track.getTrack()` | Returns parent track (when called on event) |
+| `track.isEmpty()` | True if no media on active layer |
 
-### 16.10 Host.Settings Attributes
+### 16.16 Channel Object
+
+**Properties:**
+
+| Property | Description |
+|---|---|
+| `channel.canDisable` | Boolean - whether track can be disabled |
+| `channel.canMuteSolo` | Boolean - whether mute/solo is available |
+| `channel.channelType` | `"MusicTrack"`, `"AudioTrack"`, etc. |
+| `channel.disabled` | Track disabled state |
+| `channel.editGroup` | Edit group (undefined if unassigned) |
+| `channel.editor` | ChannelEditor object |
+| `channel.environment` | `"SongEnvironment"` |
+| `channel.input` | Input routing object |
+| `channel.label` | Same as title |
+| `channel.maxVolume` | Maximum fader value |
+| `channel.mediaType` | `"Music"`, `"Audio"`, etc. |
+| `channel.mute` | `0` or `1` (readable and writable) |
+| `channel.name` | Internal channel name |
+| `channel.overview` | ChannelOverview object |
+| `channel.pan` | Pan position: `0.0`=left, `0.5`=center, `1.0`=right |
+| `channel.recordUnit.monitorActive` | Monitor state (readable and writable) |
+| `channel.recordUnit.recordArmed` | Arm state (readable and writable) |
+| `channel.solo` | `0` or `1` (readable and writable) |
+| `channel.soloSave` | Solo safe state |
+| `channel.title` | Display name / label |
+| `channel.volume` | Fader level float (readable and writable) |
+
+**Methods:**
 
 | Method | Description |
 |---|---|
-| `attrs.contains(key)` | Check whether a key exists |
-| `attrs.countAttributes()` | Count stored attributes |
-| `attrs.getAttribute(key)` | Get a value by key |
-| `attrs.getAttributeName(index)` | Get a key name by index |
-| `attrs.getAttributeValue(index)` | Get a value by index |
-| `attrs.setAttribute(key, value)` | Store a value by key |
+| `channel.connectTo(targetChannel)` | Route to another channel |
+| `channel.find(name)` | Find child object |
+| `channel.findParameter(name)` | Find parameter by name |
+| `channel.focus()` | Focus channel in mixer |
+| `channel.getDestinationChannel()` | Get current routing destination |
+| `channel.interpretCommand(cat, name)` | Execute command on channel |
+| `channel.openEditor()` | Open channel editor window |
 
-### 16.11 Transport Panel Parameters
+### 16.17 Event Object
 
-**Read / Write Parameters:**
+**Properties:**
 
-| Name | Description |
+| Property | Description |
 |---|---|
-| `"loop"` | Loop enabled (`0` / `1`) |
-| `"loopEnd"` | Loop end in beats |
-| `"loopLength"` | Loop length in beats |
-| `"loopStart"` | Loop start in beats |
-| `"precount"` | Precount enabled (`0` / `1`) |
-| `"punchIn"` | Punch in (`0` / `1`) |
-| `"punchOut"` | Punch out (`0` / `1`) |
-| `"record"` | Recording state (`0` / `1`) |
-| `"tempo"` | BPM value |
+| `event.color` | Integer color |
+| `event.end` | End in beats |
+| `event.endTime` | Time object |
+| `event.isMuted` | Boolean mute state |
+| `event.length` | Duration |
+| `event.lengthTime` | Duration as time object |
+| `event.name` | String |
+| `event.pitch` | MIDI note number |
+| `event.region` | Instrument Part containing this note |
+| `event.selected` | Boolean |
+| `event.start` | Start in beats |
+| `event.startTime` | Time object |
+| `event.timeContext` | Time context object |
+| `event.timeFormat` | Time format identifier |
+| `event.velocity` | MIDI velocity |
 
-**Read-Only Parameters:**
+**Methods:**
 
-| Name | Description |
+| Method | Description |
 |---|---|
-| `"primaryTime"` | Current cursor position |
-| `"rewind"` | Rewind state |
-| `"start"` | Transport start state |
-| `"stop"` | Transport stop state |
+| `event.clone()` | Clone note |
+| `event.globalToRegionData(pos)` | Convert global to region coordinates |
+| `event.getLyricsForNote(note)` | Lyrics string for a given note |
+| `event.getSoundVariationForNote(note)` | Sound variation for a given note |
+| `event.nextEvent()` | Next event in sequence |
+| `event.previousEvent()` | Previous event |
+| `event.regionDataToGlobal(pos)` | Convert region to global coordinates |
+| `event.select(addToSelection)` | Select event |
+| `event.selectExclusive()` | Select exclusively |
 
-**Parameter Members:**
+### 16.18 Region Object
 
-| Member | Description |
+**Properties:**
+
+| Property | Description |
 |---|---|
-| `param.default` | Default value |
-| `param.enabled` | Enabled state (`0` or `1`) |
-| `param.max` | Maximum value |
-| `param.min` | Minimum value |
-| `param.name` | Parameter key name |
-| `param.setValue(val)` | Alternative write method |
-| `param.string` | Formatted display value |
-| `param.value` | Numeric value |
+| `region.end` | Beat position where part ends |
+| `region.endTime.musical` | End in beats |
+| `region.length` | Length in beats |
+| `region.lengthTime.musical` | Length in beats |
+| `region.name` | Track name containing this part |
+| `region.offset` | Region offset |
+| `region.start` | Beat position where part starts |
+| `region.startTime.musical` | Start in beats |
 
-### 16.12 CCL:ParamList
+**Methods:**
+
+| Method | Description |
+|---|---|
+| `region.asEventList()` | Returns as event list |
+| `region.createSequenceIterator()` | Iterator over all notes in region |
+| `region.getEndTime()` | End time of the part |
+| `region.getRoot()` | Returns root object |
+| `region.getStartTime()` | Start time of the part |
+| `region.getTrack()` | Returns the containing track |
+
+### 16.19 Time Object
+
+**Properties:**
+
+| Property | Description |
+|---|---|
+| `t.musical` | Musical time sub-object |
+| `t.seconds` | Absolute seconds |
+| `t.samples` | Absolute samples at session sample rate |
+| `t.time` | Internal time units |
+| `t.string` | Formatted string |
+| `t.musical.bar` | Bar number |
+| `t.musical.beat` | Beat position |
+| `t.musical.value` | Total beats from project start |
+
+**Methods:**
+
+| Method | Description |
+|---|---|
+| `t.as()` | Seconds as plain number |
+| `t.clone()` | Valid time object copy |
+| `t.convert()` | Returns `undefined` |
+| `t.toMusicalTime()` | Returns `undefined` |
+
+### 16.20 note.startTime — Full Method List
+
+| Method | Description |
+|---|---|
+| `as()` | Seconds as plain number |
+| `clone()` | Valid time object copy |
+| `convert()` | Returns `undefined` |
+| `toMusicalTime()` | Returns `undefined` |
+
+### 16.21 Host.Classes
+
+| Method | Description |
+|---|---|
+| `Host.Classes.createInstance(classID)` | Create instance |
+| `Host.Classes.getClassDescription(classID)` | Get class description |
+| `Host.Classes.newIterator()` | Returns empty iterator |
+
+**Instantiable built-in classes:**
+
+| Class ID | Description |
+|---|---|
+| `"CCL:AlignView"` | Alignment view UI element |
+| `"CCL:ButtonGroup"` | Button group UI element |
+| `"CCL:CheckBox"` | Checkbox UI element |
+| `"CCL:CommandBarModel"` | Command bar / mutable command tree model |
+| `"CCL:CommandBarView"` | Command bar view |
+| `"CCL:CommandSelector"` | Command selector |
+| `"CCL:Divider"` | Divider UI element / native divider proxy |
+| `"CCL:FileSelector"` | File picker dialog |
+| `"CCL:Heading"` | Heading UI element |
+| `"CCL:ImageView"` | Image view UI element |
+| `"CCL:Label"` | Label UI element |
+| `"CCL:ParamList"` | Parameter list for persistent dialogs |
+| `"CCL:ProgressBar"` | Progress bar UI element |
+| `"CCL:ProgressDialog"` | Progress indicator |
+| `"CCL:RadioButton"` | RadioButton UI element |
+| `"CCL:ScrollView"` | ScrollView UI element |
+| `"CCL:View"` | View UI element |
+| `"Devices:PortParam"` | Port/MIDI parameter |
+| `"Host:AudioEventEffectPlugInSelector"` | Audio event plug-in selector |
+| `"Host:ListViewModel"` | List/table data model |
+| `"Host:PlugInMenuParam"` | Plug-in menu parameter |
+| `"Host:PlugInSelector"` | Plug-in selector controller |
+| `"Host:PresetParam"` | Preset parameter |
+
+### 16.22 CCL:ParamList
 
 **Param Members:**
 
@@ -2826,7 +3321,7 @@ function floatToDb(f)  { return (Math.log(parseFloat(f)) / Math.LN10) * 20; }
 | `paramList.addString(name)` | Add a string parameter |
 | `paramList.remove(name)` | Remove a parameter |
 
-### 16.13 Host:PresetParam
+### 16.23 Host:PresetParam
 
 **Methods:**
 
@@ -2865,7 +3360,7 @@ function floatToDb(f)  { return (Math.log(parseFloat(f)) / Math.LN10) * 20; }
 | `type` | - |
 | `value` | Current selected preset index or value |
 
-### 16.14 Host:ListViewModel
+### 16.24 Host:ListViewModel
 
 **Properties:**
 
@@ -2889,27 +3384,108 @@ function floatToDb(f)  { return (Math.log(parseFloat(f)) / Math.LN10) * 20; }
 | `list.itemView.setFocusItem(index, scroll)` | - |
 | `list.columns.addColumn(width, title, field, columnWidth, flags)` | Add a column definition |
 
-### 16.15 Host.IO.XmlTree Node API
+### 16.25 Transport Panel Parameters
 
-**Properties:**
+**Read / Write Parameters:**
 
-| Property | Description |
+| Name | Description |
 |---|---|
-| `node.comment` | Comment content |
-| `node.name` | Tag name |
-| `node.parent` | Parent node object |
-| `node.text` | Text content |
+| `"loop"` | Loop enabled (`0` / `1`) |
+| `"loopEnd"` | Loop end in beats |
+| `"loopLength"` | Loop length in beats |
+| `"loopStart"` | Loop start in beats |
+| `"precount"` | Precount enabled (`0` / `1`) |
+| `"punchIn"` | Punch in (`0` / `1`) |
+| `"punchOut"` | Punch out (`0` / `1`) |
+| `"record"` | Recording state (`0` / `1`) |
+| `"tempo"` | BPM value |
 
-**Methods:**
+**Read-Only Parameters:**
+
+| Name | Description |
+|---|---|
+| `"primaryTime"` | Current cursor position |
+| `"rewind"` | Rewind state |
+| `"start"` | Transport start state |
+| `"stop"` | Transport stop state |
+
+**Parameter Members:**
+
+| Member | Description |
+|---|---|
+| `param.default` | Default value |
+| `param.enabled` | Enabled state (`0` or `1`) |
+| `param.max` | Maximum value |
+| `param.min` | Minimum value |
+| `param.name` | Parameter key name |
+| `param.setValue(val)` | Alternative write method |
+| `param.string` | Formatted display value |
+| `param.value` | Numeric value |
+
+### 16.26 Host.Interfaces
+
+| Interface | Description |
+|---|---|
+| `IBrowserExtension` | - |
+| `IClassFactory` | - |
+| `ICommandHandler` | Handles command interpretation callbacks |
+| `IComponent` | Base component / shared object interface |
+| `IContextMenuHandler` | Builds context menus |
+| `IController` | Controller for dialog and view parameter bindings |
+| `IDocumentEventHandler` | Document lifecycle event handler |
+| `IDocumentTemplateHandler` | Document template handler |
+| `IEditHandler` | Edit-handler interface for tool and edit subsystems |
+| `IEditHandlerHook` | Hook for edit-handler coordination |
+| `IEditTask` | Editable action lifecycle |
+| `IExtensionHandler` | Extension lifecycle handler |
+| `IHelpTutorialHandler` | Tutorial/help lifecycle handler |
+| `IObjectNode` | Object-tree node interface for UI models |
+| `IObserver` | Receives callbacks from `Host.Signals` |
+| `IPersistAttributes` | Saves and restores attributes/state |
+| `IParamObserver` | Parameter-change observer for bound dialog/control parameters |
+| `IPortFilter` | Filters available ports for a dialog or task |
+| `IPresetMediator` | Mediates preset selection / preset state |
+| `IScriptComponent` | Component bridge for script-side UI composition |
+| `IToolAction` | Executable action within a tool or toolset |
+| `IToolConfiguration` | Configuration object for a tool or tool family |
+| `IToolHelp` | Tool help / help metadata |
+| `IToolMode` | Selectable tool mode |
+| `IToolSet` | Group of related tools or modes |
+| `ITimerTask` | Timer-driven task |
+| `IUnknown` | - |
+| `IViewStateHandler` | Saves and restores view state for add-ins |
+
+### 16.27 Host.Graphics
 
 | Method | Description |
 |---|---|
-| `node.addChild(node)` | Add a child node |
-| `node.findNode(name)` | Find first child with matching tag name |
-| `node.getAttribute(name)` | Get attribute value |
-| `node.newIterator()` | Create an iterator over child nodes |
-| `node.newNode()` | Create a new child node |
-| `node.setAttribute(name, value)` | Set an attribute |
+| `Host.Graphics.loadImage(path)` | Load image |
+| `Host.Graphics.saveImage(bitmap, path)` | Save image |
+| `Host.Graphics.createBitmap(width, height)` | Returns bitmap with `.width` / `.height` |
+| `Host.Graphics.copyBitmap(src, dst)` | Copy bitmap |
+| `Host.Graphics.createBitmapFilter()` | Create bitmap filter |
+
+### 16.28 Host.FileTypes
+
+| Method | Description |
+|---|---|
+| `Host.FileTypes.registerFileType(/* args */)` | Register a custom file type |
+| `Host.FileTypes.getFileTypeByExtension(ext)` | Look up type by file extension |
+| `Host.FileTypes.getFileTypeByMimeType(mimeType)` | Look up type by MIME type |
+| `Host.FileTypes.registerHandler(fileType, handler)` | Register a file handler |
+| `Host.FileTypes.unregisterHandler(fileType, handler)` | Unregister a file handler |
+
+### 16.29 Misc Host Helpers
+
+| Method / Property | Description |
+|---|---|
+| `Host.Console.writeLine(text)` | Console output |
+| `Host.Locales.getStrings(key)` | Look up a localized i18n string by key |
+| `Host.Security.checkAccess(packageID, featureName)` | Returns `0` when restricted |
+| `Host.SystemInfo.getLocalTime()` | Returns current local system time object |
+| `Host.UID(classDescription.classID)` | Wrap a class ID for host APIs |
+| `Host.studioapp.find("Application").Configuration.getValue(section, key)` | Access application configuration value |
+| `this.__userdata` | - |
 
 ---
 
