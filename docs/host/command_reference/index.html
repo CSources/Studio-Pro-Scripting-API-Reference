@@ -1,0 +1,1785 @@
+<!doctype html>
+<html lang="en" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-host/command_reference" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.5.2">
+<title data-rh="true">Command Reference | Studio Pro Scripting API Reference</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://CSources.github.io/Studio-Pro-Scripting-API-Reference/img/docusaurus-social-card.jpg"><meta data-rh="true" name="twitter:image" content="https://CSources.github.io/Studio-Pro-Scripting-API-Reference/img/docusaurus-social-card.jpg"><meta data-rh="true" property="og:url" content="https://CSources.github.io/Studio-Pro-Scripting-API-Reference/docs/host/command_reference"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Command Reference | Studio Pro Scripting API Reference"><meta data-rh="true" name="description" content="Enumeration of Studio Pro commands discovered via Host.GUI.Commands.newCategoryIterator() and Host.GUI.Commands.newCommandIterator()."><meta data-rh="true" property="og:description" content="Enumeration of Studio Pro commands discovered via Host.GUI.Commands.newCategoryIterator() and Host.GUI.Commands.newCommandIterator()."><link data-rh="true" rel="icon" href="/Studio-Pro-Scripting-API-Reference/img/Studio Pro Basic.png"><link data-rh="true" rel="canonical" href="https://CSources.github.io/Studio-Pro-Scripting-API-Reference/docs/host/command_reference"><link data-rh="true" rel="alternate" href="https://CSources.github.io/Studio-Pro-Scripting-API-Reference/docs/host/command_reference" hreflang="en"><link data-rh="true" rel="alternate" href="https://CSources.github.io/Studio-Pro-Scripting-API-Reference/docs/host/command_reference" hreflang="x-default"><link rel="stylesheet" href="/Studio-Pro-Scripting-API-Reference/assets/css/styles.492c7199.css">
+<script src="/Studio-Pro-Scripting-API-Reference/assets/js/runtime~main.ebc1c873.js" defer="defer"></script>
+<script src="/Studio-Pro-Scripting-API-Reference/assets/js/main.f7f13399.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();null!==e?t(e):window.matchMedia("(prefers-color-scheme: dark)").matches?t("dark"):(window.matchMedia("(prefers-color-scheme: light)").matches,t("light"))}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><link rel="preload" as="image" href="/Studio-Pro-Scripting-API-Reference/img/Studio Pro Basic.png"><div role="region" aria-label="Skip to main content"><a class="skipToContent_gu5v" href="#__docusaurus_skipToContent_fallback">Skip to main content</a></div><nav aria-label="Main" class="navbar navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><button aria-label="Toggle navigation bar" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/Studio-Pro-Scripting-API-Reference/"><div class="navbar__logo"><img src="/Studio-Pro-Scripting-API-Reference/img/Studio Pro Basic.png" alt="Studio Pro Scripting API" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/Studio-Pro-Scripting-API-Reference/img/Studio Pro Basic.png" alt="Studio Pro Scripting API" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div></a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/Studio-Pro-Scripting-API-Reference/docs/overview">Documentation</a><a class="navbar__item navbar__link" href="/Studio-Pro-Scripting-API-Reference/docs/scripts/">Scripts</a></div><div class="navbar__items navbar__items--right"><a href="https://github.com/CSources/Studio-Pro-Scripting-API-Reference" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_T11m"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a><div class="toggle_kWbt colorModeToggle_GwZs"><button class="clean-btn toggleButton_fOL9 toggleButtonDisabled_STpu" type="button" disabled="" title="Switch between dark and light mode (currently light mode)" aria-label="Switch between dark and light mode (currently light mode)" aria-live="polite"><svg viewBox="0 0 24 24" width="24" height="24" class="lightToggleIcon_DCeJ"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" class="darkToggleIcon_DFgp"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg></button></div><div class="navbarSearchContainer_IP3a"><div class="navbar__search searchBarContainer_NW3z"><input placeholder="Search" aria-label="Search" class="navbar__search-input"><div class="loadingRing_RJI3 searchBarLoadingRing_YnHq"><div></div><div></div><div></div><div></div></div></div></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="main-wrapper mainWrapper_IbdI"><div class="docsWrapper_JGIH"><button aria-label="Scroll back to top" class="clean-btn theme-back-to-top-button backToTopButton_SdI4" type="button"></button><div class="docRoot_eRbX"><aside class="theme-doc-sidebar-container docSidebarContainer_Ta75"><div class="sidebarViewport_fgog"><div class="sidebar_oDHW"><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_vPEQ"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/Studio-Pro-Scripting-API-Reference/docs/overview">Studio Pro Scripting API</a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/Studio-Pro-Scripting-API-Reference/docs/package_structure/">Package Structure</a></div></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/Studio-Pro-Scripting-API-Reference/docs/script_interface">Script Interface</a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" href="/Studio-Pro-Scripting-API-Reference/docs/host/host_overview">Host Namespace</a></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/Studio-Pro-Scripting-API-Reference/docs/host/host_overview">Host Overview</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/Studio-Pro-Scripting-API-Reference/docs/host/classes">Classes</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/Studio-Pro-Scripting-API-Reference/docs/host/engine">Engine</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/Studio-Pro-Scripting-API-Reference/docs/host/gui">GUI</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/Studio-Pro-Scripting-API-Reference/docs/host/command_reference">Command Reference</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/Studio-Pro-Scripting-API-Reference/docs/host/interfaces">Interfaces</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/Studio-Pro-Scripting-API-Reference/docs/host/io">IO</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/Studio-Pro-Scripting-API-Reference/docs/host/objects">Objects</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/Studio-Pro-Scripting-API-Reference/docs/host/results">Results</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/Studio-Pro-Scripting-API-Reference/docs/host/services">Services</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/Studio-Pro-Scripting-API-Reference/docs/host/settings">Settings</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/Studio-Pro-Scripting-API-Reference/docs/host/signals">Signals</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/Studio-Pro-Scripting-API-Reference/docs/host/attributes">Attributes</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/Studio-Pro-Scripting-API-Reference/docs/host/datetime">DateTime</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/Studio-Pro-Scripting-API-Reference/docs/host/url">Url</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/Studio-Pro-Scripting-API-Reference/docs/host/utilities">Utilities</a></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/Studio-Pro-Scripting-API-Reference/docs/sdk/sdk_files">SDK Files</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/Studio-Pro-Scripting-API-Reference/docs/context/context_object">Context Object</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/Studio-Pro-Scripting-API-Reference/docs/objects/event_object">Objects</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/Studio-Pro-Scripting-API-Reference/docs/skin/skin_overview">Skin</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/Studio-Pro-Scripting-API-Reference/docs/utilities/">Utilities</a></div></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/Studio-Pro-Scripting-API-Reference/docs/api_index">API Index</a></li></ul></nav></div></div></aside><main class="docMainContainer_lg0V"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_nDJs"><div class="docItemContainer_OGiL"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_k3Z9" aria-label="Breadcrumbs"><ul class="breadcrumbs" itemscope="" itemtype="https://schema.org/BreadcrumbList"><li class="breadcrumbs__item"><a aria-label="Home page" class="breadcrumbs__link" href="/Studio-Pro-Scripting-API-Reference/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_JACu"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li class="breadcrumbs__item"><span class="breadcrumbs__link">Host Namespace</span><meta itemprop="position" content="1"></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link" itemprop="name">Command Reference</span><meta itemprop="position" content="2"></li></ul></nav><div class="tocCollapsible_QCOD theme-doc-toc-mobile tocMobile_N0YI"><button type="button" class="clean-btn tocCollapsibleButton_pHwF">On this page</button></div><div class="theme-doc-markdown markdown"><header><h1>Command Reference</h1></header>
+<p>Enumeration of Studio Pro commands discovered via <code>Host.GUI.Commands.newCategoryIterator()</code> and <code>Host.GUI.Commands.newCommandIterator()</code>.</p>
+<h2 class="anchor anchorWithStickyNavbar_FNw8" id="usage">Usage<a href="#usage" class="hash-link" aria-label="Direct link to Usage" title="Direct link to Usage">​</a></h2>
+<p>Commands can be executed using:</p>
+<div class="language-javascript codeBlockContainer_aalF theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_MHx8"><pre tabindex="0" class="prism-code language-javascript codeBlock_zHgq thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_RjmQ"><span class="token-line" style="color:#393A34"><span class="token maybe-class-name">Host</span><span class="token punctuation" style="color:#393A34">.</span><span class="token constant" style="color:#36acaa">GUI</span><span class="token punctuation" style="color:#393A34">.</span><span class="token property-access maybe-class-name">Commands</span><span class="token punctuation" style="color:#393A34">.</span><span class="token method function property-access" style="color:#d73a49">interpretCommand</span><span class="token punctuation" style="color:#393A34">(</span><span class="token string" style="color:#e3116c">&quot;Category&quot;</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">&quot;Command Name&quot;</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><br></span></code></pre><div class="buttonGroup_Sd8_"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_LnQD" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_t3l1"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_IiZV"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Example:</p>
+<div class="language-javascript codeBlockContainer_aalF theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_MHx8"><pre tabindex="0" class="prism-code language-javascript codeBlock_zHgq thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_RjmQ"><span class="token-line" style="color:#393A34"><span class="token maybe-class-name">Host</span><span class="token punctuation" style="color:#393A34">.</span><span class="token constant" style="color:#36acaa">GUI</span><span class="token punctuation" style="color:#393A34">.</span><span class="token property-access maybe-class-name">Commands</span><span class="token punctuation" style="color:#393A34">.</span><span class="token method function property-access" style="color:#d73a49">interpretCommand</span><span class="token punctuation" style="color:#393A34">(</span><span class="token string" style="color:#e3116c">&quot;Edit&quot;</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">&quot;Duplicate&quot;</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token maybe-class-name">Host</span><span class="token punctuation" style="color:#393A34">.</span><span class="token constant" style="color:#36acaa">GUI</span><span class="token punctuation" style="color:#393A34">.</span><span class="token property-access maybe-class-name">Commands</span><span class="token punctuation" style="color:#393A34">.</span><span class="token method function property-access" style="color:#d73a49">interpretCommand</span><span class="token punctuation" style="color:#393A34">(</span><span class="token string" style="color:#e3116c">&quot;Transport&quot;</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">&quot;Start&quot;</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token maybe-class-name">Host</span><span class="token punctuation" style="color:#393A34">.</span><span class="token constant" style="color:#36acaa">GUI</span><span class="token punctuation" style="color:#393A34">.</span><span class="token property-access maybe-class-name">Commands</span><span class="token punctuation" style="color:#393A34">.</span><span class="token method function property-access" style="color:#d73a49">interpretCommand</span><span class="token punctuation" style="color:#393A34">(</span><span class="token string" style="color:#e3116c">&quot;Edit&quot;</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">&quot;Select All&quot;</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><br></span></code></pre><div class="buttonGroup_Sd8_"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_LnQD" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_t3l1"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_IiZV"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_FNw8" id="command-list">Command List<a href="#command-list" class="hash-link" aria-label="Direct link to Command List" title="Direct link to Command List">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="audio">Audio<a href="#audio" class="hash-link" aria-label="Direct link to Audio" title="Direct link to Audio">​</a></h3>
+<ul>
+<li>Add Audio Track (mono)</li>
+<li>Add Audio Track (stereo)</li>
+<li>Add Audio Track (surround)</li>
+<li>Extract Drums</li>
+<li>Extract Notes</li>
+<li>Normalize Audio</li>
+<li>Reverse Audio</li>
+<li>Separate Stems</li>
+<li>Strip Silence</li>
+<li>Edit with Melodyne</li>
+<li>Remove Melodyne</li>
+<li>Bypass Gain Curve</li>
+<li>Edit Volume</li>
+<li>Remove Crossfades</li>
+<li>Fade In to Cursor</li>
+<li>Fade Out from Cursor</li>
+<li>Create Autofades</li>
+<li>Create Crossfades</li>
+<li>Decrease Volume</li>
+<li>Increase Volume</li>
+<li>Reset Gain Curve</li>
+<li>Apply Audio Bend</li>
+<li>Decrease Volume Fine</li>
+<li>Increase Volume Fine</li>
+<li>Open Event FX Editor</li>
+<li>Render Event FX</li>
+<li>Restore Event FX</li>
+<li>Separate Shared Audio Parts</li>
+<li>Insert Event FX</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="audio-device">Audio Device<a href="#audio-device" class="hash-link" aria-label="Direct link to Audio Device" title="Direct link to Audio Device">​</a></h3>
+<ul>
+<li>Show Audio Device Controls</li>
+<li>Restore Audio Device Settings</li>
+<li>Show Input Controls</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="automation">Automation<a href="#automation" class="hash-link" aria-label="Direct link to Automation" title="Direct link to Automation">​</a></h3>
+<ul>
+<li>Show Automation</li>
+<li>Expand Automation</li>
+<li>Manage Parameters</li>
+<li>Off</li>
+<li>Read</li>
+<li>Touch</li>
+<li>Latch</li>
+<li>Write</li>
+<li>Next Mode</li>
+<li>Previous Mode</li>
+<li>Toggle Read</li>
+<li>Next Parameter</li>
+<li>Previous Parameter</li>
+<li>Add Automation Lane</li>
+<li>Remove Automation Lane</li>
+<li>Show Automation Lanes</li>
+<li>Apply Current Automation to Session Start</li>
+<li>Apply Current Automation to Session End</li>
+<li>Toggle Automation Follows Events</li>
+<li>Show Current Parameter</li>
+<li>Remove Current Parameter</li>
+<li>Recently Touched</li>
+<li>Mouse-Over</li>
+<li>Show / Hide</li>
+<li>Show Device</li>
+<li>Remove</li>
+<li>Remove Track Automation</li>
+<li>Merge VCA Automation</li>
+<li>Add Part Automation</li>
+<li>Select Part Automation with Notes</li>
+<li>Transform Range</li>
+<li>Apply Active Variation</li>
+<li>Edit Next Pattern</li>
+<li>Edit Previous Pattern</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="browser">Browser<a href="#browser" class="hash-link" aria-label="Direct link to Browser" title="Direct link to Browser">​</a></h3>
+<ul>
+<li>Show Home Page</li>
+<li>Show Instruments</li>
+<li>Show Effects</li>
+<li>Show Loops</li>
+<li>Show Files</li>
+<li>Show Cloud</li>
+<li>Show Pool</li>
+<li>Show Splice</li>
+<li>Browser</li>
+<li>Plug-In Manager</li>
+<li>Search</li>
+<li>Next</li>
+<li>Previous</li>
+<li>Ascend Root</li>
+<li>Reset Root</li>
+<li>New Tab</li>
+<li>New Root Tab</li>
+<li>Close Tab</li>
+<li>Rename Tab</li>
+<li>Refresh</li>
+<li>Rename File</li>
+<li>New Folder</li>
+<li>Open</li>
+<li>Open with Options</li>
+<li>Close</li>
+<li>Close All</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="channel-components">Channel Components<a href="#channel-components" class="hash-link" aria-label="Direct link to Channel Components" title="Direct link to Channel Components">​</a></h3>
+<ul>
+<li>Activate All Inserts</li>
+<li>Freeze to Rendered Audio</li>
+<li>Unfreeze to Realtime Audio</li>
+<li>Show Channel Editor</li>
+<li>Show Channel Tab</li>
+<li>Show Macro Controls</li>
+<li>Show Instrument Editor</li>
+<li>Show Routing Editor</li>
+<li>Show Channel Notes</li>
+<li>Show Channel Icons</li>
+<li>Next Channel</li>
+<li>Previous Channel</li>
+<li>Next Bank</li>
+<li>Previous Bank</li>
+<li>Show Track</li>
+<li>Hide Channel</li>
+<li>Show Channel</li>
+<li>Open Channel</li>
+<li>Global Solo</li>
+<li>Global Mute</li>
+<li>Mute Main Out</li>
+<li>Mono</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="channelmixer">Channel/Mixer<a href="#channelmixer" class="hash-link" aria-label="Direct link to Channel/Mixer" title="Direct link to Channel/Mixer">​</a></h3>
+<ul>
+<li>Remove Channel</li>
+<li>Toggle Size</li>
+<li>Toggle Width</li>
+<li>Rename Channel</li>
+<li>Show Channel Editor</li>
+<li>Show Channel Tab</li>
+<li>Show Macro Controls</li>
+<li>Show Instrument Editor</li>
+<li>Show Routing Editor</li>
+<li>Find Channel</li>
+<li>Show Audio Device Controls</li>
+<li>Show Input Controls</li>
+<li>Show Sends/Cue mix</li>
+<li>Show I/O Connections</li>
+<li>Show VCA Connections</li>
+<li>Show Group Assignment</li>
+<li>Show Channel Notes</li>
+<li>Show Channel Icons</li>
+<li>Activate All Inserts</li>
+<li>Next Channel</li>
+<li>Previous Channel</li>
+<li>Next Bank</li>
+<li>Previous Bank</li>
+<li>Show Track</li>
+<li>Hide Channel</li>
+<li>Show Channel</li>
+<li>Hide Related Channels</li>
+<li>Show Related Channels</li>
+<li>Toggle Related Channels</li>
+<li>Open Channel</li>
+<li>Global Solo</li>
+<li>Global Mute</li>
+<li>Mute Main Out</li>
+<li>Mono</li>
+<li>Add Bus Channel</li>
+<li>Add FX Channel</li>
+<li>Lock Panning</li>
+<li>Unlock Panning</li>
+<li>Use External Cue Mix System</li>
+<li>Talkback</li>
+<li>Dim</li>
+<li>Mute</li>
+<li>Speaker A, B, C</li>
+<li>Restore Audio Device Settings</li>
+<li>Add Insert</li>
+<li>Add Post Fader Insert</li>
+<li>Add Send</li>
+<li>Select Mix FX</li>
+<li>Collapse all Micro Views</li>
+<li>Expand all Micro Views</li>
+<li>Show Current Parameter</li>
+<li>Remove Current Parameter</li>
+<li>Recently Touched</li>
+<li>Mouse-Over</li>
+<li>Insert Selected Instrument</li>
+<li>Insert Selected Item</li>
+<li>Enable Direct Monitoring</li>
+<li>Suspend All Groups</li>
+<li>Suspend Group (1-10)</li>
+<li>Solo</li>
+<li>Remove Track</li>
+<li>Find Track</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="collaboration">Collaboration<a href="#collaboration" class="hash-link" aria-label="Direct link to Collaboration" title="Direct link to Collaboration">​</a></h3>
+<ul>
+<li>Share</li>
+<li>Join</li>
+<li>Send</li>
+<li>Receive</li>
+<li>Unlink</li>
+<li>Sign in</li>
+<li>Sign out</li>
+<li>Sign up</li>
+<li>Delete Account</li>
+<li>Show Account Options</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="console">Console<a href="#console" class="hash-link" aria-label="Direct link to Console" title="Direct link to Console">​</a></h3>
+<ul>
+<li>Console</li>
+<li>Show in Console</li>
+<li>Write Line</li>
+<li>Channel Overview</li>
+<li>Track List</li>
+<li>Show Channel Banks</li>
+<li>Show Scenes (Console)</li>
+<li>Show Scenes (Track List)</li>
+<li>Show Instrument Rack</li>
+<li>Show External Devices</li>
+<li>Show Inputs</li>
+<li>Show Outputs</li>
+<li>Show Groups (Channel List)</li>
+<li>Show Groups (Track List)</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="devices">Devices<a href="#devices" class="hash-link" aria-label="Direct link to Devices" title="Direct link to Devices">​</a></h3>
+<ul>
+<li>Show External Devices</li>
+<li>Show Device</li>
+<li>Show / Hide</li>
+<li>Remove</li>
+<li>Show Inputs</li>
+<li>Show Outputs</li>
+<li>Devices<!-- -->:PortParam</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="edit">Edit<a href="#edit" class="hash-link" aria-label="Direct link to Edit" title="Direct link to Edit">​</a></h3>
+<ul>
+<li>Cut</li>
+<li>Copy</li>
+<li>Paste</li>
+<li>Delete</li>
+<li>Select All</li>
+<li>Deselect All</li>
+<li>Invert Selection</li>
+<li>Undo</li>
+<li>Redo</li>
+<li>Enter</li>
+<li>Cancel</li>
+<li>Duplicate</li>
+<li>Split</li>
+<li>Split at Cursor</li>
+<li>Split at Grid</li>
+<li>Merge Events</li>
+<li>Insert</li>
+<li>Insert Named</li>
+<li>Insert Rest</li>
+<li>Insert Bend Marker</li>
+<li>Reset Bend Marker</li>
+<li>Insert Time Signature</li>
+<li>Edit Time Signature</li>
+<li>Remove Time Signature</li>
+<li>Insert Key Signature</li>
+<li>Edit Key Signature</li>
+<li>Remove Key Signature</li>
+<li>Insert Silence</li>
+<li>Insert Silence in Loop</li>
+<li>Edit</li>
+<li>Arm</li>
+<li>Monitor</li>
+<li>Show Note FX Editor</li>
+<li>Toggle Ripple Edit</li>
+<li>Synchronize Editor to Arrangement</li>
+<li>Find Track</li>
+<li>Undo Visibility Change</li>
+<li>Redo Visibility Change</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="editselection">Edit/Selection<a href="#editselection" class="hash-link" aria-label="Direct link to Edit/Selection" title="Direct link to Edit/Selection">​</a></h3>
+<ul>
+<li>Cut</li>
+<li>Copy</li>
+<li>Paste</li>
+<li>Delete</li>
+<li>Select All</li>
+<li>Deselect All</li>
+<li>Invert Selection</li>
+<li>Select All in Loop</li>
+<li>Select Events in Range</li>
+<li>Select Events in Section</li>
+<li>Select from Start to Event</li>
+<li>Select from Event to End</li>
+<li>Select in Pool</li>
+<li>Select Setlist Item (1-10)</li>
+<li>Select Player (1-10)</li>
+<li>Select Scene (1-10)</li>
+<li>Select Patch (1-10)</li>
+<li>Select Macro Page</li>
+<li>Select Fader Flip Target</li>
+<li>Select on Track</li>
+<li>Find Track</li>
+<li>Find Channel</li>
+<li>Find Command</li>
+<li>Find and Apply Variation</li>
+<li>Locate Selection</li>
+<li>Locate Mouse Cursor</li>
+<li>Locate File</li>
+<li>Locate Missing Files</li>
+<li>Locate Missing Devices</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="editor">Editor<a href="#editor" class="hash-link" aria-label="Direct link to Editor" title="Direct link to Editor">​</a></h3>
+<ul>
+<li>Editor</li>
+<li>Toggle Detached Editor</li>
+<li>Show Note FX Editor</li>
+<li>Toggle Ripple Edit</li>
+<li>Synchronize Editor to Arrangement</li>
+<li>Show Empty Tracks</li>
+<li>Hide Empty Tracks</li>
+<li>Show Tracks with Events under Cursor</li>
+<li>Hide Tracks with Events under Cursor</li>
+<li>Show Tracks with Events in Loop Range</li>
+<li>Hide Tracks with Events in Loop Range</li>
+<li>Show Soloed Tracks</li>
+<li>Hide Soloed Tracks</li>
+<li>Show Muted Tracks</li>
+<li>Hide Muted Tracks</li>
+<li>Show Disabled Tracks</li>
+<li>Hide Disabled Tracks</li>
+<li>Show Enabled Tracks</li>
+<li>Hide Enabled Tracks</li>
+<li>Show Instrument Tracks</li>
+<li>Hide Instrument Tracks</li>
+<li>Show Audio Tracks</li>
+<li>Hide Audio Tracks</li>
+<li>Show Selected Tracks</li>
+<li>Hide Selected Tracks</li>
+<li>Show All Tracks</li>
+<li>Show Tracks with Events</li>
+<li>Show All Channels</li>
+<li>Show Soloed Channels</li>
+<li>Hide Soloed Channels</li>
+<li>Show Muted Channels</li>
+<li>Hide Muted Channels</li>
+<li>Show Disabled Channels</li>
+<li>Hide Disabled Channels</li>
+<li>Show Enabled Channels</li>
+<li>Hide Enabled Channels</li>
+<li>Hide Selected Channels</li>
+<li>Show Object Channels</li>
+<li>Hide Object Channels</li>
+<li>Reset Order</li>
+<li>Remove All</li>
+<li>Hide Unused</li>
+<li>Show All</li>
+<li>Show Default</li>
+<li>Remove Parameter</li>
+<li>Add Automation Lane</li>
+<li>Remove Automation Lane</li>
+<li>Show Automation Lanes</li>
+<li>Edit Next Pattern</li>
+<li>Edit Previous Pattern</li>
+<li>Select Part Automation with Notes</li>
+<li>Transform Range</li>
+<li>Apply Active Variation</li>
+<li>Piano View</li>
+<li>Drum View</li>
+<li>Score View</li>
+<li>All</li>
+<li>In Scale</li>
+<li>Used</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="event">Event<a href="#event" class="hash-link" aria-label="Direct link to Event" title="Direct link to Event">​</a></h3>
+<ul>
+<li>Previous Event</li>
+<li>Previous Event Extend</li>
+<li>Next Event</li>
+<li>Next Event Extend</li>
+<li>First Event</li>
+<li>First Event Extend</li>
+<li>Last Event</li>
+<li>Last Event Extend</li>
+<li>Previous Track Extend</li>
+<li>Next Track Extend</li>
+<li>First Track Extend</li>
+<li>Last Track Extend</li>
+<li>Snap To Events</li>
+<li>Snap To Event Hotspots</li>
+<li>Snap To Zero Crossings</li>
+<li>Show Marker Track in Editor</li>
+<li>Show Arranger Track in Editor</li>
+<li>Show Chord Track in Editor</li>
+<li>Show Signature Track in Editor</li>
+<li>Add Scene</li>
+<li>Add Scene From Playing Cells</li>
+<li>Add Scene From Selected Cells</li>
+<li>Remove Scene</li>
+<li>Clear Scene</li>
+<li>Paste Cell Properties</li>
+<li>Launch Cells</li>
+<li>Play Selected Cells</li>
+<li>Play Selected Cells Exclusive</li>
+<li>Record Selected Cells</li>
+<li>Stop Cells</li>
+<li>Stop All</li>
+<li>Toggle All Cell Playback Active</li>
+<li>Clear Cell</li>
+<li>Add Scene to Playlist</li>
+<li>Nudge</li>
+<li>Nudge Back</li>
+<li>Nudge Up</li>
+<li>Nudge Down</li>
+<li>Previous Launcher Lane</li>
+<li>Next Launcher Lane</li>
+<li>Previous Launcher Scene</li>
+<li>Next Launcher Scene</li>
+<li>Add Playlist</li>
+<li>Duplicate Playlist</li>
+<li>Rename Playlist</li>
+<li>Clear Playlist</li>
+<li>Remove Playlist</li>
+<li>Delete Playlist Item</li>
+<li>Add Stop Marker to Playlist</li>
+<li>Duplicate Playlist Item</li>
+<li>Start Playlist Playback</li>
+<li>Continue Playlist Playback</li>
+<li>Insert Playlist into Session</li>
+<li>Unpack Layers to Tracks</li>
+<li>Recall Marker (1-20)</li>
+<li>Recall Retrospective Recording</li>
+<li>Toggle Cell Playback Active</li>
+<li>Stop Cell</li>
+<li>Instrument Input follows Selection</li>
+<li>Audio Input follows Selection</li>
+<li>Solo follows Selection</li>
+<li>Play Selected Range</li>
+<li>Unpack Last Take to Layer</li>
+<li>Filter Tracks</li>
+<li>Filter Channels</li>
+<li>Hide</li>
+<li>Expand Automation</li>
+<li>Expand Layers</li>
+<li>Expand Folder Track</li>
+<li>Disable</li>
+<li>Toggle Detached Editor</li>
+<li>Editor</li>
+<li>Add Layer</li>
+<li>Duplicate Layer</li>
+<li>Remove Layer</li>
+<li>Rename Layer</li>
+<li>Activate Next Layer</li>
+<li>Activate Previous Layer</li>
+<li>Unpack Selected Layers To Tracks</li>
+<li>Layers follow Events</li>
+<li>Activate Layer</li>
+<li>Solo Layer</li>
+<li>Deselect All on Tracks</li>
+<li>Create Ranges on Tracks</li>
+<li>Create Ranges</li>
+<li>Select Events in Range</li>
+<li>Select from Start to Event</li>
+<li>Select from Event to End</li>
+<li>Split Loop</li>
+<li>Split Range</li>
+<li>Fit Timeline to Contents</li>
+<li>Zoom Selected Track</li>
+<li>Show in Console</li>
+<li>Edit</li>
+<li>Arm</li>
+<li>Monitor</li>
+<li>Show Note FX Editor</li>
+<li>Toggle Ripple Edit</li>
+<li>Synchronize Editor to Arrangement</li>
+<li>Find Track</li>
+<li>Undo Visibility Change</li>
+<li>Redo Visibility Change</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="file">File<a href="#file" class="hash-link" aria-label="Direct link to File" title="Direct link to File">​</a></h3>
+<ul>
+<li>New</li>
+<li>New Session</li>
+<li>New Project</li>
+<li>New Show</li>
+<li>Save As Template</li>
+<li>Save</li>
+<li>Save As</li>
+<li>Save to New Folder</li>
+<li>Save New Version</li>
+<li>Restore Version</li>
+<li>Revert</li>
+<li>Open</li>
+<li>Open with Options</li>
+<li>Close</li>
+<li>Close All</li>
+<li>Close Tab</li>
+<li>New Tab</li>
+<li>New Root Tab</li>
+<li>Rename Tab</li>
+<li>Import File</li>
+<li>Import Video</li>
+<li>Export Mixdown</li>
+<li>Export Stems</li>
+<li>Export Spatial Audio</li>
+<li>Export Video</li>
+<li>Burn Audio CD</li>
+<li>Make DDP Image</li>
+<li>Make Image</li>
+<li>Print</li>
+<li>Document Setup</li>
+<li>Rename File</li>
+<li>New Folder</li>
+<li>Search</li>
+<li>Refresh</li>
+<li>Locate File</li>
+<li>Locate Missing Files</li>
+<li>Locate Missing Devices</li>
+<li>Copy External Files</li>
+<li>Remove Unused Files</li>
+<li>Update Mastering Files</li>
+<li>Update Mastering File</li>
+<li>Digital Release</li>
+<li>System Information</li>
+<li>Create Diagnostics Report</li>
+<li>Find Command</li>
+<li>Open Settings Folder</li>
+<li>Backup and Restore</li>
+<li>Backup &amp; Restore</li>
+<li>Check for Updates</li>
+<li>View Release Notes</li>
+<li>Usage Data Settings</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="group">Group<a href="#group" class="hash-link" aria-label="Direct link to Group" title="Direct link to Group">​</a></h3>
+<ul>
+<li>Group Selected Tracks</li>
+<li>Dissolve Group</li>
+<li>Rename Group</li>
+<li>Suspend All Groups</li>
+<li>Suspend Group (1-10)</li>
+<li>Show Groups (Channel List)</li>
+<li>Show Groups (Track List)</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="help">Help<a href="#help" class="hash-link" aria-label="Direct link to Help" title="Direct link to Help">​</a></h3>
+<ul>
+<li>About</li>
+<li>Contents</li>
+<li>Context Help</li>
+<li>Keyboard Shortcuts</li>
+<li>Website</li>
+<li>Open Settings Folder</li>
+<li>Options</li>
+<li>Back</li>
+<li>System Information</li>
+<li>Create Diagnostics Report</li>
+<li>Find Command</li>
+<li>Check for Updates</li>
+<li>View Release Notes</li>
+<li>Usage Data Settings</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="instrument-parts">Instrument Parts<a href="#instrument-parts" class="hash-link" aria-label="Direct link to Instrument Parts" title="Direct link to Instrument Parts">​</a></h3>
+<ul>
+<li>Insert Instrument Part</li>
+<li>Insert Pattern</li>
+<li>Convert Part to Pattern</li>
+<li>Convert Pattern to Part</li>
+<li>Create Drum Click</li>
+<li>Insert Instrument Parts from Chord Track</li>
+<li>Detect Key Signature</li>
+<li>Explode Pitches to Tracks</li>
+<li>Remove Part Automation</li>
+<li>Render Instrument Tracks</li>
+<li>Double At Interval</li>
+<li>Fill with Rests</li>
+<li>Fill with Rhythm Slashes</li>
+<li>Make Tuplet</li>
+<li>Quantize to Notation</li>
+<li>Send to Voice 1-4</li>
+<li>Switch Staff</li>
+<li>Transpose</li>
+<li>Tuplet</li>
+<li>Rebuild Score</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="launcher">Launcher<a href="#launcher" class="hash-link" aria-label="Direct link to Launcher" title="Direct link to Launcher">​</a></h3>
+<ul>
+<li>Add Scene</li>
+<li>Add Scene From Playing Cells</li>
+<li>Add Scene From Selected Cells</li>
+<li>Remove Scene</li>
+<li>Clear Scene</li>
+<li>Paste Cell Properties</li>
+<li>Launch Cells</li>
+<li>Play Selected Cells</li>
+<li>Play Selected Cells Exclusive</li>
+<li>Record Selected Cells</li>
+<li>Stop Cells</li>
+<li>Stop All</li>
+<li>Toggle All Cell Playback Active</li>
+<li>Clear Cell</li>
+<li>Add Scene to Playlist</li>
+<li>Nudge</li>
+<li>Nudge Back</li>
+<li>Nudge Up</li>
+<li>Nudge Down</li>
+<li>Previous Launcher Lane</li>
+<li>Next Launcher Lane</li>
+<li>Previous Launcher Scene</li>
+<li>Next Launcher Scene</li>
+<li>Cell Play Mode Loop</li>
+<li>Cell Play Mode One Shot</li>
+<li>Cell Launch Mode Global</li>
+<li>Cell Launch Mode Trigger</li>
+<li>Global Launch Mode Trigger</li>
+<li>Cell Launch Mode Gate</li>
+<li>Global Launch Mode Gate</li>
+<li>Cell Launch Mode Toggle</li>
+<li>Global Launch Mode Toggle</li>
+<li>Cell Quantize Global</li>
+<li>Cell Quantize Off</li>
+<li>Global Quantize Off</li>
+<li>Cell Quantize 8 Bars</li>
+<li>Global Quantize 8 Bars</li>
+<li>Cell Quantize 4 Bars</li>
+<li>Global Quantize 4 Bars</li>
+<li>Cell Quantize 2 Bars</li>
+<li>Global Quantize 2 Bars</li>
+<li>Cell Quantize 1 Bar</li>
+<li>Global Quantize 1 Bar</li>
+<li>Cell Quantize 1/2 Note</li>
+<li>Global Quantize 1/2 Note</li>
+<li>Cell Quantize 1/4 Note</li>
+<li>Global Quantize 1/4 Note</li>
+<li>Cell Quantize 1/8 Note</li>
+<li>Global Quantize 1/8 Note</li>
+<li>Cell Quantize 1/16 Note</li>
+<li>Global Quantize 1/16 Note</li>
+<li>Set Rate 1/2 through 1/64</li>
+<li>Set Rate 1/2 T through 1/64 T</li>
+<li>Set Gate 0.2, 0.5, 1.0, 1.5</li>
+<li>1/1 through 1/64</li>
+<li>type 0-3</li>
+<li>Next Base</li>
+<li>Previous Base</li>
+<li>Dotted</li>
+<li>Follow Quantize</li>
+<li>Launcher Exclusive</li>
+<li>Launcher Side-by-Side</li>
+<li>Add Playlist</li>
+<li>Duplicate Playlist</li>
+<li>Rename Playlist</li>
+<li>Clear Playlist</li>
+<li>Remove Playlist</li>
+<li>Delete Playlist Item</li>
+<li>Add Stop Marker to Playlist</li>
+<li>Duplicate Playlist Item</li>
+<li>Start Playlist Playback</li>
+<li>Continue Playlist Playback</li>
+<li>Insert Playlist into Session</li>
+<li>Unpack Layers to Tracks</li>
+<li>Recall Marker (1-20)</li>
+<li>Recall Retrospective Recording</li>
+<li>Toggle Cell Playback Active</li>
+<li>Stop Cell</li>
+<li>Instrument Input follows Selection</li>
+<li>Audio Input follows Selection</li>
+<li>Solo follows Selection</li>
+<li>Play Selected Range</li>
+<li>Unpack Last Take to Layer</li>
+<li>Filter Tracks</li>
+<li>Filter Channels</li>
+<li>Hide</li>
+<li>Expand Automation</li>
+<li>Expand Layers</li>
+<li>Expand Folder Track</li>
+<li>Disable</li>
+<li>Toggle Detached Editor</li>
+<li>Editor</li>
+<li>Add Layer</li>
+<li>Duplicate Layer</li>
+<li>Remove Layer</li>
+<li>Rename Layer</li>
+<li>Activate Next Layer</li>
+<li>Activate Previous Layer</li>
+<li>Unpack Selected Layers To Tracks</li>
+<li>Layers follow Events</li>
+<li>Activate Layer</li>
+<li>Solo Layer</li>
+<li>Deselect All on Tracks</li>
+<li>Create Ranges on Tracks</li>
+<li>Create Ranges</li>
+<li>Select Events in Range</li>
+<li>Select from Start to Event</li>
+<li>Select from Event to End</li>
+<li>Split Loop</li>
+<li>Split Range</li>
+<li>Fit Timeline to Contents</li>
+<li>Zoom Selected Track</li>
+<li>Show in Console</li>
+<li>Edit</li>
+<li>Arm</li>
+<li>Monitor</li>
+<li>Show Note FX Editor</li>
+<li>Toggle Ripple Edit</li>
+<li>Synchronize Editor to Arrangement</li>
+<li>Find Track</li>
+<li>Undo Visibility Change</li>
+<li>Redo Visibility Change</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="layer">Layer<a href="#layer" class="hash-link" aria-label="Direct link to Layer" title="Direct link to Layer">​</a></h3>
+<ul>
+<li>Add Layer</li>
+<li>Duplicate Layer</li>
+<li>Remove Layer</li>
+<li>Rename Layer</li>
+<li>Activate Next Layer</li>
+<li>Activate Previous Layer</li>
+<li>Activate Layer</li>
+<li>Solo Layer</li>
+<li>Unpack Selected Layers To Tracks</li>
+<li>Unpack Layers to Tracks</li>
+<li>Unpack Last Take to Layer</li>
+<li>Layers follow Events</li>
+<li>Expand Layers</li>
+<li>Next Layer</li>
+<li>Previous Layer</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="lyrics">Lyrics<a href="#lyrics" class="hash-link" aria-label="Direct link to Lyrics" title="Direct link to Lyrics">​</a></h3>
+<ul>
+<li>Select Lyrics</li>
+<li>Align Lyrics</li>
+<li>Lyrics Display</li>
+<li>Remove Lyrics</li>
+<li>Align Fingerings</li>
+<li>Select Chord Symbols</li>
+<li>Select Voice 1-4</li>
+<li>Select Highest Notes</li>
+<li>Select Lowest Notes</li>
+<li>Clear Recorded Velocities</li>
+<li>Remove Accidentals</li>
+<li>Remove Articulations</li>
+<li>Remove Slurs</li>
+<li>Remove Dynamics</li>
+<li>Remove Pedal Markings</li>
+<li>Remove Measure Rests</li>
+<li>Remove Tempo Marks</li>
+<li>Remove rit. and accel.</li>
+<li>Remove Rehearsal Marks</li>
+<li>Remove Text Boxes</li>
+<li>Remove Tuplets</li>
+<li>Swap Voices</li>
+<li>Reset TAB numbers</li>
+<li>Reset Font Style</li>
+<li>Flip Attachments</li>
+<li>Toggle Rhythm Slash</li>
+<li>Toggle Note or Rest</li>
+<li>Clear Chord Track</li>
+<li>Transpose Chords</li>
+<li>Store Chord Preset</li>
+<li>Insert Chord Preset</li>
+<li>Chord Display</li>
+<li>Detect Chords</li>
+<li>Remove Chords</li>
+<li>Apply Chords from Chord Track</li>
+<li>Extract Key Signatures from Event</li>
+<li>Detect Key Signature</li>
+<li>Chord Selector</li>
+<li>Insert Rest</li>
+<li>Repeat Last Chord</li>
+<li>Make Tuplet</li>
+<li>Tuplet</li>
+<li>Switch Staff</li>
+<li>Send to Voice 1-4</li>
+<li>Quantize to Notation</li>
+<li>Fill with Rests</li>
+<li>Fill with Rhythm Slashes</li>
+<li>Rebuild Score</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="marker">Marker<a href="#marker" class="hash-link" aria-label="Direct link to Marker" title="Direct link to Marker">​</a></h3>
+<ul>
+<li>Insert Named</li>
+<li>Goto Next Marker</li>
+<li>Goto Previous Marker</li>
+<li>Open Marker Track</li>
+<li>Update Mastering File</li>
+<li>Update Mastering Files</li>
+<li>Recall Marker (1-20)</li>
+<li>Recall Retrospective Recording</li>
+<li>Set Play Start Marker</li>
+<li>Enable Play Start Marker</li>
+<li>Create Sections from Markers</li>
+<li>Create Markers from Sections</li>
+<li>Reset Track Markers to Content</li>
+<li>Insert Marker at Time</li>
+<li>Create Song Markers</li>
+<li>Split All Tracks at Markers</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="media">Media<a href="#media" class="hash-link" aria-label="Direct link to Media" title="Direct link to Media">​</a></h3>
+<ul>
+<li>Show Media Folder in Explorer/Finder</li>
+<li>Show Folder in Explorer/Finder</li>
+<li>Locate File</li>
+<li>Locate Missing Files</li>
+<li>Locate Missing Devices</li>
+<li>Copy External Files</li>
+<li>Remove Unused Files</li>
+<li>Update Mastering Files</li>
+<li>Update Mastering File</li>
+<li>Import File</li>
+<li>Import Video</li>
+<li>Export Mixdown</li>
+<li>Export Stems</li>
+<li>Export Spatial Audio</li>
+<li>Export Video</li>
+<li>Burn Audio CD</li>
+<li>Make DDP Image</li>
+<li>Make Image</li>
+<li>Print</li>
+<li>Select on Track</li>
+<li>Convert Files</li>
+<li>Login</li>
+<li>Activation</li>
+<li>Activate Purchased Items</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="mixer">Mixer<a href="#mixer" class="hash-link" aria-label="Direct link to Mixer" title="Direct link to Mixer">​</a></h3>
+<ul>
+<li>Show Channel Banks</li>
+<li>Show Scenes (Console)</li>
+<li>Show Scenes (Track List)</li>
+<li>Show Instrument Rack</li>
+<li>Show External Devices</li>
+<li>Show Inputs</li>
+<li>Show Outputs</li>
+<li>Show Groups (Channel List)</li>
+<li>Show Groups (Track List)</li>
+<li>Next Channel</li>
+<li>Previous Channel</li>
+<li>Next Bank</li>
+<li>Previous Bank</li>
+<li>Show Track</li>
+<li>Hide Channel</li>
+<li>Show Channel</li>
+<li>Open Channel</li>
+<li>Global Solo</li>
+<li>Global Mute</li>
+<li>Mute Main Out</li>
+<li>Mono</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="musical-functions">Musical Functions<a href="#musical-functions" class="hash-link" aria-label="Direct link to Musical Functions" title="Direct link to Musical Functions">​</a></h3>
+<ul>
+<li>Transpose</li>
+<li>Transpose Events Down</li>
+<li>Transpose Events Up</li>
+<li>Transpose Instrument Tracks</li>
+<li>Apply Scale</li>
+<li>Velocity</li>
+<li>Length</li>
+<li>Stretch</li>
+<li>Distribute Notes</li>
+<li>Extend to Part End</li>
+<li>Repeat Notes to Part End</li>
+<li>Mirror Notes</li>
+<li>Randomize Notes</li>
+<li>Thin out Notes</li>
+<li>Fill with Notes</li>
+<li>Convert Key Switches to Sound Variations</li>
+<li>Separate Shared Copies</li>
+<li>Insert Instrument Part</li>
+<li>Insert Pattern</li>
+<li>Convert Part to Pattern</li>
+<li>Convert Pattern to Part</li>
+<li>Create Drum Click</li>
+<li>Insert Instrument Parts from Chord Track</li>
+<li>Detect Key Signature</li>
+<li>Explode Pitches to Tracks</li>
+<li>Remove Part Automation</li>
+<li>Render Instrument Tracks</li>
+<li>Double At Interval</li>
+<li>Fill with Rests</li>
+<li>Fill with Rhythm Slashes</li>
+<li>Make Tuplet</li>
+<li>Quantize to Notation</li>
+<li>Send to Voice 1-4</li>
+<li>Switch Staff</li>
+<li>Tuplet</li>
+<li>Rebuild Score</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="navigation">Navigation<a href="#navigation" class="hash-link" aria-label="Direct link to Navigation" title="Direct link to Navigation">​</a></h3>
+<ul>
+<li>Left</li>
+<li>Left Extend</li>
+<li>Left Extend Add</li>
+<li>Left Skip</li>
+<li>Right</li>
+<li>Right Extend</li>
+<li>Right Extend Add</li>
+<li>Right Skip</li>
+<li>Up</li>
+<li>Up Extend</li>
+<li>Up Extend Add</li>
+<li>Up Skip</li>
+<li>Down</li>
+<li>Down Extend</li>
+<li>Down Extend Add</li>
+<li>Down Skip</li>
+<li>Start</li>
+<li>Start Extend</li>
+<li>Start Extend Add</li>
+<li>Start Skip</li>
+<li>End</li>
+<li>End Extend</li>
+<li>End Extend Add</li>
+<li>End Skip</li>
+<li>Page Up</li>
+<li>Page Up Extend</li>
+<li>Page Up Extend Add</li>
+<li>Page Up Skip</li>
+<li>Page Down</li>
+<li>Page Down Extend</li>
+<li>Page Down Extend Add</li>
+<li>Page Down Skip</li>
+<li>First</li>
+<li>Last</li>
+<li>Home</li>
+<li>Forward</li>
+<li>Back</li>
+<li>Next</li>
+<li>Previous</li>
+<li>Ascend Root</li>
+<li>Reset Root</li>
+<li>Locate Selection</li>
+<li>Locate Mouse Cursor</li>
+<li>Goto Time</li>
+<li>Goto Next Event</li>
+<li>Goto Previous Event</li>
+<li>Goto Next Marker</li>
+<li>Goto Previous Marker</li>
+<li>Goto Next Section</li>
+<li>Goto Previous Section</li>
+<li>Goto Loop Start</li>
+<li>Goto Loop End</li>
+<li>Goto Section (1-16)</li>
+<li>Goto Next Player</li>
+<li>Goto Previous Player</li>
+<li>Goto Next Scene</li>
+<li>Goto Previous Scene</li>
+<li>Goto Next Setlist Item</li>
+<li>Goto Previous Setlist Item</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="note-editing">Note Editing<a href="#note-editing" class="hash-link" aria-label="Direct link to Note Editing" title="Direct link to Note Editing">​</a></h3>
+<ul>
+<li>Select Notes</li>
+<li>Delete Notes</li>
+<li>Transpose</li>
+<li>Transpose Events Down</li>
+<li>Transpose Events Up</li>
+<li>Transpose Instrument Tracks</li>
+<li>Apply Scale</li>
+<li>Velocity</li>
+<li>Length</li>
+<li>Stretch</li>
+<li>Distribute Notes</li>
+<li>Extend to Part End</li>
+<li>Repeat Notes to Part End</li>
+<li>Mirror Notes</li>
+<li>Randomize Notes</li>
+<li>Thin out Notes</li>
+<li>Fill with Notes</li>
+<li>Extend Notes by Grid</li>
+<li>Shorten Notes by Grid</li>
+<li>Select Equal Subpositions: All Notes</li>
+<li>Select Equal Subpositions: Same Pitch Any</li>
+<li>Select Equal Subpositions: Same Pitch Exact</li>
+<li>Select Notes with Same Pitches</li>
+<li>Convert Key Switches to Sound Variations</li>
+<li>Separate Shared Copies</li>
+<li>Separate Shared Audio Parts</li>
+<li>Note Length 1/1 through 1/64</li>
+<li>Note Length 2 bars</li>
+<li>Note Length 4 bars</li>
+<li>Note Length 90%</li>
+<li>Note Length 110%</li>
+<li>Legato</li>
+<li>Legato (10 ms) through (50 ms)</li>
+<li>Legato + Remove Overlaps</li>
+<li>Remove Overlaps</li>
+<li>Select Notes 1/4</li>
+<li>Select Notes 1/8</li>
+<li>Select Notes 1/8T</li>
+<li>Select Notes Downbeat</li>
+<li>Select Notes Every 3rd</li>
+<li>Select Notes Every 5th</li>
+<li>Select Notes Highest</li>
+<li>Select Notes Lowest<!-- -->
+<ul>
+<li>Select Notes Menu</li>
+<li>Select Notes Offbeat</li>
+<li>Select muted notes</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="note-length">Note Length<a href="#note-length" class="hash-link" aria-label="Direct link to Note Length" title="Direct link to Note Length">​</a></h3>
+<ul>
+<li>Note Length 1/1 through 1/64</li>
+<li>Note Length 2 bars</li>
+<li>Note Length 4 bars</li>
+<li>Note Length 90%</li>
+<li>Note Length 110%</li>
+<li>Legato</li>
+<li>Legato (10 ms) through (50 ms)</li>
+<li>Legato + Remove Overlaps</li>
+<li>Remove Overlaps</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="note-repeat">Note Repeat<a href="#note-repeat" class="hash-link" aria-label="Direct link to Note Repeat" title="Direct link to Note Repeat">​</a></h3>
+<ul>
+<li>Note Repeat</li>
+<li>1/1 through 1/64</li>
+<li>type 0-3</li>
+<li>Next Base</li>
+<li>Previous Base</li>
+<li>Dotted</li>
+<li>Follow Quantize</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="pattern">Pattern<a href="#pattern" class="hash-link" aria-label="Direct link to Pattern" title="Direct link to Pattern">​</a></h3>
+<ul>
+<li>Edit Next Pattern</li>
+<li>Edit Previous Pattern</li>
+<li>Clear Pattern</li>
+<li>Copy Pattern</li>
+<li>Duplicate Pattern</li>
+<li>Set Program A-G</li>
+<li>Apply Active Variation</li>
+<li>Apply Variation (1-20)</li>
+<li>Apply Next</li>
+<li>Apply Previous</li>
+<li>Find and Apply Variation</li>
+<li>New Variation</li>
+<li>Duplicate Variation</li>
+<li>Delete Variation</li>
+<li>Next Variation<!-- -->
+<ul>
+<li>Previous Variation</li>
+</ul>
+</li>
+<li>Copy Lane</li>
+<li>Clear Lane</li>
+<li>Duplicate Steps</li>
+<li>Fill Lane</li>
+<li>Set Every 2nd Step</li>
+<li>Set Every 4th Step</li>
+<li>Shift Lane</li>
+<li>Shift Lane Back</li>
+<li>Double Resolution</li>
+<li>Double Lane Resolution</li>
+<li>Half Resolution</li>
+<li>Half Lane Resolution</li>
+<li>Select Part Automation with Notes</li>
+<li>Transform Range</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="preset">Preset<a href="#preset" class="hash-link" aria-label="Direct link to Preset" title="Direct link to Preset">​</a></h3>
+<ul>
+<li>Store Preset</li>
+<li>Update Preset</li>
+<li>Store as Default Preset</li>
+<li>Re-Index Presets</li>
+<li>Update Plug-In List</li>
+<li>Reset Blocklist</li>
+<li>Remove Plug-In Settings</li>
+<li>Import Preset</li>
+<li>Export Preset</li>
+<li>Load Preset File</li>
+<li>Store Track Preset</li>
+<li>Load Track Preset</li>
+<li>Apply Track Preset</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="presets">Presets<a href="#presets" class="hash-link" aria-label="Direct link to Presets" title="Direct link to Presets">​</a></h3>
+<ul>
+<li>Store Preset</li>
+<li>Update Preset</li>
+<li>Store as Default Preset</li>
+<li>Re-Index Presets</li>
+<li>Update Plug-In List</li>
+<li>Reset Blocklist</li>
+<li>Remove Plug-In Settings</li>
+<li>Import Preset</li>
+<li>Export Preset</li>
+<li>Load Preset File</li>
+<li>Store Track Preset</li>
+<li>Load Track Preset</li>
+<li>Apply Track Preset</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="project">Project<a href="#project" class="hash-link" aria-label="Direct link to Project" title="Direct link to Project">​</a></h3>
+<ul>
+<li>New Project</li>
+<li>Save</li>
+<li>Save As</li>
+<li>Save to New Folder</li>
+<li>Save New Version</li>
+<li>Restore Version</li>
+<li>Revert</li>
+<li>Open</li>
+<li>Close</li>
+<li>Document Setup</li>
+<li>System Information</li>
+<li>Create Diagnostics Report</li>
+<li>Backup and Restore</li>
+<li>Check for Updates</li>
+<li>View Release Notes</li>
+<li>Usage Data Settings</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="quantize">Quantize<a href="#quantize" class="hash-link" aria-label="Direct link to Quantize" title="Direct link to Quantize">​</a></h3>
+<ul>
+<li>Quantize</li>
+<li>Quantize Notes</li>
+<li>Quantize on Track</li>
+<li>Quantize 50%</li>
+<li>Quantize to Notation</li>
+<li>Freeze Quantize</li>
+<li>Input Quantize</li>
+<li>Quantize End</li>
+<li>Quantize Event</li>
+<li>Freeze Pitch</li>
+<li>Freeze Velocity</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="record-functions">Record Functions<a href="#record-functions" class="hash-link" aria-label="Direct link to Record Functions" title="Direct link to Record Functions">​</a></h3>
+<ul>
+<li>Record</li>
+<li>Toggle Record</li>
+<li>Autopunch In</li>
+<li>Autopunch Out</li>
+<li>Autopunch</li>
+<li>Preroll</li>
+<li>Postroll</li>
+<li>Precount</li>
+<li>Record Mode Replace</li>
+<li>Loop Record Takes</li>
+<li>Loop Record Mix</li>
+<li>Note Erase</li>
+<li>Input Quantize</li>
+<li>Record Takes to Layers</li>
+<li>Undo Last Loop</li>
+<li>Undo All</li>
+<li>Insert Rest</li>
+<li>Repeat Last Chord</li>
+<li>Step Record</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="record-mode">Record Mode<a href="#record-mode" class="hash-link" aria-label="Direct link to Record Mode" title="Direct link to Record Mode">​</a></h3>
+<ul>
+<li>Record Mode Replace</li>
+<li>Loop Record Takes</li>
+<li>Loop Record Mix</li>
+<li>Note Erase</li>
+<li>Input Quantize</li>
+<li>Record Takes to Layers</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="score">Score<a href="#score" class="hash-link" aria-label="Direct link to Score" title="Direct link to Score">​</a></h3>
+<ul>
+<li>Score View</li>
+<li>Piano View</li>
+<li>Drum View</li>
+<li>Rebuild Score</li>
+<li>Align Chord Symbols</li>
+<li>Align Fingerings</li>
+<li>Select Chord Symbols</li>
+<li>Select Lyrics</li>
+<li>Select Voice 1-4</li>
+<li>Select Highest Notes</li>
+<li>Select Lowest Notes</li>
+<li>Clear Recorded Velocities</li>
+<li>Remove Accidentals</li>
+<li>Remove Articulations</li>
+<li>Remove Slurs</li>
+<li>Remove Dynamics</li>
+<li>Remove Pedal Markings</li>
+<li>Remove Measure Rests</li>
+<li>Remove Tempo Marks</li>
+<li>Remove rit. and accel.</li>
+<li>Remove Rehearsal Marks</li>
+<li>Remove Text Boxes</li>
+<li>Remove Lyrics</li>
+<li>Remove Tuplets</li>
+<li>Swap Voices</li>
+<li>Reset TAB numbers</li>
+<li>Reset Font Style</li>
+<li>Flip Attachments</li>
+<li>Toggle Rhythm Slash</li>
+<li>Toggle Note or Rest</li>
+<li>Align Lyrics</li>
+<li>Lyrics Display</li>
+<li>Clear Chord Track</li>
+<li>Transpose Chords</li>
+<li>Store Chord Preset</li>
+<li>Insert Chord Preset</li>
+<li>Chord Display</li>
+<li>Detect Chords</li>
+<li>Remove Chords</li>
+<li>Apply Chords from Chord Track</li>
+<li>Extract Key Signatures from Event</li>
+<li>Detect Key Signature</li>
+<li>Chord Selector</li>
+<li>Insert Rest</li>
+<li>Repeat Last Chord</li>
+<li>Make Tuplet</li>
+<li>Tuplet</li>
+<li>Switch Staff</li>
+<li>Send to Voice 1-4</li>
+<li>Quantize to Notation</li>
+<li>Fill with Rests</li>
+<li>Fill with Rhythm Slashes</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="scorenotation">Score/Notation<a href="#scorenotation" class="hash-link" aria-label="Direct link to Score/Notation" title="Direct link to Score/Notation">​</a></h3>
+<ul>
+<li>Score View</li>
+<li>Piano View</li>
+<li>Drum View</li>
+<li>Rebuild Score</li>
+<li>Align Chord Symbols</li>
+<li>Align Fingerings</li>
+<li>Select Chord Symbols</li>
+<li>Select Lyrics</li>
+<li>Select Voice 1-4</li>
+<li>Select Highest Notes</li>
+<li>Select Lowest Notes</li>
+<li>Clear Recorded Velocities</li>
+<li>Remove Accidentals</li>
+<li>Remove Articulations</li>
+<li>Remove Slurs</li>
+<li>Remove Dynamics</li>
+<li>Remove Pedal Markings</li>
+<li>Remove Measure Rests</li>
+<li>Remove Tempo Marks</li>
+<li>Remove rit. and accel.</li>
+<li>Remove Rehearsal Marks</li>
+<li>Remove Text Boxes</li>
+<li>Remove Lyrics</li>
+<li>Remove Tuplets</li>
+<li>Swap Voices</li>
+<li>Reset TAB numbers</li>
+<li>Reset Font Style</li>
+<li>Flip Attachments</li>
+<li>Toggle Rhythm Slash</li>
+<li>Toggle Note or Rest</li>
+<li>Align Lyrics</li>
+<li>Lyrics Display</li>
+<li>Clear Chord Track</li>
+<li>Transpose Chords</li>
+<li>Store Chord Preset</li>
+<li>Insert Chord Preset</li>
+<li>Chord Display</li>
+<li>Detect Chords</li>
+<li>Remove Chords</li>
+<li>Apply Chords from Chord Track</li>
+<li>Extract Key Signatures from Event</li>
+<li>Detect Key Signature</li>
+<li>Chord Selector</li>
+<li>Insert Rest</li>
+<li>Repeat Last Chord</li>
+<li>Make Tuplet</li>
+<li>Tuplet</li>
+<li>Switch Staff</li>
+<li>Send to Voice 1-4</li>
+<li>Quantize to Notation</li>
+<li>Fill with Rests</li>
+<li>Fill with Rhythm Slashes</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="show">Show<a href="#show" class="hash-link" aria-label="Direct link to Show" title="Direct link to Show">​</a></h3>
+<ul>
+<li>Show Home Page</li>
+<li>Show Instruments</li>
+<li>Show Effects</li>
+<li>Show Loops</li>
+<li>Show Files</li>
+<li>Show Cloud</li>
+<li>Show Pool</li>
+<li>Show Splice</li>
+<li>Show Channel Editor</li>
+<li>Show Channel Tab</li>
+<li>Show Macro Controls</li>
+<li>Show Instrument Editor</li>
+<li>Show Routing Editor</li>
+<li>Show Audio Device Controls</li>
+<li>Show Input Controls</li>
+<li>Show Sends/Cue mix</li>
+<li>Show I/O Connections</li>
+<li>Show VCA Connections</li>
+<li>Show Group Assignment</li>
+<li>Show Channel Notes</li>
+<li>Show Channel Icons</li>
+<li>Show in Console</li>
+<li>Show in Explorer/Finder</li>
+<li>Show Media Folder in Explorer/Finder</li>
+<li>Show Folder in Explorer/Finder</li>
+<li>Show Studio One Scripts</li>
+<li>Show All Tracks</li>
+<li>Show Selected Tracks</li>
+<li>Show Empty Tracks</li>
+<li>Hide Empty Tracks</li>
+<li>Show Soloed Tracks</li>
+<li>Hide Soloed Tracks</li>
+<li>Show Muted Tracks</li>
+<li>Hide Muted Tracks</li>
+<li>Show Disabled Tracks</li>
+<li>Hide Disabled Tracks</li>
+<li>Show Enabled Tracks</li>
+<li>Hide Enabled Tracks</li>
+<li>Show Instrument Tracks</li>
+<li>Hide Instrument Tracks</li>
+<li>Show Audio Tracks</li>
+<li>Hide Audio Tracks</li>
+<li>Show Tracks with Events</li>
+<li>Show Tracks with Events under Cursor</li>
+<li>Hide Tracks with Events under Cursor</li>
+<li>Show Tracks with Events in Loop Range</li>
+<li>Hide Tracks with Events in Loop Range</li>
+<li>Show All Channels</li>
+<li>Show Soloed Channels</li>
+<li>Hide Soloed Channels</li>
+<li>Show Muted Channels</li>
+<li>Hide Muted Channels</li>
+<li>Show Disabled Channels</li>
+<li>Hide Disabled Channels</li>
+<li>Show Enabled Channels</li>
+<li>Hide Enabled Channels</li>
+<li>Show Object Channels</li>
+<li>Hide Object Channels</li>
+<li>Show Current Parameter</li>
+<li>Remove Current Parameter</li>
+<li>Show Automation Lanes</li>
+<li>Show Device</li>
+<li>Show / Hide</li>
+<li>Show All</li>
+<li>Show Default</li>
+<li>Hide Unused</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="sound-variation">Sound Variation<a href="#sound-variation" class="hash-link" aria-label="Direct link to Sound Variation" title="Direct link to Sound Variation">​</a></h3>
+<ul>
+<li>Select Patch (1-10)</li>
+<li>Next Patch</li>
+<li>Previous Patch</li>
+<li>Save Patch</li>
+<li>Update Patch</li>
+<li>Rename Patch</li>
+<li>Set Current as Default Patch</li>
+<li>Reset Default Patch</li>
+<li>Select Mute Patch</li>
+<li>Select Patch</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="spatial-audio">Spatial Audio<a href="#spatial-audio" class="hash-link" aria-label="Direct link to Spatial Audio" title="Direct link to Spatial Audio">​</a></h3>
+<ul>
+<li>Export Spatial Audio</li>
+<li>Spatial Audio Setup</li>
+<li>Toggle Speaker Format</li>
+<li>Speaker Format 9.1.6</li>
+<li>Speaker Format 7.1.4</li>
+<li>Speaker Format 7.1</li>
+<li>Speaker Format 5.1.4</li>
+<li>Speaker Format 5.1.2</li>
+<li>Speaker Format 5.1</li>
+<li>Speaker Format Stereo</li>
+<li>Speaker Format Dolby Atmos Binaural</li>
+<li>Speaker Format Apple Spatial Audio</li>
+<li>Toggle Headphone Format</li>
+<li>Toggle Renderer</li>
+<li>Toggle 3D View Free</li>
+<li>Toggle 3D View Front</li>
+<li>Toggle 3D View Left</li>
+<li>Toggle 3D View Right</li>
+<li>Toggle 3D View Top</li>
+<li>Next Panner Stereo Mode</li>
+<li>Toggle Panner Object Mode</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="step-record">Step Record<a href="#step-record" class="hash-link" aria-label="Direct link to Step Record" title="Direct link to Step Record">​</a></h3>
+<ul>
+<li>Step Record</li>
+<li>Record Mode Replace</li>
+<li>Loop Record Takes</li>
+<li>Loop Record Mix</li>
+<li>Note Erase</li>
+<li>Input Quantize</li>
+<li>Record Takes to Layers</li>
+<li>Insert Rest</li>
+<li>Repeat Last Chord</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="tempo">Tempo<a href="#tempo" class="hash-link" aria-label="Direct link to Tempo" title="Direct link to Tempo">​</a></h3>
+<ul>
+<li>Tap Tempo</li>
+<li>Increment Tempo</li>
+<li>Decrement Tempo</li>
+<li>Tempo -1% through +10%</li>
+<li>Double Tempo</li>
+<li>Half Tempo</li>
+<li>Insert Time Signature</li>
+<li>Edit Time Signature</li>
+<li>Remove Time Signature</li>
+<li>Extract to Tempo Track</li>
+<li>Open Tempo Track</li>
+<li>Tempo -1%, -5%, -10%</li>
+<li>Tempo +1%, +5%, +10%</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="track">Track<a href="#track" class="hash-link" aria-label="Direct link to Track" title="Direct link to Track">​</a></h3>
+<ul>
+<li>Add Audio Track (mono)</li>
+<li>Add Audio Track (stereo)</li>
+<li>Add Audio Track (surround)</li>
+<li>Add Instrument Track</li>
+<li>Add Automation Track</li>
+<li>Add Folder Track</li>
+<li>Add Tracks for all Inputs</li>
+<li>Add Bus for Selected Channels</li>
+<li>Add VCA for Selected Channels</li>
+<li>Remove Track</li>
+<li>Remove Track and Instrument</li>
+<li>Remove Track Automation</li>
+<li>Disable Track</li>
+<li>Enable Track</li>
+<li>Duplicate</li>
+<li>Duplicate (complete)</li>
+<li>Combine with next Track</li>
+<li>Split Track at Cursor</li>
+<li>Split Track and Event at Cursor</li>
+<li>First Track</li>
+<li>Last Track</li>
+<li>Previous Track</li>
+<li>Next Track</li>
+<li>Previous Track Extend</li>
+<li>Next Track Extend</li>
+<li>First Track Extend</li>
+<li>Last Track Extend</li>
+<li>Select All on Tracks</li>
+<li>Deselect All on Tracks</li>
+<li>Invert Track Selection</li>
+<li>Select Tracks with Selected Events</li>
+<li>Select Tracks with Same Color</li>
+<li>Select Tracks by Color</li>
+<li>Select Muted Tracks</li>
+<li>Select Muted Events</li>
+<li>Show All Tracks</li>
+<li>Show Selected Tracks</li>
+<li>Hide Selected Tracks</li>
+<li>Show Empty Tracks</li>
+<li>Hide Empty Tracks</li>
+<li>Show Soloed Tracks</li>
+<li>Hide Soloed Tracks</li>
+<li>Show Muted Tracks</li>
+<li>Hide Muted Tracks</li>
+<li>Show Disabled Tracks</li>
+<li>Hide Disabled Tracks</li>
+<li>Show Enabled Tracks</li>
+<li>Hide Enabled Tracks</li>
+<li>Show Instrument Tracks</li>
+<li>Hide Instrument Tracks</li>
+<li>Show Audio Tracks</li>
+<li>Hide Audio Tracks</li>
+<li>Show Tracks with Events</li>
+<li>Show Tracks with Events under Cursor</li>
+<li>Hide Tracks with Events under Cursor</li>
+<li>Show Tracks with Events in Loop Range</li>
+<li>Hide Tracks with Events in Loop Range</li>
+<li>Pack Folder</li>
+<li>Collapse All Tracks</li>
+<li>Expand Folder Track</li>
+<li>Track Height Minimal</li>
+<li>Track Height 1-8</li>
+<li>Track Height Tiny</li>
+<li>Track Height Small</li>
+<li>Track Height Normal</li>
+<li>Track Height Medium</li>
+<li>Track Height Large</li>
+<li>Track Height X-Large</li>
+<li>Track Height Overview</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="transport">Transport<a href="#transport" class="hash-link" aria-label="Direct link to Transport" title="Direct link to Transport">​</a></h3>
+<ul>
+<li>Start</li>
+<li>Stop</li>
+<li>Record</li>
+<li>Rewind</li>
+<li>Forward</li>
+<li>Rewind Bar</li>
+<li>Forward Bar</li>
+<li>Return to Zero</li>
+<li>Toggle Start</li>
+<li>Toggle Record</li>
+<li>Toggle Loop</li>
+<li>Play from Loop Start</li>
+<li>Toggle Loop Display</li>
+<li>Tap Tempo</li>
+<li>Increment Tempo</li>
+<li>Decrement Tempo</li>
+<li>Set Play Start Marker</li>
+<li>Return to Start on Stop</li>
+<li>Enable Play Start Marker</li>
+<li>Autopunch In</li>
+<li>Autopunch Out</li>
+<li>Autopunch</li>
+<li>Preroll</li>
+<li>Postroll</li>
+<li>Precount</li>
+<li>Shift Loop</li>
+<li>Shift Loop Backwards</li>
+<li>Toggle Start with Preroll</li>
+<li>Play Selected Range</li>
+<li>Play Selected Cells</li>
+<li>Play Selected Cells Exclusive</li>
+<li>Stop Cells</li>
+<li>Stop All</li>
+<li>Toggle All Cell Playback Active</li>
+<li>Toggle Cell Playback Active</li>
+<li>Stop Cell</li>
+<li>Launch Cells</li>
+<li>Record Selected Cells</li>
+<li>Clear Cell</li>
+<li>Clear Scene</li>
+<li>Add Scene</li>
+<li>Add Scene From Playing Cells</li>
+<li>Add Scene From Selected Cells</li>
+<li>Remove Scene</li>
+<li>Rename Scene</li>
+<li>Update Scene</li>
+<li>Select Scene (1-10)</li>
+<li>Next Scene</li>
+<li>Previous Scene</li>
+<li>Add Scene to Playlist</li>
+<li>Add Stop Marker to Playlist</li>
+<li>Duplicate Playlist Item</li>
+<li>Delete Playlist Item</li>
+<li>Remove Playlist</li>
+<li>Clear Playlist</li>
+<li>Rename Playlist</li>
+<li>Duplicate Playlist</li>
+<li>Add Playlist</li>
+<li>Start Playlist Playback</li>
+<li>Continue Playlist Playback</li>
+<li>Insert Playlist into Session</li>
+<li>Unpack Layers to Tracks</li>
+<li>Recall Marker (1-20)</li>
+<li>Recall Retrospective Recording</li>
+<li>Instrument Input follows Selection</li>
+<li>Audio Input follows Selection</li>
+<li>Solo follows Selection</li>
+<li>Unpack Last Take to Layer</li>
+<li>Filter Tracks</li>
+<li>Filter Channels</li>
+<li>Hide</li>
+<li>Expand Automation</li>
+<li>Expand Layers</li>
+<li>Expand Folder Track</li>
+<li>Disable</li>
+<li>Toggle Detached Editor</li>
+<li>Editor</li>
+<li>Add Layer</li>
+<li>Duplicate Layer</li>
+<li>Remove Layer</li>
+<li>Rename Layer</li>
+<li>Activate Next Layer</li>
+<li>Activate Previous Layer</li>
+<li>Unpack Selected Layers To Tracks</li>
+<li>Layers follow Events</li>
+<li>Activate Layer</li>
+<li>Solo Layer</li>
+<li>Deselect All on Tracks</li>
+<li>Create Ranges on Tracks</li>
+<li>Create Ranges</li>
+<li>Select Events in Range</li>
+<li>Select from Start to Event</li>
+<li>Select from Event to End</li>
+<li>Split Loop</li>
+<li>Split Range</li>
+<li>Fit Timeline to Contents</li>
+<li>Zoom Selected Track</li>
+<li>Show in Console</li>
+<li>Edit</li>
+<li>Arm</li>
+<li>Monitor</li>
+<li>Show Note FX Editor</li>
+<li>Toggle Ripple Edit</li>
+<li>Synchronize Editor to Arrangement</li>
+<li>Find Track</li>
+<li>Undo Visibility Change</li>
+<li>Redo Visibility Change</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="transport-panel">Transport Panel<a href="#transport-panel" class="hash-link" aria-label="Direct link to Transport Panel" title="Direct link to Transport Panel">​</a></h3>
+<ul>
+<li>Start</li>
+<li>Stop</li>
+<li>Record</li>
+<li>Rewind</li>
+<li>Forward</li>
+<li>Rewind Bar</li>
+<li>Forward Bar</li>
+<li>Return to Zero</li>
+<li>Toggle Start</li>
+<li>Toggle Record</li>
+<li>Toggle Loop</li>
+<li>Play from Loop Start</li>
+<li>Autopunch In</li>
+<li>Autopunch Out</li>
+<li>Autopunch</li>
+<li>Preroll</li>
+<li>Postroll</li>
+<li>Precount</li>
+<li>Shift Loop</li>
+<li>Shift Loop Backwards</li>
+<li>Goto Loop Start</li>
+<li>Goto Loop End</li>
+<li>Goto Time</li>
+<li>Tap Tempo</li>
+<li>Set Play Start Marker</li>
+<li>Return to Start on Stop</li>
+<li>Enable Play Start Marker</li>
+<li>Toggle Loop Display</li>
+<li>Increment Tempo</li>
+<li>Decrement Tempo</li>
+<li>Clear Pattern</li>
+<li>Set Program A-G</li>
+<li>Toggle Start with Preroll</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="transportplayback">Transport/Playback<a href="#transportplayback" class="hash-link" aria-label="Direct link to Transport/Playback" title="Direct link to Transport/Playback">​</a></h3>
+<ul>
+<li>Play Selected Range</li>
+<li>Play Selected Cells</li>
+<li>Play Selected Cells Exclusive</li>
+<li>Play from Loop Start</li>
+<li>Set Playback Mode Continue</li>
+<li>Set Playback Mode Stop at End</li>
+<li>Set Playback Mode Loop</li>
+<li>Toggle Playback Mode Loop / Continue</li>
+<li>Toggle Playback Mode Loop / Stop at End</li>
+<li>Set Section Playback Mode Continue</li>
+<li>Set Section Playback Mode Stop at End</li>
+<li>Set Section Playback Mode Loop</li>
+<li>Set Section Playback Mode Loop And Continue</li>
+<li>Toggle Section Playback Mode Loop / Continue</li>
+<li>Set Section Playback Mode Skip</li>
+<li>Start Playlist Playback</li>
+<li>Continue Playlist Playback</li>
+<li>Loop Setlist Item</li>
+<li>Loop Selection</li>
+<li>Loop Selection Snapped</li>
+<li>Loop Follows Selection</li>
+<li>Toggle Event Loop</li>
+<li>Loop Until Next Event</li>
+<li>Loop Record Takes</li>
+<li>Loop Record Mix</li>
+<li>Undo Last Loop</li>
+<li>Undo All</li>
+<li>Toggle Loop</li>
+<li>Goto Loop Start</li>
+<li>Goto Loop End</li>
+<li>Shift Loop</li>
+<li>Shift Loop Backwards</li>
+<li>Autopunch In</li>
+<li>Autopunch Out</li>
+<li>Autopunch</li>
+<li>Preroll</li>
+<li>Postroll</li>
+<li>Precount</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="video">Video<a href="#video" class="hash-link" aria-label="Direct link to Video" title="Direct link to Video">​</a></h3>
+<ul>
+<li>Import Video</li>
+<li>Export Video</li>
+<li>Video Size Half</li>
+<li>Video Size Default</li>
+<li>Video Size Double</li>
+<li>Use Video Frame Rate in Timeline</li>
+<li>Video Player</li>
+<li>Create Backing Track from Video Audio</li>
+<li>Extend Setlist Item to Video</li>
+<li>Open Video Track</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="view">View<a href="#view" class="hash-link" aria-label="Direct link to View" title="Direct link to View">​</a></h3>
+<ul>
+<li>Toggle Floating Windows</li>
+<li>Toggle Optional Views</li>
+<li>Pin Editor</li>
+<li>Next Perspective</li>
+<li>Previous Perspective</li>
+<li>Focus Next</li>
+<li>Focus Previous</li>
+<li>Toggle No Overlap</li>
+<li>Reset Window Positions</li>
+<li>Fullscreen</li>
+<li>Toggle Size</li>
+<li>Toggle Width</li>
+<li>Toggle Detached Console</li>
+<li>Toggle Detached Editor</li>
+<li>Show Home Page</li>
+<li>Show Instruments</li>
+<li>Show Effects</li>
+<li>Show Loops</li>
+<li>Show Files</li>
+<li>Show Cloud</li>
+<li>Show Pool</li>
+<li>Show Splice</li>
+<li>Show Channel Editor</li>
+<li>Show Channel Tab</li>
+<li>Show Macro Controls</li>
+<li>Show Instrument Editor</li>
+<li>Show Routing Editor</li>
+<li>Show Audio Device Controls</li>
+<li>Show Input Controls</li>
+<li>Show Sends/Cue mix</li>
+<li>Show I/O Connections</li>
+<li>Show VCA Connections</li>
+<li>Show Group Assignment</li>
+<li>Show Channel Notes</li>
+<li>Show Channel Icons</li>
+<li>Show Marker Track in Editor</li>
+<li>Show Arranger Track in Editor</li>
+<li>Show Chord Track in Editor</li>
+<li>Show Signature Track in Editor</li>
+<li>Show Note FX Editor</li>
+<li>Show in Console</li>
+<li>Show in Explorer/Finder</li>
+<li>Show Media Folder in Explorer/Finder</li>
+<li>Show Folder in Explorer/Finder</li>
+<li>Show Studio One Scripts</li>
+<li>Show Empty Tracks</li>
+<li>Hide Empty Tracks</li>
+<li>Show All Channels</li>
+<li>Show Soloed Channels</li>
+<li>Hide Soloed Channels</li>
+<li>Show Muted Channels</li>
+<li>Hide Muted Channels</li>
+<li>Show Disabled Channels</li>
+<li>Hide Disabled Channels</li>
+<li>Show Enabled Channels</li>
+<li>Hide Enabled Channels</li>
+<li>Show Object Channels</li>
+<li>Hide Object Channels</li>
+<li>Show Current Parameter</li>
+<li>Remove Current Parameter</li>
+<li>Show Automation Lanes</li>
+<li>Show Device</li>
+<li>Show / Hide</li>
+<li>Show All</li>
+<li>Show Default</li>
+<li>Hide Unused</li>
+<li>Remove All</li>
+<li>Reset Order</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_FNw8" id="zoom">Zoom<a href="#zoom" class="hash-link" aria-label="Direct link to Zoom" title="Direct link to Zoom">​</a></h3>
+<ul>
+<li>Zoom In</li>
+<li>Zoom Out</li>
+<li>Zoom In Fine</li>
+<li>Zoom Out Fine</li>
+<li>Zoom Full</li>
+<li>Zoom Full Horizontally</li>
+<li>Zoom Full Vertically</li>
+<li>Zoom to Loop</li>
+<li>Zoom to Selection</li>
+<li>Zoom to Selection Horizontally</li>
+<li>Zoom In Vertical</li>
+<li>Zoom Out Vertical</li>
+<li>Zoom In Vertical Fine</li>
+<li>Zoom Out Vertical Fine</li>
+<li>Undo Zoom</li>
+<li>Redo Zoom</li>
+<li>Toggle Zoom</li>
+<li>Store Zoom State</li>
+<li>Restore Zoom State</li>
+<li>Data Zoom In</li>
+<li>Data Zoom Out</li>
+<li>Track Zoom L</li>
+<li>Track Zoom M</li>
+<li>Track Zoom S</li>
+<li>Zoom Overview</li>
+</ul></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col"><a href="https://github.com/CSources/Studio-Pro-Scripting-API-Reference/tree/main/docs/host/command_reference.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_NulP" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>Edit this page</a></div><div class="col lastUpdated_ZfWH"></div></div></footer></article><nav class="pagination-nav docusaurus-mt-lg" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/Studio-Pro-Scripting-API-Reference/docs/host/gui"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">GUI</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/Studio-Pro-Scripting-API-Reference/docs/host/interfaces"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">Interfaces</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_IS5x thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#usage" class="table-of-contents__link toc-highlight">Usage</a></li><li><a href="#command-list" class="table-of-contents__link toc-highlight">Command List</a><ul><li><a href="#audio" class="table-of-contents__link toc-highlight">Audio</a></li><li><a href="#audio-device" class="table-of-contents__link toc-highlight">Audio Device</a></li><li><a href="#automation" class="table-of-contents__link toc-highlight">Automation</a></li><li><a href="#browser" class="table-of-contents__link toc-highlight">Browser</a></li><li><a href="#channel-components" class="table-of-contents__link toc-highlight">Channel Components</a></li><li><a href="#channelmixer" class="table-of-contents__link toc-highlight">Channel/Mixer</a></li><li><a href="#collaboration" class="table-of-contents__link toc-highlight">Collaboration</a></li><li><a href="#console" class="table-of-contents__link toc-highlight">Console</a></li><li><a href="#devices" class="table-of-contents__link toc-highlight">Devices</a></li><li><a href="#edit" class="table-of-contents__link toc-highlight">Edit</a></li><li><a href="#editselection" class="table-of-contents__link toc-highlight">Edit/Selection</a></li><li><a href="#editor" class="table-of-contents__link toc-highlight">Editor</a></li><li><a href="#event" class="table-of-contents__link toc-highlight">Event</a></li><li><a href="#file" class="table-of-contents__link toc-highlight">File</a></li><li><a href="#group" class="table-of-contents__link toc-highlight">Group</a></li><li><a href="#help" class="table-of-contents__link toc-highlight">Help</a></li><li><a href="#instrument-parts" class="table-of-contents__link toc-highlight">Instrument Parts</a></li><li><a href="#launcher" class="table-of-contents__link toc-highlight">Launcher</a></li><li><a href="#layer" class="table-of-contents__link toc-highlight">Layer</a></li><li><a href="#lyrics" class="table-of-contents__link toc-highlight">Lyrics</a></li><li><a href="#marker" class="table-of-contents__link toc-highlight">Marker</a></li><li><a href="#media" class="table-of-contents__link toc-highlight">Media</a></li><li><a href="#mixer" class="table-of-contents__link toc-highlight">Mixer</a></li><li><a href="#musical-functions" class="table-of-contents__link toc-highlight">Musical Functions</a></li><li><a href="#navigation" class="table-of-contents__link toc-highlight">Navigation</a></li><li><a href="#note-editing" class="table-of-contents__link toc-highlight">Note Editing</a></li><li><a href="#note-length" class="table-of-contents__link toc-highlight">Note Length</a></li><li><a href="#note-repeat" class="table-of-contents__link toc-highlight">Note Repeat</a></li><li><a href="#pattern" class="table-of-contents__link toc-highlight">Pattern</a></li><li><a href="#preset" class="table-of-contents__link toc-highlight">Preset</a></li><li><a href="#presets" class="table-of-contents__link toc-highlight">Presets</a></li><li><a href="#project" class="table-of-contents__link toc-highlight">Project</a></li><li><a href="#quantize" class="table-of-contents__link toc-highlight">Quantize</a></li><li><a href="#record-functions" class="table-of-contents__link toc-highlight">Record Functions</a></li><li><a href="#record-mode" class="table-of-contents__link toc-highlight">Record Mode</a></li><li><a href="#score" class="table-of-contents__link toc-highlight">Score</a></li><li><a href="#scorenotation" class="table-of-contents__link toc-highlight">Score/Notation</a></li><li><a href="#show" class="table-of-contents__link toc-highlight">Show</a></li><li><a href="#sound-variation" class="table-of-contents__link toc-highlight">Sound Variation</a></li><li><a href="#spatial-audio" class="table-of-contents__link toc-highlight">Spatial Audio</a></li><li><a href="#step-record" class="table-of-contents__link toc-highlight">Step Record</a></li><li><a href="#tempo" class="table-of-contents__link toc-highlight">Tempo</a></li><li><a href="#track" class="table-of-contents__link toc-highlight">Track</a></li><li><a href="#transport" class="table-of-contents__link toc-highlight">Transport</a></li><li><a href="#transport-panel" class="table-of-contents__link toc-highlight">Transport Panel</a></li><li><a href="#transportplayback" class="table-of-contents__link toc-highlight">Transport/Playback</a></li><li><a href="#video" class="table-of-contents__link toc-highlight">Video</a></li><li><a href="#view" class="table-of-contents__link toc-highlight">View</a></li><li><a href="#zoom" class="table-of-contents__link toc-highlight">Zoom</a></li></ul></li></ul></div></div></div></div></main></div></div></div><footer class="footer"><div class="container container-fluid"><div class="footer__bottom text--center"><div class="footer__copyright">Disclaimer: Fender/PreSonus does not provide official public documentation for this API. This reference is entirely community-derived and incomplete. The API is internal and undocumented.</div></div></div></footer></div>
+</body>
+</html>
