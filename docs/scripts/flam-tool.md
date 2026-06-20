@@ -1,23 +1,38 @@
-# Flam Tool Documentation
+---
+sidebar_position: 5
+---
+
+# Flam Tool
 
 A Studio Pro script for creating flam effect on MIDI notes.
 
-<p align="center">
-  <img src="/scripts/packages/flam-tool/Flam Tool.png" alt="Description of image">
-</p>
+![Flam Tool](/img/flam-tool.png)
+
+<details>
+
+<summary>Click for details</summary>
+
+The **Flam Tool** script in this repository is a working example demonstrating:
+
+- `classfactory.xml` with `EditTask` registration
+- `metainfo.xml` with `Package:SkinFile` declaration
+- `skin.xml` with `DialogGroup`, `Slider`, `EditBox`, `CheckBox`, `Knob`, and `Label` elements
+- `main.js` with `prepareEdit()`, `performEdit()`, `IParamObserver`, and note manipulation
+
+**Source Code Files:**
+
+- [`classfactory.xml`](https://github.com/CSources/Studio-Pro-Scripting-API-Reference/blob/main/scripts/sources/flam-tool-source/classfactory.xml)
+- [`metainfo.xml`](https://github.com/CSources/Studio-Pro-Scripting-API-Reference/blob/main/scripts/sources/flam-tool-source/metainfo.xml)
+- [`main.js`](https://github.com/CSources/Studio-Pro-Scripting-API-Reference/blob/main/scripts/sources/flam-tool-source/main.js)
+- [`skin/skin.xml`](https://github.com/CSources/Studio-Pro-Scripting-API-Reference/blob/main/scripts/sources/flam-tool-source/skin/skin.xml)
+
+</details>
+
+[⬇ Download Package](https://raw.githubusercontent.com/CSources/Studio-Pro-Scripting-API-Reference/main/scripts/packages/flam-tool/Flam%20Tool.package)
 
 ## Overview
 
 The Flam Tool duplicates selected MIDI notes and offsets them in time to create flam articulations. It provides control over timing, direction, and velocity of the primary or secondary note.
-
-## Installation
-
-| Platform | Scripts folder |
-|---|---|
-| **Windows** | `C:\Program Files\Fender\Studio Pro 8\Scripts\` |
-| **macOS** | `/Applications/Studio Pro 8.app/Contents/Scripts/` |
-
-Place the .package in your Studio Pro scripts folder. Restart Studio Pro after installing.
 
 ## User Interface Controls
 
@@ -38,7 +53,6 @@ Place the .package in your Studio Pro scripts folder. Restart Studio Pro after i
 ### Velocity Knob
 - **Range:** 1% to 100%
 - **Description:** Sets the velocity of the secondary note as a percentage of the original note's velocity.
-
 
 ## Value Calculations
 
@@ -100,7 +114,7 @@ The final start position for both notes is determined by combining the Time, Abs
    - Direction: Right (later)
    - Since shift < 0: Original note shifts right by 0.25 beats, new note stays at original position.
 
-2. **Time = -0.25, Absolute = OFF, Before = ON
+2. **Time = -0.25, Absolute = OFF, Before = ON**
    - Direction: Left (earlier)
    - Since shift < 0
    - New note moves left by 0.25 beats, original stays.

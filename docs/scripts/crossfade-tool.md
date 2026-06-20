@@ -1,21 +1,50 @@
-# Crossfade Tool Documentation
+---
+sidebar_position: 4
+---
+
+# Crossfade Tool
 
 A Studio Pro script for creating crossfades between selected audio events.
 
-<p align="center">
-  <img src="/scripts/packages/crossfade-tool/Crossfade Tool.png" alt="Crossfade Tool">
-</p>
+![Crossfade Tool](/img/crossfade-tool.png)
+
+<details>
+
+<summary>Click for details</summary>
+
+The **Crossfade Tool** package in this repository is a working example demonstrating:
+
+- `AudioEdit` `EditTask` registration for an audio-event-only workflow
+- `skin.xml` with `Resources`, `Image`, `ImageView`, `Space`, `Slider`, `ValueBox`, `CheckBox`, and `RadioButton`
+- named image resources displayed through `ImageView`
+- grouped `RadioButton` controls used as a visual Type selector
+- display-vs-storage translation for millisecond UI values and second-based API values
+- `Host.GUI.Commands.interpretCommand("Audio", "Create Crossfades", false, attrs)` with `Length`, `Type`, and `Bend`
+- `AudioFunctions.createCrossFades(events, fadeLengthSeconds)` for the actual edit operation
+
+**Source Code Files:**
+
+- [`classfactory.xml`](https://github.com/CSources/Studio-Pro-Scripting-API-Reference/blob/main/scripts/sources/crossfade-tool-source/classfactory.xml)
+- [`metainfo.xml`](https://github.com/CSources/Studio-Pro-Scripting-API-Reference/blob/main/scripts/sources/crossfade-tool-source/metainfo.xml)
+- [`main.js`](https://github.com/CSources/Studio-Pro-Scripting-API-Reference/blob/main/scripts/sources/crossfade-tool-source/main.js)
+- [`skin/skin.xml`](https://github.com/CSources/Studio-Pro-Scripting-API-Reference/blob/main/scripts/sources/crossfade-tool-source/skin/skin.xml)
+- [`skin/images/linear.png`](https://github.com/CSources/Studio-Pro-Scripting-API-Reference/blob/main/scripts/sources/crossfade-tool-source/skin/images/linear.png)
+- [`skin/images/logarithmic.png`](https://github.com/CSources/Studio-Pro-Scripting-API-Reference/blob/main/scripts/sources/crossfade-tool-source/skin/images/logarithmic.png)
+- [`skin/images/exponential.png`](https://github.com/CSources/Studio-Pro-Scripting-API-Reference/blob/main/scripts/sources/crossfade-tool-source/skin/images/exponential.png)
+
+**Key features:**
+- Supports Linear, Logarithmic, and Exponential crossfade types
+- Supports Bend as a user-facing percentage value
+- Supports optional split-duration behavior so the entered duration can be divided evenly between both clips
+- Demonstrates how command arguments and edit functions can be combined in one script
+
+</details>
+
+[⬇ Download Package](https://raw.githubusercontent.com/CSources/Studio-Pro-Scripting-API-Reference/main/scripts/packages/crossfade-tool/Crossfade%20Tool.package)
 
 ## Overview
 
 The Crossfade Tool creates crossfades between selected audio events with control over duration, crossfade type, and bend amount.
-
-| Platform | Scripts folder |
-|---|---|
-| **Windows** | `C:\Program Files\Fender\Studio Pro 8\Scripts\` |
-| **macOS** | `/Applications/Studio Pro 8.app/Contents/Scripts/` |
-
-Place the `.package` in your Studio Pro scripts folder. Restart Studio Pro after installing.
 
 ## User Interface Controls
 
@@ -126,16 +155,3 @@ The command path accepts `Length`, `Type`, and `Bend` arguments. The `AudioFunct
 ## Tips
 
 - If the dialog does not open, make sure at least one audio event is selected. The tool still requires at least two audio events before applying the crossfade.
-
-## Source
-
-**Source code:** [`scripts/sources/crossfade-tool-source/`](/scripts/sources/crossfade-tool-source/)
-
-**Files:**
-- [`classfactory.xml`](/scripts/sources/crossfade-tool-source/classfactory.xml)
-- [`metainfo.xml`](/scripts/sources/crossfade-tool-source/metainfo.xml)
-- [`main.js`](/scripts/sources/crossfade-tool-source/main.js)
-- [`skin/skin.xml`](/scripts/sources/crossfade-tool-source/skin/skin.xml)
-- [`skin/images/linear.png`](/scripts/sources/crossfade-tool-source/skin/images/linear.png)
-- [`skin/images/logarithmic.png`](/scripts/sources/crossfade-tool-source/skin/images/logarithmic.png)
-- [`skin/images/exponential.png`](/scripts/sources/crossfade-tool-source/skin/images/exponential.png)
