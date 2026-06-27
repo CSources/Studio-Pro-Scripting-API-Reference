@@ -151,7 +151,7 @@ sidebar_position: 3
 
 | **options** | Description |
 |---|---|
-| `secondary` | - |
+| `secondary` | Omits display title divider. |
 | `transparent` | Transparent rendering. |
 
 

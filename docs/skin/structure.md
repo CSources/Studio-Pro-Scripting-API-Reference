@@ -182,7 +182,7 @@ colors, fonts, and alignment helpers. Style-level details for `Style`, `Color`, 
 | `center` | - |
 | `customframe` | - |
 | `dialogstyle` | - |
-| `floating` | - |
+| `floating` | Minimizable, floating window, always overlays Studio Pro. |
 | `fullscreen` | Uses fullscreen window behavior. |
 | `inflate` | Expands the dialog content area. |
 | `maximize` | Enables a maximize-capable window. |
@@ -199,4 +199,47 @@ colors, fonts, and alignment helpers. Style-level details for `Style`, `Color`, 
 
 - `Form image="..."` sets a background image for the whole dialog.
 - `context.runDialog()` automatically creates Cancel and OK buttons.
+
+## WindowClasses
+
+`WindowClasses` is a top-level container for workspace window definitions.
+
+**skin.xml Snippet:**
+
+```xml
+<WindowClasses>
+  <WindowClass name="MyPanel"
+    title="My Panel"
+    controller="MyController"
+    form.name="MyForm"
+    command.category="MyCategory" command.name="My Panel"/>
+</WindowClasses>
+```
+
+## WindowClass
+
+`WindowClass` defines a non-blocking workspace window bound to a script controller.
+
+**skin.xml Snippet:**
+
+```xml
+<WindowClass name="MyPanel"
+    title="My Panel"
+    controller="MyController"
+    form.name="MyForm"
+    command.category="MyCategory" command.name="My Panel"/>
+```
+
+| Attribute | Description | Type |
+|---|---|---|
+| `command.category` | Command category for View menu toggle | text |
+| `command.name` | Command name for View menu toggle | text |
+| `controller` | Name of the registered controller object | identifier |
+| `form.name` | Reference to a `<Form>` in `<Forms>` | identifier |
+| `name` | Unique window class identifier | identifier |
+| `title` | Title bar text | text |
+
+- The `controller` value must match `Host.Objects.registerObject(this, "Name")` in the script's `initialize()`. See [WindowClass](../script_types/windowclass.md).
+- A `<Form>` with a matching `name` must exist in `<Forms>`.
+- WindowClass forms support the same layout controls as dialog `<Form>` elements.
 

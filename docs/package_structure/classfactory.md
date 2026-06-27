@@ -73,7 +73,7 @@ Script registration, entry points, and attributes.
 | `"FrameworkService"` | Host-managed service surface, not shown in menus |
 | `"Gadget"` | - |
 
-See [docs/script_interface.md](../script_interface.md) for the interface and lifecycle associated with each category.
+See [Script Interfaces](../script_types/script_interfaces.md) for the minimal interface and lifecycle associated with documented categories.
 
 ## subCategory values
 
@@ -128,7 +128,7 @@ See [docs/script_interface.md](../script_interface.md) for the interface and lif
 
 **Icon binding (toolbar buttons and menu items):**
 
-For `EditAddIn` toolbar buttons, the script class uses `subCategory="Engine"` with `groupName` for panel location. For `EditTask` menu items, use `menuGroup` for menu categorization.
+For `EditAddIn` toolbar buttons, the script class uses an addin specific `subCategory` (`"Engine"`, `"Project"`, `"Show"`) with `groupName` for panel location. For `EditTask` menu items, use `menuGroup` for menu categorization.
 
 The image is declared in `skin.xml` as an `<Image>` and referenced from `classfactory.xml` with `theme://$package/...`.
 
@@ -145,6 +145,23 @@ The image is declared in `skin.xml` as an `<Image>` and referenced from `classfa
 </ScriptMetaClass>
 ```
 
-## Multiple commands from one JS file
+## Multiple Scripts from One JS File
 
-See [docs/script_interface.md](../script_interface.md) for the pattern of exporting multiple factory functions from a single JS file.
+A single JavaScript file can export multiple factory functions, each registered as a separate `<ScriptClass>` entry in `classfactory.xml`.
+
+```xml
+<classfactory.xml>
+<ScriptClass name="Remove Empty Tracks"
+  sourceFile="code.js"
+  functionName="removeEmpty"/>
+
+<ScriptClass name="Remove Disabled Tracks"
+  sourceFile="code.js"
+  functionName="removeDisabled"/>
+```
+
+```javascript
+// code.js
+function removeEmpty()    { return new TrackAction("removeEmptyTracks"); }
+function removeDisabled() { return new TrackAction("removeDisabledTracks"); }
+```

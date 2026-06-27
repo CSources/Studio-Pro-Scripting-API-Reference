@@ -26,7 +26,7 @@ sidebar_position: 4
 | `Host.GUI.openUrl(url)` | — | `url` — `Host.Url` path | Open a local file or URL in the host |
 | `Host.GUI.runDialog(theme, formName, controller)` | — | `theme` — theme object, `formName` — form name, `controller` — controller object | Open a skin.xml dialog (blocking) |
 | `Host.GUI.runDialogWithParameters(params, title)` | — | `params` — param list, `title` — dialog title | Open a parameter dialog with a param list |
-| `Host.GUI.showFile(url)` | — | `url` — `Host.Url` path | Reveal a file in the host |
+| `Host.GUI.showFile(url)` | `number` | `url` — `Host.Url` path | Reveal a file or folder in the system file manager. Returns `0` on success |
 
 ## Clipboard
 
@@ -205,7 +205,7 @@ var result = Host.GUI.runDialogWithParameters(params, "Dialog Title");
 
 ## showFile
 
-`Host.GUI.showFile()` reveals a file in the host or system file browser. Accepts a `Host.Url` object.
+`Host.GUI.showFile()` reveals a file or folder in the system file manager. Accepts a `Host.Url` object. For a file, it reveals the parent folder with the file selected. For a directory, it opens the folder. Returns `0` on success.
 
 ```javascript
 var path = Host.Url("local://$USERCONTENT/folder/");

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ClassFactory>
+  <ScriptClass
+    classID="{B1A2B3C4-0003-4000-8000-000000000030}"
+    category="FrameworkService"
+    name="Marker Creator Service"
+    sourceFile="main.js"
+    functionName="createInstance"/>
+</ClassFactory>

@@ -10,7 +10,15 @@
 | [Resources](package_structure/resources.md) | Runtime resource access via `package://` |
 | [Installation](package_structure/installation.md) | Scripts folder locations and hot-reloading |
 | [Creating a .package File](package_structure/package_creation.md) | Zip-based packaging for distribution |
-| [Script Interface](script_interface.md) | Task lifecycle, execution phases, factory functions |
+
+## Script Types
+
+| Page | Description |
+|---|---|
+| [Script Interfaces](script_types/script_interfaces.md) | Category reference |
+| [EditTask](script_types/edittask.md) | Command/action scripts with optional dialog |
+| [EditAddIn](script_types/editaddin.md) | Persistent add-in panels |
+| [WindowClass](script_types/windowclass.md) | Non-blocking workspace windows via FrameworkService |
 
 ## Host API
 

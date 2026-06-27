@@ -13,14 +13,14 @@
 | Section | Description |
 |---|---|
 | [Package Structure](docs/package_structure/package_structure.md) | Required files, metainfo.xml, classfactory.xml |
-| [Script Interface](docs/script_interface.md) | Task lifecycle, factory functions, include_file |
+| [Script Types](docs/script_types/script_interfaces.md) | Category reference and registration patterns |
 | [Host API](docs/host/host_overview.md) | Host namespace — Classes, Engine, GUI, IO, Signals, etc. |
 | [SDK Files](docs/sdk/sdk_files.md) | CCL.JS, Engine.JS, Devices.JS, HostUtils, etc. |
 | [Context Object](docs/context/context_object.md) | editor, functions, iterator, parameters, track list |
 | [Objects](docs/objects/event_object.md) | Event, Region, Track, Channel, Mixer, Time objects |
 | [Skin XML Reference](docs/skin/skin_overview.md) | Known skin.xml element and attribute reference |
 | [Utilities](docs/utilities/utilities.md) | Color, tempo, level conversions; debugging tools |
-| [Scripts](scripts/index.md) | Real-world script implementation examples |
+| [Scripts](docs/scripts/index.md) | Real-world script implementation examples |
 | [API Index](docs/api_index.md) | Map of all documentation pages |
 
 ---

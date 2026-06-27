@@ -36,3 +36,14 @@ your-script.package (ZIP)
 For multi-script packages, the package root uses the same structure. Each `<ScriptClass>` needs a unique `classID`, and `functionName` only needs to name the factory function inside that entry's `sourceFile`. Multiple entries may point at the same `sourceFile` when one JavaScript file exports several factory functions. Shared dialog definitions live in one `skin.xml`, with one `<Form>` per script when dialogs are used.
 
 See [Examples - Multi-Script Demo](../scripts/multi-script-demo.md) for a working example.
+
+## Including Other JS Files
+
+Include helper JavaScript files from the package root or known resource paths.
+
+```javascript
+include_file('helper.js');
+include_file('constants.js');
+```
+
+See [SDK Files](sdk/sdk_files.md) for list of bundled files.

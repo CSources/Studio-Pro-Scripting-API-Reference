@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MetaInformation>
+  <Attribute id="Package:ID" value="com.chris.marker.creator.panel"/>
+  <Attribute id="Package:Name" value="Marker Creator"/>
+  <Attribute id="Package:Version" value="1.0.0"/>
+  <Attribute id="Package:Vendor" value="Chris R"/>
+  <Attribute id="Package:SkinFile" value="skin/"/>
+</MetaInformation>

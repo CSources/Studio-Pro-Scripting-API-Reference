@@ -13,6 +13,8 @@ sidebar_position: 10
 | `Form` | One dialog/window definition |
 | `Forms` | Container for dialog definitions |
 | `Resources` | Container for named reusable assets |
+| `WindowClass` | One workspace window definition |
+| `WindowClasses` | Container for workspace window definitions |
 | `Shapes` | Container for named vector shape resources |
 | `Skin` | Root container for the entire `skin.xml` document |
 | `Styles` | Container for custom style definitions |
@@ -71,6 +73,7 @@ sidebar_position: 10
 | `Space` | Layout Containers | - |
 | `Style` | Style Helpers | - |
 | `Styles` | Document Structure | - |
+| `styleselector` | Template & Control Flow | Host/controller property |
 | `SwipeBox` | Template & Control Flow | - |
 | `Table` | Layout Containers | - |
 | `TabView` | Layout Containers | - |
@@ -88,7 +91,8 @@ sidebar_position: 10
 | `Variant` | Template & Control Flow | Bound parameter / host property |
 | `Vertical` | Layout Containers | - |
 | `View` | Layout Containers | - |
-| `styleselector` | Template & Control Flow | Host/controller property |
+| `WindowClass` | Document Structure | `controller`, `form.name` |
+| `WindowClasses` | Document Structure | - |
 
 ## Probed / Unconfirmed Elements
 

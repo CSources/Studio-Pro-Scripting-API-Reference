@@ -12,9 +12,9 @@ const quickLinks = [
     to: '/docs/package_structure/',
   },
   {
-    title: 'Script Interface',
-    description: 'Script structure, execution phases, and factory registration.',
-    to: '/docs/script_interface/',
+    title: 'Script Types',
+    description: 'Category reference and registration patterns for script types.',
+    to: '/docs/script_types/script_interfaces/',
   },
   {
     title: 'Host',

@@ -11,7 +11,7 @@ This is not a complete reference. There is plenty of missing, improperly structu
 | Section | Description |
 |---|---|
 | [Package Structure](package_structure/package_structure.md) | Required files, metainfo.xml, classfactory.xml |
-| [Script Interface](script_interface.md) | Task lifecycle, factory functions, include_file |
+| [Script Types](script_types/script_interfaces.md) | Category reference and registration patterns |
 | [Host API](host/host_overview.md) | Host namespace — Classes, Engine, GUI, IO, Signals, etc. |
 | [SDK Files](sdk/sdk_files.md) | CCL.JS, Engine.JS, Devices.JS, HostUtils, etc. |
 | [Context Object](context/context_object.md) | editor, functions, iterator, parameters, track list |

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Skin>
+    <Externals>
+        <External name="@Main.*"/>
+        <External name="Standard.*"/>
+    </Externals>
+    <Resources>
+        <Image name="UndoIcon" url="images/undo.svg"/>
+        <Image name="RedoIcon" url="images/redo.svg"/>
+        <Image name="SaveIcon" url="images/save.svg"/>
+        <Image name="ClearIcon" url="images/clear.svg"/>
+        <Image name="NumberIcon" url="images/number.svg"/>
+    </Resources>
+    <Styles>
+        <Style name="Ctx0"><Triggers><Trigger event="onContextMenu"><Invoker target="controller" name="onSlotCtx0"/></Trigger></Triggers></Style>
+        <Style name="Ctx1"><Triggers><Trigger event="onContextMenu"><Invoker target="controller" name="onSlotCtx1"/></Trigger></Triggers></Style>
+        <Style name="Ctx2"><Triggers><Trigger event="onContextMenu"><Invoker target="controller" name="onSlotCtx2"/></Trigger></Triggers></Style>
+        <Style name="Ctx3"><Triggers><Trigger event="onContextMenu"><Invoker target="controller" name="onSlotCtx3"/></Trigger></Triggers></Style>
+        <Style name="Ctx4"><Triggers><Trigger event="onContextMenu"><Invoker target="controller" name="onSlotCtx4"/></Trigger></Triggers></Style>
+        <Style name="Ctx5"><Triggers><Trigger event="onContextMenu"><Invoker target="controller" name="onSlotCtx5"/></Trigger></Triggers></Style>
+        <Style name="Ctx6"><Triggers><Trigger event="onContextMenu"><Invoker target="controller" name="onSlotCtx6"/></Trigger></Triggers></Style>
+        <Style name="Ctx7"><Triggers><Trigger event="onContextMenu"><Invoker target="controller" name="onSlotCtx7"/></Trigger></Triggers></Style>
+        <Style name="Ctx8"><Triggers><Trigger event="onContextMenu"><Invoker target="controller" name="onSlotCtx8"/></Trigger></Triggers></Style>
+        <Style name="Ctx9"><Triggers><Trigger event="onContextMenu"><Invoker target="controller" name="onSlotCtx9"/></Trigger></Triggers></Style>
+        <Style name="Ctx10"><Triggers><Trigger event="onContextMenu"><Invoker target="controller" name="onSlotCtx10"/></Trigger></Triggers></Style>
+        <Style name="Ctx11"><Triggers><Trigger event="onContextMenu"><Invoker target="controller" name="onSlotCtx11"/></Trigger></Triggers></Style>
+        <Style name="Ctx12"><Triggers><Trigger event="onContextMenu"><Invoker target="controller" name="onSlotCtx12"/></Trigger></Triggers></Style>
+        <Style name="Ctx13"><Triggers><Trigger event="onContextMenu"><Invoker target="controller" name="onSlotCtx13"/></Trigger></Triggers></Style>
+        <Style name="Ctx14"><Triggers><Trigger event="onContextMenu"><Invoker target="controller" name="onSlotCtx14"/></Trigger></Triggers></Style>
+        <Style name="Ctx15"><Triggers><Trigger event="onContextMenu"><Invoker target="controller" name="onSlotCtx15"/></Trigger></Triggers></Style>
+    </Styles>
+    <WindowClasses>
+        <WindowClass name="MarkerCreatorPanel"
+            title="Marker Creator"
+            controller="MarkerCreatorController"
+            form.name="MarkerCreatorForm"
+            command.category="Marker" command.name="Marker Creator"/>
+    </WindowClasses>
+    <Forms>
+        <Form name="MarkerCreatorForm" title="Marker Creator" attach="all fitsize" windowstyle="titlebar restorepos floating" sizelimits="332,300,335,350">
+            <Vertical margin="2" spacing="4" attach="all">
+                <DialogGroup width="340" height="44" attach="hcenter vcenter" options="secondary">
+                    <Horizontal spacing="3" attach="hcenter">
+                        <Button name="UndoBtn" title="" icon="UndoIcon" width="24" height="22" tooltip="Undo last action"/>
+                        <Button name="RedoBtn" title="" icon="RedoIcon" width="24" height="22" tooltip="Redo last undo"/>
+                        <SelectBox name="PresetList" width="130" height="22" options="border nowheel"/>
+                        <Button name="SaveBtn" title="" icon="SaveIcon" width="24" height="22" tooltip="Save current names as a preset"/>
+                        <Button name="ClearBtn" title="" icon="ClearIcon" width="22" height="22" tooltip="Clear all slot names"/>
+                        <Toggle name="AutoNumBtn" title="" icon="NumberIcon" width="26" height="22" tooltip="Auto-number duplicate marker names"/>
+                    </Horizontal>
+                </DialogGroup>
+                    <Vertical margin="2" spacing="3" attach="all">
+                        <Label title="(Right-click to rename buttons)" height="16" attach="hcenter"/>
+                        <Horizontal spacing="2" attach="hcenter">
+                            <View width="75" height="22"><Button name="SlotBtn0" titlename="SlotDisplay0" size="0,0,75,22" style="Standard.AddIn.Button"/><TriggerView style="Ctx0" size="0,0,75,22"/></View>
+                            <View width="75" height="22"><Button name="SlotBtn1" titlename="SlotDisplay1" size="0,0,75,22" style="Standard.AddIn.Button"/><TriggerView style="Ctx1" size="0,0,75,22"/></View>
+                            <View width="75" height="22"><Button name="SlotBtn2" titlename="SlotDisplay2" size="0,0,75,22" style="Standard.AddIn.Button"/><TriggerView style="Ctx2" size="0,0,75,22"/></View>
+                            <View width="75" height="22"><Button name="SlotBtn3" titlename="SlotDisplay3" size="0,0,75,22" style="Standard.AddIn.Button"/><TriggerView style="Ctx3" size="0,0,75,22"/></View>
+                        </Horizontal>
+                        <Horizontal spacing="2" attach="hcenter">
+                            <View width="75" height="22"><Button name="SlotBtn4" titlename="SlotDisplay4" size="0,0,75,22" style="Standard.AddIn.Button"/><TriggerView style="Ctx4" size="0,0,75,22"/></View>
+                            <View width="75" height="22"><Button name="SlotBtn5" titlename="SlotDisplay5" size="0,0,75,22" style="Standard.AddIn.Button"/><TriggerView style="Ctx5" size="0,0,75,22"/></View>
+                            <View width="75" height="22"><Button name="SlotBtn6" titlename="SlotDisplay6" size="0,0,75,22" style="Standard.AddIn.Button"/><TriggerView style="Ctx6" size="0,0,75,22"/></View>
+                            <View width="75" height="22"><Button name="SlotBtn7" titlename="SlotDisplay7" size="0,0,75,22" style="Standard.AddIn.Button"/><TriggerView style="Ctx7" size="0,0,75,22"/></View>
+                        </Horizontal>
+                        <Horizontal spacing="2" attach="hcenter">
+                            <View width="75" height="22"><Button name="SlotBtn8" titlename="SlotDisplay8" size="0,0,75,22" style="Standard.AddIn.Button"/><TriggerView style="Ctx8" size="0,0,75,22"/></View>
+                            <View width="75" height="22"><Button name="SlotBtn9" titlename="SlotDisplay9" size="0,0,75,22" style="Standard.AddIn.Button"/><TriggerView style="Ctx9" size="0,0,75,22"/></View>
+                            <View width="75" height="22"><Button name="SlotBtn10" titlename="SlotDisplay10" size="0,0,75,22" style="Standard.AddIn.Button"/><TriggerView style="Ctx10" size="0,0,75,22"/></View>
+                            <View width="75" height="22"><Button name="SlotBtn11" titlename="SlotDisplay11" size="0,0,75,22" style="Standard.AddIn.Button"/><TriggerView style="Ctx11" size="0,0,75,22"/></View>
+                        </Horizontal>
+                        <Horizontal spacing="2" attach="hcenter">
+                            <View width="75" height="22"><Button name="SlotBtn12" titlename="SlotDisplay12" size="0,0,75,22" style="Standard.AddIn.Button"/><TriggerView style="Ctx12" size="0,0,75,22"/></View>
+                            <View width="75" height="22"><Button name="SlotBtn13" titlename="SlotDisplay13" size="0,0,75,22" style="Standard.AddIn.Button"/><TriggerView style="Ctx13" size="0,0,75,22"/></View>
+                            <View width="75" height="22"><Button name="SlotBtn14" titlename="SlotDisplay14" size="0,0,75,22" style="Standard.AddIn.Button"/><TriggerView style="Ctx14" size="0,0,75,22"/></View>
+                            <View width="75" height="22"><Button name="SlotBtn15" titlename="SlotDisplay15" size="0,0,75,22" style="Standard.AddIn.Button"/><TriggerView style="Ctx15" size="0,0,75,22"/></View>
+                        </Horizontal>
+                        <Space height="4"/>
+                        <Horizontal spacing="4" attach="hcenter">
+                        <Label title="Offset:" height="20" width="40"/>
+                            <Slider name="OffsetSlider" width="100" height="20" options="horizontal bargraph" tooltip="Places marker before cursor. Will cause brief playback stutter."/>
+                            <ValueBox name="OffsetMs" width="50" height="20"/>
+                            <SelectBox name="OffsetUnit" width="85" height="20"/>
+                        </Horizontal>
+                        <Horizontal spacing="4" attach="hcenter">
+                            <Space width="200"/>
+                            <SelectBox name="FrameRateList" width="85" height="20" tooltip="Set to match session frame rate."/>
+                        </Horizontal>
+                    </Vertical>
+            </Vertical>
+        </Form>
+        <Form name="RenameDialog" title="Rename Button" buttons="okay cancel" windowstyle="panelstyle above restorepos" firstfocus="RenameText" width="200" height="70">
+            <Vertical margin="10" spacing="6" attach="all">
+                <Label title="Enter marker name:" height="18"/>
+                <EditBox name="RenameText" placeholder="(Enter marker name)" width="180" height="24" options="immediate border"/>
+            </Vertical>
+        </Form>
+    </Forms>
+</Skin>
