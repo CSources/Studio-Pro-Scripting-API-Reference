@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ClassFactory>
   <ScriptClass
-    classID="{A1000070-0001-0001-0001-000000000070}"
+    classID="{7E4B2D91-3F8C-4A6D-9B5E-1C2D3E4F5A6B}"
     category="EditTask"
     subCategory="MusicEdit"
-    name="Flam Tool"
+    name="Select by Sound Variation"
     sourceFile="main.js"
-    functionName="createInstance"
-    metaClassID="{5BF1B237-DE56-41EB-A48D-E54F61756A68}">
+    functionName="createSelectVariationsInstance">
     <Attribute id="menuGroup" value="Scripts"/>
     <Attribute id="commandCategory" value="Musical Functions"/>
   </ScriptClass>

@@ -1,6 +1,6 @@
 include_file("resource://{main}/sdk/cclapp.js");
 
-var kPackageID = "com.chris.marker.creator.panel"
+var kPackageID = "marker.creator.panel"
 var kSlots = 16
 var kPresetDir = "local://$USERCONTENT/Script Presets/Marker Creator"
 var kPresetExt = ".markerslots"

@@ -19,6 +19,7 @@ Only available on selected Instrument Part or the Note Editor from the `MusicEdi
 | `startTime` | `object` - [Time Object](time_object.md) | No | — | Start position as time object. |
 | `endTime` | `object` - [Time Object](time_object.md) | No | — | End position as time object. |
 | `lengthTime` | `object` - [Time Object](time_object.md) | No | — | Length as time object. |
+| `soundVariationMap` | `object` [Sound Variation Map](../context/editor.md#sound-variation-map) | No | — | Per-region map of sound variation definitions. |
 
 ## Methods
 

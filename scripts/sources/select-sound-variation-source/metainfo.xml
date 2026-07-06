@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <MetaInformation>
-  <Attribute id="Package:ID" value="crossfade.tool"/>
-  <Attribute id="Package:Name" value="Crossfade Tool"/>
+  <Attribute id="Package:ID" value="select.sound.variation"/>
+  <Attribute id="Package:Name" value="Select by Sound Variation"/>
   <Attribute id="Package:Version" value="1.0.0"/>
   <Attribute id="Package:Vendor" value="CSources"/>
   <Attribute id="Package:SkinFile" value="skin/"/>

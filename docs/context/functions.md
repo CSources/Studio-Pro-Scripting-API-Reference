@@ -92,7 +92,6 @@ Fade types:
 
 | Method | Returns | Parameters | Description |
 |---|---|---|---|
-| ~~`createEvent()`~~ | — | (none) | — |
 | `deleteEvent(event)` | — | `event` (`note event`, req): Event to delete. | Deletes an event. |
 | `freezePitch(event)` | — | `event` (`note event`, req): Event to freeze. | - |
 | `freezeQuantize(event)` | — | `event` (`note event`, req): Event to freeze. | - |
@@ -102,7 +101,6 @@ Fade types:
 | `modifyVelocity(event, velocity)` | — | `event` (`note event`, req), `velocity` (`number`, req): 0–127 or 0.0–1.0. | Changes velocity. |
 | `moveEvent(event, time)` | — | `event` (`object`, req), `time` ([Time Object](../objects/time_object.md), req) | Moves an event to a new time position. |
 | `muteEvent(event, mute)` | — | `event` (`object`, req), `mute` (`boolean`, req) | Mutes or unmutes an event. |
-| ~~`newMusicalTime(value)`~~ | `object` | `value` (`number`, req) | — |
 | `quantize(event)` | — | `event` (`object`, req) | Quantizes an event to the grid. |
 | `quantizeEvent(event)` | — | `event` (`object`, req) | - |
 | `resizeEvent(event, length)` | — | `event` (`object`, req), `length` (`number`, req) | Resizes an event. |

@@ -33,7 +33,7 @@ sidebar_position: 2
 
 ### SelectFunctions
 
-Returned by `editor.createSelectFunctions(functions)`. The journal methods (`beginMultiple`, `endMultiple`, `setJournalEnabled`, `isJournalEnabled`) are the same as `context.functions` — see [functions.md](functions.md).
+Returned by `context.editor.createSelectFunctions(functions)`. The journal methods (`beginMultiple`, `endMultiple`, `setJournalEnabled`, `isJournalEnabled`) are the same as `context.functions` — see [functions.md](functions.md).
 
 #### Properties
 
@@ -51,13 +51,44 @@ Returned by `editor.createSelectFunctions(functions)`. The journal methods (`beg
 
 `context.editor.activeRegion` exposes the active region surface.
 
+### Properties
+
+| Property | Type | Writable | Example | Description |
+|---|---|---|---|---|
+| `soundVariationMap` | `object` | No | — | Per-region map of sound variation definitions. |
+
+### Methods
+
 | Method | Returns | Parameters | Description |
 |---|---|---|---|
 | `createSequenceIterator()` | `object` | (none) | Creates an iterator over the sequence's note events. |
-| `getSoundVariationForNote(note)` | `number` | `note` (`note event`, req): A note event from the iterator. | Returns the sound variation index. |
+| `getSoundVariationForNote(note)` | `number` | `note` (`note event`, req): A note event from the iterator. | Returns the 0-based sound variation index for the note (`-1` if no variation is active at the note's position). |
 | `getLyricsForNote(note)` | `object` | `note` (`note event`, req): A note event from the iterator. | Returns a lyrics object for events with lyrics. |
 
 The [Event Object — Lyrics Events](../objects/event_object.md#lyrics-events) for the full lyrics object surface.
+
+### Sound Variation Map
+
+`context.editor.activeRegion.soundVariationMap` exposes the active region's sound variation definitions. The map is read-only.
+
+#### Methods
+
+| Method | Returns | Parameters | Description |
+|---|---|---|---|
+| `lookupVariationByID(id)` | `object` [Variation Object](#variation-object) | `id` (`number` or `string`, req): variation id to look up. | Returns the variation object for the given id (provided by `getSoundVariationForNote(note)`). |
+
+#### Variation Object
+
+Returned by `lookupVariationByID`.
+
+| Property | Type | Writable | Example | Description |
+|---|---|---|---|---|
+| `name` | `string` | No | `"Vibrato"` | Display name of the variation. |
+| `id` | `number` | No | `0` | - |
+
+**Example:**
+
+See the [Select by Sound Variation Script](/docs/scripts/select-sound-variation.md#sound-variation-map-access) for a finished script example showing its usage.
 
 ## Cursor Info
 

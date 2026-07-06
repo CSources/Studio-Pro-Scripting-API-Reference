@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Skin>
+  <Forms>
+    <Form name="SelectVariationsDialog" title="Select by Sound Variation" windowstyle="dialogstyle restorepos" firstfocus="VariationNames">
+      <Vertical margin="0" spacing="8">
+        <DialogGroup name="OptionTabs" title="Select Variations" width="300" height="280">
+          <Vertical margin="0" spacing="4">
+            <Space height="20"/>
+            <ListView name="VariationList" width="300" height="205"
+                      options="selection" scrolloptions="vertical border"/>
+            <Vertical margin="10">
+            <EditBox name="VariationNames" width="280" height="22" options="dialogedit"/>
+            </Vertical>
+          </Vertical>
+        </DialogGroup>
+      </Vertical>
+    </Form>
+  </Forms>
+</Skin>

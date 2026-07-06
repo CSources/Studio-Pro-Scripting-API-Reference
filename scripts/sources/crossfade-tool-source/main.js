@@ -1,4 +1,4 @@
-var kPackageID = "crossfadetool";
+var kPackageID = "crossfade.tool";
 
 function CrossfadeToolTask() {
   this.interfaces = [Host.Interfaces.IEditTask, Host.Interfaces.IParamObserver];

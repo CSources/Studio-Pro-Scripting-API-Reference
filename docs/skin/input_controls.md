@@ -396,7 +396,7 @@ this.InputText.value = "";
 | **options** | Description |
 |---|---|
 | `border` | Visible field border. |
-| `dialogedit` | - |
+| `dialogedit` | Enter submits the dialog. |
 | `doubleclick` | - |
 | `email` | Email input field. |
 | `extended` | Extended editing. |

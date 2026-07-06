@@ -5,7 +5,7 @@ function ScriptATask() {
   this.ShowMessage = context.parameters.addInteger(0, 1, "ShowMessage");
   this.ShowMessage.value = 1;
   context.restore();
-  return context.runDialog("ScriptADialog", "com.chris.multi-script-demo");
+  return context.runDialog("ScriptADialog", "multi.script.demo");
   };
 
   this.performEdit = function(context) {
