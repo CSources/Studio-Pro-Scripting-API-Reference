@@ -49,13 +49,6 @@ Host.GUI.Commands.interpretCommand("Edit", "Select All");
 - Goto Previous Section
 - Goto Section
 - Goto Section 1
-- Goto Section 10
-- Goto Section 11
-- Goto Section 12
-- Goto Section 13
-- Goto Section 14
-- Goto Section 15
-- Goto Section 16
 - Goto Section 2
 - Goto Section 3
 - Goto Section 4
@@ -64,6 +57,13 @@ Host.GUI.Commands.interpretCommand("Edit", "Select All");
 - Goto Section 7
 - Goto Section 8
 - Goto Section 9
+- Goto Section 10
+- Goto Section 11
+- Goto Section 12
+- Goto Section 13
+- Goto Section 14
+- Goto Section 15
+- Goto Section 16
 - Move to new Scratch Pad
 - Select Events in Section
 - Set Sync Mode 1 Bar
@@ -266,7 +266,6 @@ Host.GUI.Commands.interpretCommand("Edit", "Select All");
 - Select Mix FX
 - Select Scene
 - Select Scene 1
-- Select Scene 10
 - Select Scene 2
 - Select Scene 3
 - Select Scene 4
@@ -275,6 +274,7 @@ Host.GUI.Commands.interpretCommand("Edit", "Select All");
 - Select Scene 7
 - Select Scene 8
 - Select Scene 9
+- Select Scene 10
 - Set Pan for All Channels
 - Set Pan for Selected Channels
 - Set Volume for Selected Channels
@@ -550,7 +550,6 @@ Host.GUI.Commands.interpretCommand("Edit", "Select All");
 - Suspend All Groups
 - Suspend Group
 - Suspend Group 1
-- Suspend Group 10
 - Suspend Group 2
 - Suspend Group 3
 - Suspend Group 4
@@ -559,6 +558,7 @@ Host.GUI.Commands.interpretCommand("Edit", "Select All");
 - Suspend Group 7
 - Suspend Group 8
 - Suspend Group 9
+- Suspend Group 10
 
 ### Help
 - About
@@ -600,11 +600,11 @@ Host.GUI.Commands.interpretCommand("Edit", "Select All");
 - Cell Launch Mode Trigger
 - Cell Play Mode Loop
 - Cell Play Mode One Shot
-- Cell Quantize 1 Bar
-- Cell Quantize 1/16 Note
 - Cell Quantize 1/2 Note
 - Cell Quantize 1/4 Note
 - Cell Quantize 1/8 Note
+- Cell Quantize 1/16 Note
+- Cell Quantize 1 Bar
 - Cell Quantize 2 Bars
 - Cell Quantize 4 Bars
 - Cell Quantize 8 Bars
@@ -620,11 +620,11 @@ Host.GUI.Commands.interpretCommand("Edit", "Select All");
 - Global Launch Mode Gate
 - Global Launch Mode Toggle
 - Global Launch Mode Trigger
-- Global Quantize 1 Bar
-- Global Quantize 1/16 Note
 - Global Quantize 1/2 Note
 - Global Quantize 1/4 Note
 - Global Quantize 1/8 Note
+- Global Quantize 1/16 Note
+- Global Quantize 1 Bar
 - Global Quantize 2 Bars
 - Global Quantize 4 Bars
 - Global Quantize 8 Bars
@@ -654,6 +654,14 @@ Host.GUI.Commands.interpretCommand("Edit", "Select All");
 - Insert Named
 - Recall Marker
 - Recall Marker 1
+- Recall Marker 2
+- Recall Marker 3
+- Recall Marker 4
+- Recall Marker 5
+- Recall Marker 6
+- Recall Marker 7
+- Recall Marker 8
+- Recall Marker 9
 - Recall Marker 10
 - Recall Marker 11
 - Recall Marker 12
@@ -664,15 +672,7 @@ Host.GUI.Commands.interpretCommand("Edit", "Select All");
 - Recall Marker 17
 - Recall Marker 18
 - Recall Marker 19
-- Recall Marker 2
 - Recall Marker 20
-- Recall Marker 3
-- Recall Marker 4
-- Recall Marker 5
-- Recall Marker 6
-- Recall Marker 7
-- Recall Marker 8
-- Recall Marker 9
 - Set Start and End to Selection
 
 ### Media
@@ -780,12 +780,12 @@ Host.GUI.Commands.interpretCommand("Edit", "Select All");
 
 ### Note Length
 - 1/1
-- 1/16
 - 1/2
-- 1/32
 - 1/4
-- 1/64
 - 1/8
+- 1/16
+- 1/32
+- 1/64
 - Dotted
 - Follow Quantize
 - Next Base
@@ -805,18 +805,18 @@ Host.GUI.Commands.interpretCommand("Edit", "Select All");
 - Set Gate 0.5
 - Set Gate 1.0
 - Set Gate 1.5
-- Set Rate 1/16
-- Set Rate 1/16 T
 - Set Rate 1/2
 - Set Rate 1/2 T
-- Set Rate 1/32
-- Set Rate 1/32 T
 - Set Rate 1/4
 - Set Rate 1/4 T
-- Set Rate 1/64
-- Set Rate 1/64 T
 - Set Rate 1/8
 - Set Rate 1/8 T
+- Set Rate 1/16
+- Set Rate 1/16 T
+- Set Rate 1/32
+- Set Rate 1/32 T
+- Set Rate 1/64
+- Set Rate 1/64 T
 - Single Mode
 
 ### Pattern
@@ -898,12 +898,12 @@ Host.GUI.Commands.interpretCommand("Edit", "Select All");
 
 ### Quantize
 - 1/1
-- 1/16
 - 1/2
-- 1/32
 - 1/4
-- 1/64
 - 1/8
+- 1/16
+- 1/32
+- 1/64
 - Clear Pattern
 - Next Base
 - Previous Base
@@ -1031,7 +1031,6 @@ Host.GUI.Commands.interpretCommand("Edit", "Select All");
 - Select Mute Patch
 - Select Patch
 - Select Patch 1
-- Select Patch 10
 - Select Patch 2
 - Select Patch 3
 - Select Patch 4
@@ -1040,9 +1039,9 @@ Host.GUI.Commands.interpretCommand("Edit", "Select All");
 - Select Patch 7
 - Select Patch 8
 - Select Patch 9
+- Select Patch 10
 - Select Player
 - Select Player 1
-- Select Player 10
 - Select Player 2
 - Select Player 3
 - Select Player 4
@@ -1051,9 +1050,9 @@ Host.GUI.Commands.interpretCommand("Edit", "Select All");
 - Select Player 7
 - Select Player 8
 - Select Player 9
+- Select Player 10
 - Select Setlist Item
 - Select Setlist Item 1
-- Select Setlist Item 10
 - Select Setlist Item 2
 - Select Setlist Item 3
 - Select Setlist Item 4
@@ -1062,6 +1061,7 @@ Host.GUI.Commands.interpretCommand("Edit", "Select All");
 - Select Setlist Item 7
 - Select Setlist Item 8
 - Select Setlist Item 9
+- Select Setlist Item 10
 - Set Current as Default Patch
 - Set Playback Mode Continue
 - Set Playback Mode Loop
@@ -1081,6 +1081,14 @@ Host.GUI.Commands.interpretCommand("Edit", "Select All");
 - Apply Next
 - Apply Previous
 - Apply Variation 1
+- Apply Variation 2
+- Apply Variation 3
+- Apply Variation 4
+- Apply Variation 5
+- Apply Variation 6
+- Apply Variation 7
+- Apply Variation 8
+- Apply Variation 9
 - Apply Variation 10
 - Apply Variation 11
 - Apply Variation 12
@@ -1091,15 +1099,7 @@ Host.GUI.Commands.interpretCommand("Edit", "Select All");
 - Apply Variation 17
 - Apply Variation 18
 - Apply Variation 19
-- Apply Variation 2
 - Apply Variation 20
-- Apply Variation 3
-- Apply Variation 4
-- Apply Variation 5
-- Apply Variation 6
-- Apply Variation 7
-- Apply Variation 8
-- Apply Variation 9
 - Find and Apply Variation
 
 ### Spatial Audio
@@ -1120,7 +1120,6 @@ Host.GUI.Commands.interpretCommand("Edit", "Select All");
 - Previous Tool
 - Toggle Range Tool in upper event area
 - Tool 1
-- Tool 10
 - Tool 2
 - Tool 3
 - Tool 4
@@ -1129,6 +1128,7 @@ Host.GUI.Commands.interpretCommand("Edit", "Select All");
 - Tool 7
 - Tool 8
 - Tool 9
+- Tool 10
 
 ### Track
 - Activate Layer

@@ -14,3 +14,8 @@ This section documents various example scripts that demonstrate script usage and
 | [**Marker Creator**](./marker-creator.md) | Non-blocking workspace panel with a 4×4 button grid for creating named markers during playback |
 | [**Multi Script Demo**](./multi-script-demo.md) | Demonstrates registering multiple scripts in a single `.package` with separate dialogs |
 | [**Select by Sound Variation**](./select-sound-variation.md) | Selects notes in the Note Editor by their Sound Variation name |
+| [**Unified Tool Selector**](./unified-tool-selector.md) | Semantic tool commands that activate the correct tool regardless of the active editor view |
+
+---
+
+> **Development Note:** The scripts and documentation in this section were developed with the assistance of agentic coding tools.

@@ -374,3 +374,7 @@ dlg.terminate()
 - Create multiple named presets for different songs or use cases (Film Scoring, Dialog, Sound Design)
 - Adjust the frame rate in the offset controls to match your project's Session Setup Frame Rate for accurate frame-based offset.
 - The Clear button shows a confirmation dialog — the "(No Preset)" SelectBox option does not, save before selecting it.
+
+---
+
+> **Development Note:** This script and its documentation were developed with the assistance of agentic coding tools.

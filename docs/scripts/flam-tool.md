@@ -136,3 +136,7 @@ The final start position for both notes is determined by combining the Time, Abs
 - **Use "Before" with positive Time** to create "dragged" flams that precede the main note.
 - **Lower Velocity percentages** (50-75%) create more realistic secondary flams that blend naturally.
 - **Absolute Mode** is useful for consistent timing regardless of tempo changes.
+
+---
+
+> **Development Note:** This script and its documentation were developed with the assistance of agentic coding tools.

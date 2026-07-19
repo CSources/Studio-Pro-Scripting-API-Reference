@@ -22,4 +22,4 @@ This is not a complete reference. There is plenty of missing, improperly structu
 | [API Index](api_index.md) | Map of all documentation pages |
 
 <br/>
-⚠️ **Disclaimer:** Fender/PreSonus does not provide official public documentation for this API. This reference is entirely community-derived and incomplete. The API is internal and undocumented.
+⚠️ **Disclaimer:** Fender/PreSonus does not provide official public documentation for this API. This reference is entirely community-derived and incomplete. The API is internal and undocumented. The documentation and included example scripts were developed with the assistance of agentic coding agents. All included script examples have been tested within Studio Pro but should be reviewed for edge cases.

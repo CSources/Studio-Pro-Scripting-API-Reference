@@ -46,3 +46,7 @@ The **Multi Script Demo** package in this repository is a working example demons
 1. Navigate to the Track menu in the menu bar. You should see `Script A` and `Script B` populating the Track menu.
 2. Run either script, a dialog will appear.
 3. Use the checkbox to toggle whether it shows the alert window after pressing 'OK' in the dialog window.
+
+---
+
+> **Development Note:** This script and its documentation were developed with the assistance of agentic coding tools.

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassFactory>
+
+  <!-- Arrow Tool -->
+  <ScriptClass classID="{A1B2C3D4-0001-0001-0001-000000000001}"
+    category="EditTask" subCategory="EventEdit" name="Arrow Tool"
+    sourceFile="tools.js" functionName="createArrow">
+    <Attribute id="commandCategory" value="Tools"/>
+    <Attribute id="menuPriority" value="-1"/>
+    <Attribute id="alwaysEnabled" value="1"/>
+  </ScriptClass>
+  <ScriptClass classID="{A1B2C3D4-0001-0003-0001-000000000001}"
+    category="EditTask" subCategory="MusicEdit" name="Arrow Tool"
+    sourceFile="tools.js" functionName="createArrowM">
+    <Attribute id="commandCategory" value="Tools"/>
+    <Attribute id="menuPriority" value="-1"/>
+    <Attribute id="alwaysEnabled" value="1"/>
+  </ScriptClass>
+
+  <!-- Range Tool -->
+  <ScriptClass classID="{A1B2C3D4-0002-0001-0001-000000000002}"
+    category="EditTask" subCategory="EventEdit" name="Range Tool"
+    sourceFile="tools.js" functionName="createRange">
+    <Attribute id="commandCategory" value="Tools"/>
+    <Attribute id="menuPriority" value="-1"/>
+    <Attribute id="alwaysEnabled" value="1"/>
+  </ScriptClass>
+  <ScriptClass classID="{A1B2C3D4-0002-0003-0001-000000000002}"
+    category="EditTask" subCategory="MusicEdit" name="Range Tool"
+    sourceFile="tools.js" functionName="createRangeM">
+    <Attribute id="commandCategory" value="Tools"/>
+    <Attribute id="menuPriority" value="-1"/>
+    <Attribute id="alwaysEnabled" value="1"/>
+  </ScriptClass>
+
+  <!-- Split Tool -->
+  <ScriptClass classID="{A1B2C3D4-0003-0001-0001-000000000003}"
+    category="EditTask" subCategory="EventEdit" name="Split Tool"
+    sourceFile="tools.js" functionName="createSplit">
+    <Attribute id="commandCategory" value="Tools"/>
+    <Attribute id="menuPriority" value="-1"/>
+    <Attribute id="alwaysEnabled" value="1"/>
+  </ScriptClass>
+  <ScriptClass classID="{A1B2C3D4-0003-0003-0001-000000000003}"
+    category="EditTask" subCategory="MusicEdit" name="Split Tool"
+    sourceFile="tools.js" functionName="createSplitM">
+    <Attribute id="commandCategory" value="Tools"/>
+    <Attribute id="menuPriority" value="-1"/>
+    <Attribute id="alwaysEnabled" value="1"/>
+  </ScriptClass>
+
+  <!-- Erase Tool -->
+  <ScriptClass classID="{A1B2C3D4-0004-0001-0001-000000000004}"
+    category="EditTask" subCategory="EventEdit" name="Erase Tool"
+    sourceFile="tools.js" functionName="createErase">
+    <Attribute id="commandCategory" value="Tools"/>
+    <Attribute id="menuPriority" value="-1"/>
+    <Attribute id="alwaysEnabled" value="1"/>
+  </ScriptClass>
+  <ScriptClass classID="{A1B2C3D4-0004-0003-0001-000000000004}"
+    category="EditTask" subCategory="MusicEdit" name="Erase Tool"
+    sourceFile="tools.js" functionName="createEraseM">
+    <Attribute id="commandCategory" value="Tools"/>
+    <Attribute id="menuPriority" value="-1"/>
+    <Attribute id="alwaysEnabled" value="1"/>
+  </ScriptClass>
+
+  <!-- Paint Tool -->
+  <ScriptClass classID="{A1B2C3D4-0005-0001-0001-000000000005}"
+    category="EditTask" subCategory="EventEdit" name="Paint Tool"
+    sourceFile="tools.js" functionName="createPaint">
+    <Attribute id="commandCategory" value="Tools"/>
+    <Attribute id="menuPriority" value="-1"/>
+    <Attribute id="alwaysEnabled" value="1"/>
+  </ScriptClass>
+  <ScriptClass classID="{A1B2C3D4-0005-0003-0001-000000000005}"
+    category="EditTask" subCategory="MusicEdit" name="Paint Tool"
+    sourceFile="tools.js" functionName="createPaintM">
+    <Attribute id="commandCategory" value="Tools"/>
+    <Attribute id="menuPriority" value="-1"/>
+    <Attribute id="alwaysEnabled" value="1"/>
+  </ScriptClass>
+
+  <!-- Mute Tool -->
+  <ScriptClass classID="{A1B2C3D4-0006-0001-0001-000000000006}"
+    category="EditTask" subCategory="EventEdit" name="Mute Tool"
+    sourceFile="tools.js" functionName="createMute">
+    <Attribute id="commandCategory" value="Tools"/>
+    <Attribute id="menuPriority" value="-1"/>
+    <Attribute id="alwaysEnabled" value="1"/>
+  </ScriptClass>
+  <ScriptClass classID="{A1B2C3D4-0006-0003-0001-000000000006}"
+    category="EditTask" subCategory="MusicEdit" name="Mute Tool"
+    sourceFile="tools.js" functionName="createMuteM">
+    <Attribute id="commandCategory" value="Tools"/>
+    <Attribute id="menuPriority" value="-1"/>
+    <Attribute id="alwaysEnabled" value="1"/>
+  </ScriptClass>
+
+  <!-- Bend Tool -->
+  <ScriptClass classID="{A1B2C3D4-0007-0001-0001-000000000007}"
+    category="EditTask" subCategory="EventEdit" name="Bend Tool"
+    sourceFile="tools.js" functionName="createBend">
+    <Attribute id="commandCategory" value="Tools"/>
+    <Attribute id="menuPriority" value="-1"/>
+    <Attribute id="alwaysEnabled" value="1"/>
+  </ScriptClass>
+  <ScriptClass classID="{A1B2C3D4-0007-0003-0001-000000000007}"
+    category="EditTask" subCategory="MusicEdit" name="Bend Tool"
+    sourceFile="tools.js" functionName="createBendM">
+    <Attribute id="commandCategory" value="Tools"/>
+    <Attribute id="menuPriority" value="-1"/>
+    <Attribute id="alwaysEnabled" value="1"/>
+  </ScriptClass>
+
+  <!-- Listen Tool -->
+  <ScriptClass classID="{A1B2C3D4-0008-0001-0001-000000000008}"
+    category="EditTask" subCategory="EventEdit" name="Listen Tool"
+    sourceFile="tools.js" functionName="createListen">
+    <Attribute id="commandCategory" value="Tools"/>
+    <Attribute id="menuPriority" value="-1"/>
+    <Attribute id="alwaysEnabled" value="1"/>
+  </ScriptClass>
+  <ScriptClass classID="{A1B2C3D4-0008-0003-0001-000000000008}"
+    category="EditTask" subCategory="MusicEdit" name="Listen Tool"
+    sourceFile="tools.js" functionName="createListenM">
+    <Attribute id="commandCategory" value="Tools"/>
+    <Attribute id="menuPriority" value="-1"/>
+    <Attribute id="alwaysEnabled" value="1"/>
+  </ScriptClass>
+
+</ClassFactory>

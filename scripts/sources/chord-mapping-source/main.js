@@ -1,3 +1,4 @@
+// Developed with agentic coding assistance.
 
 function ChordMappingTask() {
   this.interfaces = [Host.Interfaces.IEditTask];

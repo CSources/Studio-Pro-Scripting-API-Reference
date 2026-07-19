@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetaInformation>
+  <Attribute id="Package:ID" value="unified.tools"/>
+  <Attribute id="Package:Name" value="Unified Tool Selector"/>
+  <Attribute id="Package:Version" value="1.0.0"/>
+  <Attribute id="Package:Vendor" value="CSources"/>
+</MetaInformation>

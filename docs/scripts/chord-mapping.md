@@ -43,3 +43,7 @@ Scrapes selected chord events from the Chord Track, extracts data (name, type, r
 - Processes **only selected chords** (no auto-select).
 - Use in EventEdit context on Chord Track.
 - JSON includes: name, type, root/bass, pitches, start/end times, isLydian.
+
+---
+
+> **Development Note:** This script and its documentation were developed with the assistance of agentic coding tools.

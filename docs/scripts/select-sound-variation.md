@@ -152,3 +152,7 @@ this.notify = function(subject, msg) {
 
 - If the variations list is empty that indicates the active region does not have a Sound Variation Map to reference, select an Instrument Part containing variations.
 - Typing names directly in the edit box allows you to target variations without scrolling through the list.
+
+---
+
+> **Development Note:** This script and its documentation were developed with the assistance of agentic coding tools.

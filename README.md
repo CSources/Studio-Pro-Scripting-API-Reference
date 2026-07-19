@@ -2,7 +2,7 @@
 
 **Platform:** Fender Studio Pro / PreSonus Studio One
 
-> ⚠️ **Disclaimer:** Fender/PreSonus does not provide official public documentation for this API. This reference is entirely community-derived and incomplete. The API is internal and undocumented.
+> ⚠️ **Disclaimer:** Fender/PreSonus does not provide official public documentation for this API. This reference is entirely community-derived and incomplete. The API is internal and undocumented. The documentation and included example scripts were developed with the assistance of agentic coding agents. All included script examples have been tested within Studio Pro but should be reviewed for edge cases.
 
 [![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://CSources.github.io/Studio-Pro-Scripting-API-Reference/)
 
@@ -42,6 +42,7 @@
 ### Open Items
 
 - Complete `skin.xml` element and attribute reference. Still missing documentation.
+- Locate and remove any remaining probe findings in the documentation that are not applicable, accessible, or relevant to the scripting API.
 
 ---
 
@@ -62,8 +63,6 @@
 - **ChordstoBiabTextFile** (crossovercable:**KVR**, tonedef71:**KVR**) - reference source files for chord events
 - **Track-Actions** (Jamesg545454) - reference multi-command .JS files
 - **Logical Editor** (Jamesg545454) - reference display formatter for parameter-backed controls, form background, view layout wrapper
-
-*Community-compiled, not affiliated with Fender or PreSonus*
 
 ## Running Locally
 

@@ -74,7 +74,7 @@ function DisclaimerSection() {
     <section style={{padding: '2rem 0', textAlign: 'center'}}>
       <div className="container">
         <p style={{fontSize: '0.85rem', opacity: 0.7, maxWidth: 600, margin: '0 auto'}}>
-          <strong>Disclaimer:</strong> Fender/PreSonus does not provide official public documentation for this API. This reference is entirely community-derived and incomplete. The API is internal and undocumented.
+          <strong>Disclaimer:</strong> Fender/PreSonus does not provide official public documentation for this API. This reference is entirely community-derived and incomplete. The API is internal and undocumented. Documentation and script examples were developed with agentic coding assistance.
         </p>
       </div>
     </section>

@@ -1,3 +1,5 @@
+// Developed with agentic coding assistance.
+
 include_file("resource://{main}/sdk/cclapp.js");
 
 var kPackageID = "marker.creator.panel"

@@ -105,7 +105,7 @@ const config = {
       footer: {
         style: 'light',
         links: [],
-        copyright: 'Disclaimer: Fender/PreSonus does not provide official public documentation for this API. This reference is entirely community-derived and incomplete. The API is internal and undocumented.',
+        copyright: 'Disclaimer: Fender/PreSonus does not provide official public documentation for this API. This reference is entirely community-derived and incomplete. The API is internal and undocumented. Documentation and script examples were developed with agentic coding assistance.',
       },
       prism: {
         theme: prismThemes.github,

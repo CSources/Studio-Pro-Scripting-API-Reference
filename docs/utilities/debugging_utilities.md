@@ -5,6 +5,24 @@ sidebar_position: 2
 
 Useful runtime probe helpers for inspecting unknown API surfaces. Native host objects can stringify as `[object Object]`, hide members, or expose empty own-property lists even when the object is valid, so `typeof`, targeted property reads, and working call-site probes are often more reliable than generic reflection alone.
 
+## Write to File
+
+All examples write output to `.txt` files in the `$USERCONTENT` directory (designated in Studio Pro **'Preferences > Locations > User Data > User Data Location'**) and show a confirmation alert with the filename.
+
+```javascript
+function writeLog(filename, lines) {
+    var url = Host.Url("local://$USERCONTENT/" + filename);
+    var file = Host.IO.createTextFile(url);
+    if (file) {
+        for (var i = 0; i < lines.length; i++) {
+            file.writeLine(lines[i]);
+        }
+        file.close();
+    }
+    Host.GUI.alert("Log written to: " + filename);
+}
+```
+
 ## Object Prototype Chain Walk
 
 Walk the full prototype chain with level separation, separating methods from properties. Also detects non-enumerable native accessor properties (like `root`, `executeImmediately`) that `getOwnPropertyNames` misses.
@@ -38,7 +56,7 @@ function walkChain(label, obj) {
     try { o = Object.getPrototypeOf(o); } catch(e) { break; }
     level++;
   }
-  Host.GUI.alert(lines.join("\n"));
+  writeLog("PrototypeChain.txt", lines);
 }
 ```
 
@@ -59,7 +77,7 @@ function dumpIterator(label, iterator, limit) {
   }
 
   lines.push("  count = " + count);
-  Host.GUI.alert(lines.join("\n"));
+  writeLog("IteratorDump.txt", lines);
 }
 ```
 
@@ -70,11 +88,11 @@ Inspect a parameter object returned by `findParameter(...)`.
 ```javascript
 function dumpParameter(label, param) {
   if (!param) {
-    Host.GUI.alert(label + ": <null>");
+    writeLog("ParameterDump.txt", [label + ": <null>"]);
     return;
   }
 
-  Host.GUI.alert([
+  writeLog("ParameterDump.txt", [
     label,
     "name = " + param.name,
     "value = " + param.value,
@@ -83,7 +101,7 @@ function dumpParameter(label, param) {
     "max = " + param.max,
     "default = " + param.default,
     "enabled = " + param.enabled
-  ].join("\n"));
+  ]);
 }
 ```
 
@@ -103,7 +121,7 @@ function sweepMethod(fn, methodName) {
       lines.push("  " + methodName + "(" + typeof argSets[i][0] + ") -> ERROR: " + e.message);
     }
   }
-  Host.GUI.alert(lines.join("\n"));
+  writeLog("MethodAritySweep.txt", lines);
 }
 ```
 
@@ -121,6 +139,5 @@ function probeProperty(label, obj, name) {
   if (typeof obj.__lookupGetter__ === "function") {
     lines.push("  has getter: " + !!obj.__lookupGetter__(name));
   }
-  Host.GUI.alert(lines.join("\n"));
+  writeLog("PropertyProbe.txt", lines);
 }
-```

@@ -155,3 +155,7 @@ The command path accepts `Length`, `Type`, and `Bend` arguments. The `AudioFunct
 ## Tips
 
 - If the dialog does not open, make sure at least one audio event is selected. The tool still requires at least two audio events before applying the crossfade.
+
+---
+
+> **Development Note:** This script and its documentation were developed with the assistance of agentic coding tools.

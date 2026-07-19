@@ -1,13 +1,4 @@
-/**
- * Flam Tool - Proper flam creation with UI controls
- * 
- * Features:
- * - Time slider (-1 to 1) for shift amount
- * - Absolute button for ms-based shifting
- * - Before button to reverse shift direction
- * - Velocity slider (1-100%) for new note velocity
- * - Works on selected notes or all notes in region
- */
+// Developed with agentic coding assistance.
 
 function FlamToolTask() {
     this.interfaces = [Host.Interfaces.IEditTask, Host.Interfaces.IParamObserver];

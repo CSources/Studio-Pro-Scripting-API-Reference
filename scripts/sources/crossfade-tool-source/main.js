@@ -1,3 +1,5 @@
+// Developed with agentic coding assistance.
+
 var kPackageID = "crossfade.tool";
 
 function CrossfadeToolTask() {

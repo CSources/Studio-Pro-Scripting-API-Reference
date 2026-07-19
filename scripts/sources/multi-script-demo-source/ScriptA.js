@@ -1,3 +1,5 @@
+// Developed with agentic coding assistance.
+
 function ScriptATask() {
   this.interfaces = [Host.Interfaces.IEditTask];
 
