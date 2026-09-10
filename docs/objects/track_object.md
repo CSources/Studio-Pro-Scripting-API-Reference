@@ -49,3 +49,6 @@ The `.layers` property on a track. Present on all track types.
 |---|---|---|---|
 | `getTrack()` | `object` | none | Returns the track object itself (identity reference). |
 | `isEmpty()` | `number` | none | Returns `0` if the track has content, `1` if empty. |
+| `createIterator()` | `object` - [Region Object](region_object.md) / [Audio Event](event_object.md#audio-events) | none | Creates an iterator over the regions/events on this track. |
+| `getLayer()` | `object` | none | Returns the track's layer object. |
+| `getLayerIndex()` | `number` | none | Returns the current layer index. |

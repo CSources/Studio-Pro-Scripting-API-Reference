@@ -43,7 +43,7 @@ Each interface defines a set of required callbacks or properties that must be pr
 
 Registers classes dynamically at runtime via `this.classes` and `this.version`. Uses `CodeResource:Executable` in `metainfo.xml` instead of `classfactory.xml`. Requires defining `CCLGetClassFactory(codeResource)` as a global function — the host calls it on package load and expects an object implementing `IClassFactory`.
 
-The host calls `createInstance(classID)` for `FrameworkService` class registrations. Other categories (`EditTask`, `Toolset`, etc.) are registered but not auto-instantiated — instances can be created manually via `factory.createInstance()`.
+The host calls `createInstance(classID)` for `FrameworkService` class registrations. Other categories (`EditTask`, etc.) are registered but not auto-instantiated — call `createInstance(classID)` on your factory object to create instances manually.
 
 **Properties:**
 

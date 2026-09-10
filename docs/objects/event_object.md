@@ -12,7 +12,9 @@ Objects returned by iterators (`context.iterator`, `context.editor.activeRegion.
 - **[Instrument Part](#instrument-part-events)** — arrangement surface with `mediaType="Music"`. For the note-container surface, see [Region Object](region_object.md).
 - **[Pattern event](#pattern-events)** — arrangement surface with `mediaType="Pattern"`.
 - **[Lyrics](#lyrics-events)** — attached to MIDI notes, accessed via `getLyricsForNote(note)`.
+- **[Marker event](#marker-events)** — marker event on the Marker Track.
 - **[MIDI note](#midi-notes)** — has `pitch` and `velocity`, lives inside an Instrument Part (`.region`).
+- **[Video event](#video-events)** — video clip events with `mediaType="Video"`.
 
 ## Arranger Events
 
@@ -29,7 +31,7 @@ Accessed via `context.iterator` or `context.editor.selection.newIterator()` on t
 | `endTime` | `object` - [Time Object](time_object.md) | No | — | End time object. |
 | `lengthTime` | `object` - [Time Object](time_object.md) | No | — | Duration time object. |
 | `timeContext` | `object` - [timeContext Object](#timecontext-object)| No | — | Time context for conversions. |
-| `timeFormat` | `number` | No | `2` | Time format identifier. |
+| `timeFormat` | `number` | No | `2` | Timebase. `2` = Beats, `0` = Seconds. |
 
 | Method | Returns | Parameters | Description |
 |---|---|---|---|
@@ -51,7 +53,7 @@ Accessed via `context.iterator` or `context.editor.selection.newIterator()` in t
 | `endTime` | `object` - [Time Object](time_object.md) | No | — | End time object. |
 | `lengthTime` | `object` - [Time Object](time_object.md) | No | — | Duration time object. |
 | `timeContext` | `object` - [timeContext Object](#timecontext-object) | No | — | Time context for conversions. |
-| `timeFormat` | `number` | No | `0` | Time format identifier. |
+| `timeFormat` | `number` | No | `2` | Timebase. `2` = Beats, `0` = Seconds. |
 
 | Method | Returns | Parameters | Description |
 |---|---|---|---|
@@ -73,7 +75,7 @@ Accessed via `context.iterator` or `context.editor.selection.newIterator()` on t
 | `lengthTime` | `object` - [Time Object](time_object.md) | No | — | Duration time object. |
 | `chord` | `object` [Chord Data Object](#chord-data-object) | No | — | Chord data sub-object (see below). |
 | `timeContext` | `object` - [timeContext Object](#timecontext-object) | No | — | Time context for conversions. |
-| `timeFormat` | `number` | No | `2` | Time format identifier. |
+| `timeFormat` | `number` | No | `2` | Timebase. `2` = Beats, `0` = Seconds. |
 
 | Method | Returns | Parameters | Description |
 |---|---|---|---|
@@ -142,7 +144,7 @@ Accessed via `context.iterator` or `context.editor.selection.newIterator()` when
 | `endTime` | `object` - [Time Object](time_object.md) | No | — | End time object. |
 | `lengthTime` | `object` - [Time Object](time_object.md) | No | — | Duration time object. |
 | `timeContext` | `object` - [timeContext Object](#timecontext-object) | No | — | Time context for conversions. |
-| `timeFormat` | `number` | No | `2` | Time format identifier. |
+| `timeFormat` | `number` | No | `2` | Timebase. `2` = Beats, `0` = Seconds. |
 | `parent` | `object` | No | — | Parent object. |
 
 | Method | Returns | Parameters | Description |
@@ -171,7 +173,7 @@ Accessed via `context.iterator` or `context.editor.selection.newIterator()` when
 | `endTime` | `object` - [Time Object](time_object.md) | No | — | End time object. |
 | `lengthTime` | `object` - [Time Object](time_object.md) | No | — | Duration time object. |
 | `timeContext` | `object` - [timeContext Object](#timecontext-object) | No | — | Time context for conversions. |
-| `timeFormat` | `number` | No | `2` | Time format identifier. |
+| `timeFormat` | `number` | No | `2` | Timebase. `2` = Beats, `0` = Seconds. |
 | `parent` | `object` | No | — | Parent object. |
 
 | Method | Returns | Parameters | Description |
@@ -201,6 +203,25 @@ if (lyrics) {
 }
 ```
 
+## Marker Events
+
+Accessed via `context.iterator` or `context.editor.selection.newIterator()` on the Marker Track when selected markers are available. Markers are point events — `startTime` and `endTime` represent the same position, and `length` is always `0`.
+
+| Property | Type | Writable | Example | Description |
+|---|---|---|---|---|
+| `name` | `string` | No | `"Hit"` | Marker label. |
+| `color` | `number` | No | `0` | Marker color as integer. |
+| `start` | `number` | No | `1.75` | Start position in beats. |
+| `length` | `number` | No | `0` | Always `0` — markers are point events. |
+| `offset` | `number` | No | `0` | Offset value. |
+| `startTime` | `object` - [Time Object](time_object.md) | No | — | Start time object (marker position). |
+| `endTime` | `object` - [Time Object](time_object.md) | No | — | End time object (same as `startTime`). |
+| `parent` | `object` | No | — | The Marker Track. Same object as `getTrack()`. |
+
+| Method | Returns | Parameters | Description |
+|---|---|---|---|
+| `getTrack()` | `object` | none | Returns the Marker Track. |
+
 ## MIDI Notes
 
 Accessed via `context.iterator` from the Note Editor in a [MusicEdit](../package_structure/classfactory.md#subcategory-values) context when selected notes are available. `context.editor.activeRegion.createSequenceIterator()` also provides all notes in the selected region.
@@ -219,13 +240,39 @@ Accessed via `context.iterator` from the Note Editor in a [MusicEdit](../package
 | `lengthTime` | `object` [Time Object](time_object.md) | No | — | Duration time object. |
 | `region` | `object` - [Region Object](region_object.md) | No | — | Containing Instrument Part. |
 | `timeContext` | `object` - [timeContext Object](#timecontext-object) | No | — | Time context (`secondsToPpq()`, `ppqToSeconds()`, `getBarStart()`). |
-| `timeFormat` | `number` | No | `2` | Time format identifier. |
+| `timeFormat` | `number` | No | `2` | Timebase. `2` = Beats, `0` = Seconds. |
 
 | Method | Returns | Parameters | Description |
 |---|---|---|---|
 | `clone()` | `object` - [MIDI Note](#midi-notes) | none | Clones the event. |
 | `nextEvent()` | `object` - [MIDI Note](#midi-notes) | none | Next event in the region sequence. |
 | `previousEvent()` | `object` - [MIDI Note](#midi-notes) | none | Previous event in the region sequence. |
+| `globalToRegionData(pos)` | `number` | `pos` ([Time Object](time_object.md), req): Time position. | Converts global time coordinates to region-local data. |
+
+## Video Events
+
+Accessed via `context.iterator` or `context.editor.selection.newIterator()` in the TrackEdit context when a video event on the Video Track is selected. Video events share the same base timing surface as audio events with `mediaType="Video"`.
+
+| Property | Type | Writable | Example | Description |
+|---|---|---|---|---|
+| `name` | `string` | No | `"video_name"` | Video event name. |
+| `color` | `number` | No | `2434491` | Event color as integer. |
+| `mediaType` | `string` | No | `"Video"` | Identifies this as a video event. |
+| `isMuted` | `number` | No | `0` | `1` if muted. |
+| `start` | `number` | No | `17.49` | Start position in beats. |
+| `length` | `number` | No | `138.29` | Duration in beats. |
+| `offset` | `number` | No | `11.81` | Offset value. |
+| `startTime` | `object` - [Time Object](time_object.md) | No | — | Start time object. |
+| `endTime` | `object` - [Time Object](time_object.md) | No | — | End time object. |
+| `lengthTime` | `object` - [Time Object](time_object.md) | No | — | Duration time object. |
+| `timeContext` | `object` - [timeContext Object](#timecontext-object) | No | — | Time context for conversions. |
+| `timeFormat` | `number` | No | `0` | Timebase — always Seconds (`0`). |
+| `parent` | `object` | No | — | The Video Track. Same object as `getTrack()`. |
+
+| Method | Returns | Parameters | Description |
+|---|---|---|---|
+| `getRoot()` | `object` | none | Returns the root region. |
+| `getTrack()` | `object` | none | Returns the containing Video Track. |
 | `globalToRegionData(pos)` | `number` | `pos` ([Time Object](time_object.md), req): Time position. | Converts global time coordinates to region-local data. |
 
 ## timeContext Object
