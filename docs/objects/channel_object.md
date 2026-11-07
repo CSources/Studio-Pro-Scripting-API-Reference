@@ -122,6 +122,7 @@ Also has the [common surface](#common-surface).
 | `"monitor"` | ✓ | ✓ |
 | `"mute"` | ✓ | ✓ |
 | `"pan"` | — | ✓ |
+| `"selected"` | ✓ | ✓ |
 | `"solo"` | ✓ | ✓ |
 | `"tempo"` | — | — |
 | `"transpose"` | ✓ | — |
@@ -163,6 +164,10 @@ Returns an integer color value. `.string` returns `"#RRGGBBAA"` hex format.
 | value | `.string` |
 |---|---|
 | -14342725 | "#BB2525FF" |
+
+#### `selected`
+
+Track selection state (`0`/`1`). Setting it to `0` deselects the track.
 
 ## Save / Restore Pattern
 

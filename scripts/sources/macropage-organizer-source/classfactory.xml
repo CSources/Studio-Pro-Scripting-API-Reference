@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ClassFactory>
+  <ScriptClass
+    classID="{F26E9911-1D23-4E06-A1AC-A9AB6F4B0C86}"
+    category="FrameworkService"
+    name="Macro Page Organizer"
+    sourceFile="main.js"
+    functionName="createInstance"/>
+</ClassFactory>

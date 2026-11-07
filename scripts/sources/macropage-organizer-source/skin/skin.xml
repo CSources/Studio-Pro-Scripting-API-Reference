@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Skin>
+    <Externals>
+        <External name="@Main.*"/>
+        <External name="Standard.*"/>
+        <External name="Shared.*"/>
+    </Externals>
+    <WindowClasses>
+        <WindowClass name="MacroPageOrganizerPanel"
+            title="Macro Page Organizer"
+            controller="MacroPageOrganizerController"
+            form.name="MacroPageOrganizerFormSpacing"
+            command.category="Macro Toolbar"
+            command.name="Macro Page Organizer"/>
+    </WindowClasses>
+    <Resources>
+        <Image name="MoveUpIcon" url="images/up.svg"/>
+        <Image name="MoveDownIcon" url="images/down.svg"/>
+        <Image name="ReloadIcon" url="images/refresh.svg"/>
+        <Image name="HelpIcon" url="images/help.svg"/>
+    </Resources>
+    <Styles>
+        <Style name="OrganizerListView" inherit="Standard.ListView">
+            <Align name="textalign" align="left vcenter"/>
+            <Metric name="rowHeight" value="18"/>
+        </Style>
+        <Style name="OrganizerStatus" inherit="Standard.TextBox">
+            <Align name="textalign" align="left vcenter"/>
+        </Style>
+        <Style name="PageListContextMenu">
+            <Triggers>
+                <Trigger event="onAttached">
+                    <Invoker target="controller" name="reloadOnOpen"/>
+                </Trigger>
+                <Trigger event="onRightClick">
+                    <Invoker target="controller" name="beginPageContextClick"/>
+                </Trigger>
+                <Trigger event="onContextMenu">
+                    <Invoker target="controller" name="endPageContextClick"/>
+                </Trigger>
+            </Triggers>
+        </Style>
+    </Styles>
+    <Forms>
+        <Form name="MacroPageOrganizerFormSpacing"
+              title="Macro Page Organizer"
+              size="0,0,360,420"
+              windowstyle="titlebar sizable restorepos restoresize floating"
+              sizelimits="360,361,360,1300">
+            <Vertical margin="8" spacing="0" attach="all">
+                <Vertical width="344" spacing="0" attach="hcenter top bottom">
+                    <Flexbox width="324" height="20" attach="left" flex.justify="spacebetween" flex.align="center">
+                        <Label title="Select a page and use the arrows to reorder it."/>
+                        <ImageView image="HelpIcon" width="20" height="20" options="centerimage highquality" tooltip="Double-click a saved page to rename it; right-click to remove it. Extension pages are read-only."/>
+                    </Flexbox>
+                    <Space height="8"/>
+                    <!-- Keep the native ListView header and scrollbar rendering. -->
+                    <View width="324" height="270" sizelimits="324,211,324,1100" attach="left top bottom">
+                        <ListView name="list" size="0,0,324,270" style="OrganizerListView"
+                                  options="header selection exclusive nodrag"
+                                  scrolloptions="vertical border"
+                                  sizelimits="324,211,324,1100" attach="all"/>
+                        <TriggerView style="PageListContextMenu" size="0,0,324,270"
+                                     options="transparent" attach="all"/>
+                    </View>
+                    <Space height="8"/>
+                    <Flexbox width="324" height="28" attach="left" flex.justify="spacebetween">
+                        <Horizontal margin="0" spacing="4">
+                            <Button name="UpBtn" title="" icon="MoveUpIcon" width="28" height="28" tooltip="Move selected page up"/>
+                            <Button name="DownBtn" title="" icon="MoveDownIcon" width="28" height="28" tooltip="Move selected page down"/>
+                        </Horizontal>
+                        <Horizontal margin="0" spacing="4">
+                            <Button name="ReloadBtn" title="" icon="ReloadIcon" width="28" height="28" tooltip="Reload the current toolbar order"/>
+                            <Button name="SaveBtn" title="Apply" width="80" height="28" tooltip="Apply the order to the Macro Toolbar page list"/>
+                        </Horizontal>
+                    </Flexbox>
+                    <Space height="8"/>
+                    <Flexbox width="324" height="20" attach="left" flex.gap="6" flex.align="center">
+                        <CheckBox name="ExtensionsFirst" title="" width="18" height="20"
+                                  tooltip="Place extension pages before saved pages in the Macro Toolbar"/>
+                        <Label title="Extensions first"/>
+                    </Flexbox>
+                    <Space height="8"/>
+                    <TextBox name="OrderState" width="324" height="18" options="transparent" style="OrganizerStatus"/>
+                    <Space height="16"/>
+                </Vertical>
+            </Vertical>
+        </Form>
+    </Forms>
+</Skin>

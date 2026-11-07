@@ -70,4 +70,4 @@ include_file("resource://{main}/sdk/cclapp.js");
 | `CCL.JS.ResourceUrl(fileName, isFolder)` | `object` | `fileName` — resource file name, `isFolder` — whether it's a directory | Create a resource URL (returns a `Host.Url`-like object) |
 | `CCL.JS.LegalFileName(fileName)` | `string` | `fileName` — raw file name | Sanitize a file name for the filesystem |
 | `CCL.JS.variantToBool(value)` | `boolean` | `value` — value to convert | Convert a host variant to a JavaScript boolean |
-| `CCL.JS.Component()` | — | none | Component factory function |
+| `CCL.JS.Component()` | — | none | Base class for controller components; establishes the standard interfaces and an `initialize()` that creates the instance-bound `this.paramList`. |
